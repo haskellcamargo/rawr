@@ -1,4 +1,4 @@
-rawr
+Rawr documentation
 ====
 
-A word that means "I Love You" in dinosaur.
+**Rawr**: A word that means "I Love You" in dinosaur.
