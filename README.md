@@ -24,6 +24,7 @@ To install Rawr, just download the files and use `include_once` in the file `./s
 
 ```php
 <?php
+
 include_once './src/rawr.php';
 
 $main = (new String ("Hello World!"))
@@ -34,6 +35,7 @@ Your output in the screen should be "Hello World!". Please, not also that the da
 
 ```php
 <?php
+
 $main = (& string ("Hello World!"))
         -> putStrLn();
 ```
@@ -52,6 +54,7 @@ The same can be made with Rawr in the following manner:
 
 ```php
 <?php
+
 $a = new Collection(2, 7, 1, 8);
 $a -> push  (3)
    -> shift ()
@@ -60,17 +63,48 @@ $a -> push  (3)
 
 ## Types are now objects
 
-Absolutely forget all you know about typing in PHP. Rawr implements static typing and has, by default, the following types as "primitives", but that, when instantiateds, are objects that can dispatch messages and make the communication possible: `Boolean`, `Integer`, `String`, `Char`, `Float`, `Double`, `Object`, `Collection`, `Either`, `Enum`, `Table`, `Mapping` and allows you to work with constraints and also has dataflow programming concepts.
+Absolutely forget all you know about typing in PHP. Rawr implements static typing and has, by default, the following types as "primitives", but that, when instantiateds, are objects that can dispatch messages and make the communication possible: `Boolean`, `Integer`, `String`, `Char`, `Float`, `Double`, `Object`, `Collection`, `Either`, `Enum`, `Table`, `Mapping` and `Func` and allows you to work with constraints and also has dataflow programming concepts. This document will give you a demo of how to use each of them.
+
+### Integer
+
+Accepts values that are truly PHP integers or it can use type-inference to check the type and try to cast to an integer. All the default methods applied to integers can be chained. You can also try to call extension methods to cast it to another object type:
+
+```php
+<?php
+
+$myInt = (new Integer (100))
+         -> doubleMe ()         #=> Object integer 200
+         -> add      (10)       #=> Object integer 210
+         -> sqrt     ()         #=> Object float 14.4913767
+         -> toInteger();        #=> Object integer 14
+         
+$myInt   -> toString()
+         -> putStrLn();
+```
+
+You can also specify that a function must receive a statically defined object as a parameter:
+
+```php
+<?php
+
+$add = function (Integer $x, Integer $y) {
+  return $x -> add ($y);
+};
+```
+
+And be specific in your constraints! Limit the exactly range that it can receive, in case of mutable variables.
+
+```php
+<?php
+
+$myUInt = new Integer (Maybe :: mutable, & constraint (Constr :: unsigned));
+$myAgeInt = new Integer (Maybe :: mutable, & constraint ('18 .. 115'));
+$myEvenInt = new Integer (Maybe :: mutable, & constraint (Constr :: even));
 
 
-
-
-
-
-
-
-
-
-
-
-
+$myUInt    -> let (10); # Pass
+$myAgeInt  -> let (21); # Pass
+$myEvenInt -> let (2)   # Pass
+           -> let (4)   # Pass
+           -> let (5);  # Exception thrown
+```
