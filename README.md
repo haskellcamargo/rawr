@@ -97,8 +97,8 @@ And be specific in your constraints! Limit the exactly range that it can receive
 ```php
 <?php
 
-$myUInt = new Integer (Maybe :: mutable, & constraint (Constr :: unsigned));
-$myAgeInt = new Integer (Maybe :: mutable, & constraint ('18 .. 115'));
+$myUInt    = new Integer (Maybe :: mutable, & constraint (Constr :: unsigned));
+$myAgeInt  = new Integer (Maybe :: mutable, & constraint ('18 .. 115'));
 $myEvenInt = new Integer (Maybe :: mutable, & constraint (Constr :: even));
 
 
