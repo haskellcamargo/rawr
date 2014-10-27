@@ -110,6 +110,25 @@
       return $this;
     }
 
+    # Merges two collections in one
+    # [a] → [a]
+    public function merge($collection) {
+      $this->value = array_merge($this->value, $collection);
+      return $this;
+    }
+
+    # Gives the product of a numeric collection
+    # [a] → Maybe a
+    public function product() {
+      // TODO: Memoize it.
+      $arr = (array) $this->value;
+      $product = $arr[0];
+      foreach ($this->value as $entry) {
+        $product *= $entry;
+      }
+      return new Integer($product);
+    }
+
     # Equivalent to [(filter f, xs), (reject f, xs)], but more efficient, 
     # using only one loop.
     # (a → Boolean) → [a] → [[a], [a]]
@@ -124,6 +143,20 @@
       return $this;
     }
 
+    # Removes the last element of the collection
+    # [a] → [a]
+    public function pop() {
+      array_pop($this->value);
+      return $this;
+    }
+
+    # Pushes an element to the collection
+    # [a] → [a]
+    public function push($atom) {
+      array_push($this->value, $atom);
+      return $this;
+    }
+
     # Like filter, but the new list is composed of all the items which fail the
     # function's test.
     # (a → Boolean) → [a] → [a]
@@ -134,5 +167,18 @@
           array_push($arr, $atom);
       $this->value = $arr;
       return $this;
+    }
+
+    # Reverses a collection
+    # [a] → [a]
+    public function reverse() {
+      $this->value = array_reverse($this->value);
+      return $this;
+    }
+
+    # Gets the sum of the items in the collection
+    # [a] → Integer
+    public function sum() {
+      return new Integer(array_sum($this->value));
     }
   }
