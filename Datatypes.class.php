@@ -35,15 +35,28 @@
   require_once 'String.class.php';
   require_once 'Extras/Shortcuts.php';
   require_once 'Modules/Memoize.class.php';
+  require_once 'prototype/Prototype.class.php';
+  require_once 'prototype/Define.class.php';
 
   # Types may want to inherit from this class.
   class Datatypes {
     protected $value, $memoize;
+    public $prototype = null;
 
     public function __construct() {
       global $memoize;
-      $this->memoize = $memoize;
+      $this->memoize   = $memoize;
+      $this->prototype = new Define;
       return $this;
+    }
+
+    public function __call($name, $arguments) {
+      array_unshift($arguments, $this);
+      return call_user_func_array($this->prototype->{$name}, $arguments);
+    }
+
+    public function __clone() {
+      $this->prototype = clone $this->prototype;
     }
 
     # Returns the element by itself.
@@ -67,73 +80,73 @@
 
     # Casts to Binary.
     # Mixed → Binary
-    public function to_binary() {
+    public function toBinary() {
       return new Binary($this->value);
     }
 
     # Casts to Boolean.
     # Mixed → Boolean
-    public function to_boolean() {
+    public function toBoolean() {
       return new Boolean($this->value);
     }
 
     # Casts to Byte.
     # Mixed → Byte
-    public function to_byte() {
+    public function toByte() {
       return new Byte($this->value);
     }
 
     # Casts to Char.
     # Mixed → Char
-    public function to_char() {
+    public function toChar() {
       return new Char($this->value);
     }
 
     # Casts to Double.
     # Mixed → Double
-    public function to_double() {
+    public function toDouble() {
       return new Double($this->value);
     }
 
     # Casts to Either.
     # Mixed → Either
-    public function to_either() {
+    public function toEither() {
       return new Either($this->value);
     }
 
     # Casts to Float.
     # Mixed → Float
-    public function to_float() {
+    public function toFloat() {
       return new Float($this->value);
     }
 
     # Casts to Func.
     # Mixed → Func
-    public function to_func() {
+    public function toFunc() {
       return new Func($this->value);
     }
 
     # Casts to Integer.
     # Mixed → Integer
-    public function to_i() {
+    public function toInteger() {
       return new Integer($this->value);
     }
 
     # Casts to Loop (Why in the world would somebody do this!?).
     # Mixed → Loop
-    public function to_loop() {
+    public function toLoop() {
       return new Loop($this->value);
     }
 
     # Casts to Object.
     # Mixed → Object
-    public function to_object() {
+    public function toObject() {
       return new Object($this->value);
     }
 
     # Casts to String.
     # Mixed → String
-    public function to_s() {
+    public function toString() {
       return new String($this->value);
     }
   }

@@ -20,19 +20,20 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  class Object extends DataTypes {
-    public $def = null;
-    
-    public function __construct() {
-      $this->def = new Define;
+  class Define {
+    public function __set($name, $value) {
+      $this->{$name} = $value;
     }
-    
-    public function __call($name, $arguments) {
-      array_unshift($arguments, $this);
-      return call_user_func_array($this->def->{$name}, $arguments);
+
+    public function __get($name) {
+      return $this->{$name};
     }
-    
-    public function __clone() {
-      $this->def = clone $this->def;
+
+    public function __isset($name) {
+      return isset($this->{$name});
+    }
+
+    public function __unset($name) {
+      unset($this->{$name});
     }
   }

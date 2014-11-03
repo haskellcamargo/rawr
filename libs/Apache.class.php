@@ -20,19 +20,40 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  class Object extends DataTypes {
-    public $def = null;
-    
-    public function __construct() {
-      $this->def = new Define;
+  class Apache {
+    public static function environment($variable) {
+      return apache_getenv($variable);
     }
-    
-    public function __call($name, $arguments) {
-      array_unshift($arguments, $this);
-      return call_user_func_array($this->def->{$name}, $arguments);
+
+    public static function note($name) {
+      return apache_note($name);
     }
-    
-    public function __clone() {
-      $this->def = clone $this->def;
+
+    public static function set_environment($variable, $value) {
+      return apache_setenv($variable, $value);
+    }
+
+    public static function modules() {
+      return apache_get_modules();
+    }
+
+    public static function version() {
+      return apache_get_version();
+    }
+
+    public static function lookup_uri($filename) {
+      return apache_lookup_uri($filename);
+    }
+
+    public static function request_headers() {
+      return apache_request_headers();
+    }
+
+    public static function reset_timeout() {
+      return apache_reset_timeout();
+    }
+
+    public static function response_headers() {
+      return apache_response_headers();
     }
   }

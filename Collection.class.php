@@ -110,6 +110,9 @@
       return $this;
     }
 
+    # Returns the mean of a collection
+    #
+
     # Merges two collections in one
     # [a] → [a]
     public function merge($collection) {

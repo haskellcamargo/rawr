@@ -36,7 +36,7 @@
 
     # Returns the length of the string in bytes.
     # String → Integer
-    public function bytesize() {
+    public function byteSize() {
       return new Integer(mb_strlen($this->value));
     }
 
@@ -99,7 +99,7 @@
 
     # Returns an array of the Integer ordinals of the characters in
     # String → [Integer]
-    public function codepoints() {
+    public function codePoints() {
       $integers = Array();
       foreach ($this->value as $char) {
         if (preg_match('/\d/', $char)) {
@@ -124,7 +124,7 @@
 
     # Downcases a string.
     # String → String
-    public function downcase() {
+    public function downCase() {
       $this->value = strtolower($this->value);
       return $this;
     }
@@ -145,21 +145,14 @@
 
     # Outputs to screen a string and doesn't break line.
     # String → Void
-    public function putstr() {
+    public function putStr() {
       echo $this->value;
       return $this;
     }
 
-    # Splits a string at spaces (one or more), returning a list
-    # of strings.
-    # String → [String]
-    public function words() {
-      return new Collection(explode(' ', $this->value));
-    }
-
     # Outputs to screen a string and breaks line.
     # String → Void
-    public function putstrln() {
+    public function putStrLn() {
       echo $this->value . "<br>\n";
       return $this;
     }
@@ -198,16 +191,27 @@
 
     # Tries to convert something to a string.
     # Mixed → Maybe String
-    public function try_convert() {
+    public function tryConvert() {
       $this->value = (string) $this->value;
       return $this;
     }
 
     # Converts a string to uppercase.
     # String → String
-    public function upcase() {
+    public function upCase() {
       $this->value = strtoupper($this->value);
       return $this;
     }
+
+    # Splits a string at spaces (one or more), returning
+    # a list of strings
+    # String → [String]
+    public function words() {
+      return (new Collection(
+        explode(' ', $this->value)
+        , 'String'))
+      -> reject(function($x) {
+        return $x == '';
+      });
+    }
   }
-    

@@ -1,4 +1,9 @@
 <?php
+
+  function binary($v) {
+    return new Binary($v);
+  }
+
   function boolean($v) {
     return new Boolean($v);
   }
