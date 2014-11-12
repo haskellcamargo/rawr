@@ -1,4 +1,4 @@
-<?php
+﻿<?php
   # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -24,6 +24,8 @@
   # This way you can increase the performance in more than 95% of 
   # already processed data.
 
+  require_once 'IString.interface.php';
+
   class String extends DataTypes {
     # By default, data types that inherit from this class
     # and don't override the constructor must pass the internal
@@ -36,7 +38,7 @@
 
     # Returns the length of the string in bytes.
     # String → Integer
-    public function byteSize() {
+    public function byte_size() {
       return new Integer(mb_strlen($this->value));
     }
 
@@ -99,7 +101,7 @@
 
     # Returns an array of the Integer ordinals of the characters in
     # String → [Integer]
-    public function codePoints() {
+    public function code_points() {
       $integers = Array();
       foreach ($this->value as $char) {
         if (preg_match('/\d/', $char)) {
@@ -119,14 +121,32 @@
           $this->value = $this->value . chr(func_get_args()[$i]);
         } else $this->value = $this->value . func_get_args()[$i];
       }
-      return $this->value;
+      return $this;
     }
 
     # Downcases a string.
     # String → String
-    public function downCase() {
+    public function down_case() {
       $this->value = strtolower($this->value);
       return $this;
+    }
+    
+    # Applies a function to each char in the string
+    # String → Void
+    public function each_char($func) {
+      $this->chars()->each($func);
+    }
+    
+    # Applies a function to each codepoint in the string
+    # String → Void
+    public function each_codepoint($func) {
+      $this->codePoints()->each($func);
+    }
+    
+    # Applies a function to each line
+    # String → Void
+    public function each_line($func) {
+      $this->lines()->each($func);
     }
 
     # Joins a list with the specified separator
@@ -134,6 +154,12 @@
     public function join($arr) {
       $this->value = join($this->value, $arr);
       return $this;
+    }
+    
+    # Returns the length of a string
+    # String → Integer
+    public function length() {
+      return new Integer(strlen($this->value));
     }
 
     # Splits a string at newlines into a list.
@@ -145,14 +171,14 @@
 
     # Outputs to screen a string and doesn't break line.
     # String → Void
-    public function putStr() {
+    public function output() {
       echo $this->value;
       return $this;
     }
 
     # Outputs to screen a string and breaks line.
     # String → Void
-    public function putStrLn() {
+    public function outputln() {
       echo $this->value . "<br>\n";
       return $this;
     }
@@ -191,15 +217,31 @@
 
     # Tries to convert something to a string.
     # Mixed → Maybe String
-    public function tryConvert() {
+    public function try_convert() {
       $this->value = (string) $this->value;
       return $this;
     }
 
     # Converts a string to uppercase.
     # String → String
-    public function upCase() {
+    public function up_case() {
       $this->value = strtoupper($this->value);
+      return $this;
+    }
+
+    # Swaps the case of a string.
+    # String → String
+    public function swap_case() {
+      $newString = '';
+      foreach (str_split($this->value) as $char) {
+        if (preg_match('/[a-z]/', $this->value))
+          $newString .= strtoupper($char);
+        else if (preg_match('/[A-Z]/', $this->value))
+          $newString .= strtolower($char);
+        else
+          $newString .= $char;
+      }
+      $this->value = $newString;
       return $this;
     }
 

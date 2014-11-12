@@ -24,11 +24,25 @@
   # This way you can increase the performance in more than 95% of 
   # already processed data.
 
-  require_once 'IBinary.interface.php';
-
-  class Binary extends DataTypes implements IBinary {
-    public function __construct($val) {
-      parent :: __construct();
-      $this->value = $val;
-    }
+  interface IInt {
+    public function abs();    # ok - HC
+    public function acos();
+    public function add($n);  # ok - HC
+    public function asin();
+    public function atan();
+    public function atan2($n);
+    public function ceil();
+    public function cos();
+    public function div($n);
+    public function exp();
+    public function floor();
+    public function log();
+    public function mod($n);  # ok - HC
+    public function mul($n);  # ok - HC
+    public function sub($n);  # ok - HC
+    public function pow($n);  # ok - HC
+    public function round();
+    public function sin();
+    public function sqrt();   # ok - HC
+    public function tan();
   }

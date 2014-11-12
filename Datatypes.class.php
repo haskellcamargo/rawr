@@ -20,18 +20,17 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  require_once 'Binary.class.php';
+  #require_once 'Binary.class.php';
   require_once 'Boolean.class.php';
   require_once 'Byte.class.php';
   require_once 'Char.class.php';
   require_once 'Collection.class.php';
-  require_once 'Double.class.php';
   require_once 'Either.class.php';
-  require_once 'Float.class.php';
   require_once 'Func.class.php';
-  require_once 'Integer.class.php';
+  require_once 'Int.class.php';
   require_once 'Loop.class.php';
   require_once 'Object.class.php';
+  require_once 'Real.class.php';
   require_once 'String.class.php';
   require_once 'Extras/Shortcuts.php';
   require_once 'Modules/Memoize.class.php';
@@ -80,73 +79,73 @@
 
     # Casts to Binary.
     # Mixed → Binary
-    public function toBinary() {
+    public function to_binary() {
       return new Binary($this->value);
     }
 
     # Casts to Boolean.
     # Mixed → Boolean
-    public function toBoolean() {
+    public function to_boolean() {
       return new Boolean($this->value);
     }
 
     # Casts to Byte.
     # Mixed → Byte
-    public function toByte() {
+    public function to_byte() {
       return new Byte($this->value);
     }
 
     # Casts to Char.
     # Mixed → Char
-    public function toChar() {
+    public function to_char() {
       return new Char($this->value);
-    }
-
-    # Casts to Double.
-    # Mixed → Double
-    public function toDouble() {
-      return new Double($this->value);
     }
 
     # Casts to Either.
     # Mixed → Either
-    public function toEither() {
+    public function to_either() {
       return new Either($this->value);
-    }
-
-    # Casts to Float.
-    # Mixed → Float
-    public function toFloat() {
-      return new Float($this->value);
     }
 
     # Casts to Func.
     # Mixed → Func
-    public function toFunc() {
+    public function to_func() {
       return new Func($this->value);
     }
 
     # Casts to Integer.
     # Mixed → Integer
-    public function toInteger() {
+    public function to_integer() {
       return new Integer($this->value);
     }
 
     # Casts to Loop (Why in the world would somebody do this!?).
     # Mixed → Loop
-    public function toLoop() {
+    public function to_loop() {
       return new Loop($this->value);
     }
 
     # Casts to Object.
     # Mixed → Object
-    public function toObject() {
+    public function to_object() {
       return new Object($this->value);
+    }
+
+    # Casts to Real.
+    # Mixed → Real
+    public function to_double() {
+      return new Real($this->value);
     }
 
     # Casts to String.
     # Mixed → String
-    public function toString() {
+    public function to_string() {
       return new String($this->value);
+    }
+
+    # Type inference.
+    protected function type_inference() {
+      $args = func_get_args();
+      return 1;
     }
   }

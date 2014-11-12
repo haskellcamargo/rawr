@@ -19,31 +19,61 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
-  class Boolean extends DataTypes {
-    public function __construct($val) {
-      $this->value = (boolean) $val;
+
+  require_once "IInt.interface.php";
+
+  class Int extends DataTypes {
+    # Mixed → Void
+    public function __construct($i) {
+      $this->value = (int) $i;
       return $this;
     }
 
-    public function if_true($clos) {
-      if ($this->value) $clos();
+    # Integer → Integer
+    public function abs() {
+      $this->value = abs($this->value);
       return $this;
     }
 
-    public function if_false($clos) {
-      if (!$this->value) $clos();
+    # Integer → Integer, Real → Integer, Real
+    public function add($value) {
+      $this->value += $value;
+      return type_inference();
+    }
+
+    # Integer → Number → Number
+    public function div($value) {
+      $this->value /= $value;
       return $this;
     }
 
-    public function then_else($then, $else) {
-      if ($this->value) $then();
-      else $else();
+    # Integer → Number → Number
+    public function mod($value) {
+      $this->value %= $value;
+      return $this;
     }
 
-    public function repeat($clos) {
-      while ($this->value) {
-        $clos();
-      }
+    # Integer → Number → Number
+    public function mul($value) {
+      $this->value *= $value;
+      return $this;
     }
+
+    # Integer → Integer → Integer
+    public function pow($to) {
+      $this->value = pow($this->value, $to);
+      return $this;
+    }
+
+    # Integer → Number → Number
+    public function sub($value) {
+      $this->value -= $value;
+      return $this;
+    }
+
+    # Integer → Number
+    public function sqrt() {
+      $this->value = new Float(sqrt($this->value));
+      return $this;
+    }   
   }
