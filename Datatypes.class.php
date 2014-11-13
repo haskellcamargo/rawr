@@ -20,7 +20,8 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  #require_once 'Binary.class.php';
+  require_once 'typing/TypeInference.class.php';
+  require_once 'Binary.class.php';
   require_once 'Boolean.class.php';
   require_once 'Byte.class.php';
   require_once 'Char.class.php';
@@ -56,6 +57,12 @@
 
     public function __clone() {
       $this->prototype = clone $this->prototype;
+    }
+
+    # Compares two variables and its types.
+    # Mixed → Boolean
+    public function equals($var) {
+      
     }
 
     # Returns the element by itself.
@@ -115,8 +122,8 @@
 
     # Casts to Integer.
     # Mixed → Integer
-    public function to_integer() {
-      return new Integer($this->value);
+    public function to_int() {
+      return new Int($this->value);
     }
 
     # Casts to Loop (Why in the world would somebody do this!?).

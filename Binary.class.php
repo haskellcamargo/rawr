@@ -26,7 +26,7 @@
 
   require_once 'IBinary.interface.php';
 
-  class Binary extends DataTypes implements IBinary {
+  class Binary extends DataTypes {
     public function __construct($val) {
       parent :: __construct();
       $this->value = $val;

@@ -19,55 +19,48 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  
+  class TypeInference {
+    public static function infer($variable) {
 
-  function binary($v) {
-    return new Binary($v);
-  }
+      if (is_float($variable))
+        return real ($variable);
 
-  function bool($v) {
-    return new Boolean($v);
-  }
+      else if (is_integer($variable))
+        return int ($variable);
 
-  function boolean($v) {
-    return new Boolean($v);
-  }
+      else if (is_string($variable))
+        return string ($variable);
 
-  function collection($v) {
-    return new Collection($v);
-  }
+      else if (is_array($variable))
+        return collection ($variable);
 
-  function double($v) {
-    return new Real($v);
-  }
+      else if (is_bool($variable))
+        return boolean ($variable);
 
-  function dynamic($v) {
-    return TypeInference :: infer($v);
-  }
+      else if (is_callable($variable))
+        return func ($variable);
 
-  function float($v) {
-    return new Real($v);
-  }
+      else if (is_executable($variable))
+        return binary ($variable);
 
-  function int($v) {
-    return new Int($v);
-  }
+      else if (is_file($variable))
+        return file ($variable);
 
-  function integer($v) {
-    return new Int($v);
-  }
+      else if (is_null($variable))
+        return null;
 
-  function loop() {
-    return new Loop; 
-  }
+      else return $variable;
+    }
 
-  function real($v) {
-    return new Real($v);
-  }
-
-  function str($v) {
-    return new String($v);
-  }
-
-  function string($v) {
-    return new String($v);
+    public static function to_primitive($variable) {
+      switch (gettype($variable)) {
+        # Case typed
+        case 'Str':
+        case 'String':
+          return $variable->value();
+        default:
+          return $variable;
+      }
+    }
   }
