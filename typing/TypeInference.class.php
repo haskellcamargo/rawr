@@ -56,9 +56,14 @@
     public static function to_primitive($variable) {
       switch (gettype($variable)) {
         # Case typed
-        case 'Str':
         case 'String':
-          return $variable->value();
+          return (string) $variable->value();
+        case 'Int':
+          return (int) $variable->value();
+        case 'Real':
+          return (real) $variable->value();
+        case 'Boolean':
+          return (bool) $variable->value();
         default:
           return $variable;
       }
