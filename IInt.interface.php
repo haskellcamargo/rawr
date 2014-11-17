@@ -25,9 +25,7 @@
   # already processed data.
 
   interface IInt {
-    public function abs();    # ok - HC
     public function acos();
-    public function add($n);  # ok - HC
     public function asin();
     public function atan();
     public function atan2($n);
@@ -37,12 +35,8 @@
     public function exp();
     public function floor();
     public function log();
-    public function mod($n);  # ok - HC
-    public function mul($n);  # ok - HC
-    public function sub($n);  # ok - HC
     public function pow($n);  # ok - HC
     public function round();
     public function sin();
-    public function sqrt();   # ok - HC
     public function tan();
   }

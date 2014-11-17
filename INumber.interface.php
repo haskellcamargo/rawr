@@ -21,9 +21,11 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   interface INumber {
-    public function add($x, $y);
-    public function div($x, $y);
-    public function mod($x, $y);
-    public function mul($x, $y);
-    public function sub($x, $y);
+    public function abs();
+    public function add($y);
+    public function div($y);
+    public function mod($y);
+    public function mul($y);
+    public function sqrt();
+    public function sub($y);
   }

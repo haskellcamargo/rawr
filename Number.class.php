@@ -30,16 +30,16 @@
       return $this;
     }
 
-    # Integer → Integer, Real → Integer, Real
-    public function add($value) {
-      $this->value += TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this->value);
-    }
-
     # Integer → Integer
     public function abs() {
       $this->value = abs($this->value);
       return $this;
+    }
+
+    # Integer → Integer, Real → Integer, Real
+    public function add($value) {
+      $this->value += TypeInference :: to_primitive($value);
+      return TypeInference :: infer($this->value);
     }
 
     # Integer → Number → Number
@@ -60,15 +60,15 @@
       return $this;
     }
 
-        # Integer → Number → Number
-    public function sub($value) {
-      $this->value -= $value;
-      return $this;
-    }
-
     # Integer → Number
     public function sqrt() {
       $this->value = new Float(sqrt($this->value));
       return $this;
     }   
+
+    # Integer → Number → Number
+    public function sub($value) {
+      $this->value -= $value;
+      return $this;
+    }
   }

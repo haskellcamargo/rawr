@@ -22,7 +22,7 @@
 
   require_once "IInt.interface.php";
 
-  class Int extends Number extends Number {
+  class Int extends Number {
     # Mixed → Void
     public function __construct($i) {
       $this->value = (int) $i;
