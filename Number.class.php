@@ -20,18 +20,13 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  require_once "IInt.interface.php";
+  require_once 'INumber.interface.php';
 
-  class Int extends Number {
-    # Mixed → Void
-    public function __construct($i) {
-      $this->value = (int) $i;
-      return $this;
-    }
-
-    # Integer → Integer
-    public function abs() {
-      $this->value = abs($this->value);
+  class Number extends DataTypes implements INumber {
+    public function __construct($val) {
+      if (is_numeric($val))
+        $this->value = $val;
+      else throw new Exception("Expecting `{$val}` to be a valid number. Received " . gettype($val));
       return $this;
     }
 
@@ -39,6 +34,12 @@
     public function add($value) {
       $this->value += TypeInference :: to_primitive($value);
       return TypeInference :: infer($this->value);
+    }
+
+    # Integer → Integer
+    public function abs() {
+      $this->value = abs($this->value);
+      return $this;
     }
 
     # Integer → Number → Number
@@ -59,13 +60,7 @@
       return $this;
     }
 
-    # Integer → Integer → Integer
-    public function pow($to) {
-      $this->value = pow($this->value, $to);
-      return $this;
-    }
-
-    # Integer → Number → Number
+        # Integer → Number → Number
     public function sub($value) {
       $this->value -= $value;
       return $this;

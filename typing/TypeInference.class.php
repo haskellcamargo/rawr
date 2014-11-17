@@ -25,7 +25,7 @@
 
       if (is_float($variable))
         return real ($variable);
-
+ 
       else if (is_integer($variable))
         return int ($variable);
 
@@ -41,12 +41,6 @@
       else if (is_callable($variable))
         return func ($variable);
 
-      else if (is_executable($variable))
-        return binary ($variable);
-
-      else if (is_file($variable))
-        return file ($variable);
-
       else if (is_null($variable))
         return null;
 
@@ -54,18 +48,11 @@
     }
 
     public static function to_primitive($variable) {
-      switch (gettype($variable)) {
-        # Case typed
-        case 'String':
-          return (string) $variable->value();
-        case 'Int':
-          return (int) $variable->value();
-        case 'Real':
-          return (real) $variable->value();
-        case 'Boolean':
-          return (bool) $variable->value();
-        default:
-          return $variable;
-      }
+
+      if (is_object($variable)) {
+        return method_exists(get_class($variable), 'value')?
+          $variable->value()
+        : null;
+      } else return $variable;
     }
   }

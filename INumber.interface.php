@@ -20,9 +20,10 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  class Real extends Number {
-    public function __construct($i) {
-      $this->value = (real) $i;
-      return $this;
-    }
+  interface INumber {
+    public function add($x, $y);
+    public function div($x, $y);
+    public function mod($x, $y);
+    public function mul($x, $y);
+    public function sub($x, $y);
   }
