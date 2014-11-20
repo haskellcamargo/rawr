@@ -48,17 +48,15 @@
       return TypeInference :: infer($this);
     }
 
-    # Integer → Number → Number
+    # Number → Number → Number
     public function mod($value) {
+      // PHP, someday you will yet be punished by force me this conditional
+      // and by the non-implementation of operator overloading in module. This day 
+      // will come. Wait for it!
       if (get_class($value) === "Real")
-        $this->value = $this->to_real()->value(); // Different of PHP, where Int % Real -> Int, here
-                                                  // we have Int % Real -> Real.
-
-      echo 100.6 % 35.1;
-
-
-      
-
+        $this->value = fmod($this->value, TypeInference :: to_primitive($value));
+      else 
+        $this->value = $this->value % TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
