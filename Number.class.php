@@ -62,19 +62,19 @@
 
     # Integer → Number → Number
     public function mul($value) {
-      $this->value *= $value;
-      return $this;
+      $this->value *= TypeInference :: to_primitive($value);
+      return TypeInference :: infer($this);
     }
 
     # Integer → Number
     public function sqrt() {
-      $this->value = new Float(sqrt($this->value));
+      $this->value = new Real(sqrt($this->value));
       return $this;
     }   
 
     # Integer → Number → Number
     public function sub($value) {
-      $this->value -= $value;
-      return $this;
+      $this->value -= TypeInference :: to_primitive($value);
+      return TypeInference :: infer($this);
     }
   }

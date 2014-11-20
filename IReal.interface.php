@@ -20,34 +20,10 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  require_once "IInt.interface.php";
+  # Use memoization to store already processed data in a static variable
+  # This way you can increase the performance in more than 95% of 
+  # already processed data.
 
-  class Int extends Number {
-    # Mixed → Void
-    public function __construct($i) {
-      $this->value = (int) $i;
-      return $this;
-    }
-
-    # Integer → Integer → Integer
-    public function pow($to) {
-      $this->value = pow($this->value, $to);
-      return $this;
-    }
-
-    # Integer → Integer
-    public function round() {
-      $this->value = round($this->value);
-      return $this;
-    }
-
-    # Integer → Real
-    public function sin() {
-      return new Real(sin($this->value));
-    }
-
-    # Integer → Real
-    public function tan() {
-      return new Float(tan($this->value));
-    }
+  interface IReal {
+    public function __construct($i);
   }

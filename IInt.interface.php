@@ -35,8 +35,8 @@
     public function exp();
     public function floor();
     public function log();
-    public function pow($n);  # ok - HC
-    public function round();
-    public function sin();
-    public function tan();
+    public function pow($n); # DONE
+    public function round(); # DONE
+    public function sin();   # DONE
+    public function tan();   # DONE
   }
