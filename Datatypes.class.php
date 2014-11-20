@@ -144,7 +144,7 @@
 
     # Casts to Real.
     # Mixed → Real
-    public function to_double() {
+    public function to_real() {
       return new Real($this->value);
     }
 
@@ -152,11 +152,5 @@
     # Mixed → String
     public function to_string() {
       return new String($this->value);
-    }
-
-    # Type inference.
-    protected function type_inference() {
-      $args = func_get_args();
-      return 1;
     }
   }

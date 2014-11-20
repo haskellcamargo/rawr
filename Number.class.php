@@ -50,8 +50,13 @@
 
     # Integer → Number → Number
     public function mod($value) {
-      $this->value %= $value;
-      return $this;
+      if (get_class($value) === "Real")
+        $this->value = $this->to_real()->value(); // Different of PHP, where Int % Real -> Int, here
+                                                  // we have Int % Real -> Real.
+
+      $this->value %= TypeInference :: to_primitive($value);
+
+      return TypeInference :: infer($this);
     }
 
     # Integer → Number → Number

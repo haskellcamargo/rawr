@@ -48,7 +48,6 @@
     }
 
     public static function to_primitive($variable) {
-
       if (is_object($variable)) {
         return method_exists(get_class($variable), 'value')?
           $variable->value()

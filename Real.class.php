@@ -22,7 +22,7 @@
 
   class Real extends Number {
     public function __construct($i) {
-      $this->value = (real) $i;
+      $this->value = (double) $i;
       return $this;
     }
   }
