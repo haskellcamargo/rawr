@@ -54,7 +54,10 @@
         $this->value = $this->to_real()->value(); // Different of PHP, where Int % Real -> Int, here
                                                   // we have Int % Real -> Real.
 
-      $this->value %= TypeInference :: to_primitive($value);
+      echo 100.6 % 35.1;
+
+
+      
 
       return TypeInference :: infer($this);
     }
