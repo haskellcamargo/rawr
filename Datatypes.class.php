@@ -63,6 +63,13 @@
       $this->prototype = clone $this->prototype;
     }
 
+    # Equivalent to php's var_dump in the object.
+    # a → Void
+    public function about() {
+      var_dump($this);
+      return $this;
+    }
+
     # Compares two variables and its types.
     # Mixed → Boolean
     public function equals($var) {

@@ -24,19 +24,4 @@
   # This way you can increase the performance in more than 95% of 
   # already processed data.
 
-  interface IInt {
-    public function acos();
-    public function asin();
-    public function atan();
-    public function atan2($n);
-    public function ceil();
-    public function cos();
-    public function div($n);
-    public function exp();
-    public function floor();
-    public function log();
-    public function pow($n); # DONE
-    public function round(); # DONE
-    public function sin();   # DONE
-    public function tan();   # DONE
-  }
+  interface IInt {}

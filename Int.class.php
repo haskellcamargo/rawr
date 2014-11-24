@@ -28,26 +28,4 @@
       $this->value = (int) $i;
       return $this;
     }
-
-    # Integer → Integer → Integer
-    public function pow($to) {
-      $this->value = pow($this->value, $to);
-      return $this;
-    }
-
-    # Integer → Integer
-    public function round() {
-      $this->value = round($this->value);
-      return $this;
-    }
-
-    # Integer → Real
-    public function sin() {
-      return new Real(sin($this->value));
-    }
-
-    # Integer → Real
-    public function tan() {
-      return new Float(tan($this->value));
-    }
   }

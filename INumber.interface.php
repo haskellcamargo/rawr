@@ -21,11 +21,27 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   interface INumber {
-    public function abs();
-    public function add($y);
-    public function div($y);
-    public function mod($y);
-    public function mul($y);
-    public function sqrt();
-    public function sub($y);
+    public function abs();             # :: Number → Number
+    public function acos();            # :: Number → Real
+    public function acosh();           # :: Number → Real
+    public function add($x);           # :: (Number, Number) → Number
+    public function asin();            # :: Number → Real
+    public function asinh();           # :: Number → Real
+    public function atan();            # :: Number → Real
+    public function atan2($x);         # :: Number → Real
+    public function atanh();           # :: Number → Real
+    public function ceil();            # :: Number → Real
+    public function cos();             # :: Number → Real
+    public function div($x);           # :: (Number, Number) → Number
+    public function exp();             # :: Number → Real
+    public function floor();           # :: Number → Real
+    public function log();             # :: Number → Real
+    public function mod($x);           # :: (Number, Number) → Number
+    public function mul($x);           # :: (Number, Number) → Number
+    public function pow($x);           # :: (Number, Number) → Number
+    public function round($x = 0);     # :: Number → Real | (Number, Int) → Real
+    public function sin();             # :: Number → Real
+    public function sqrt();            # :: Number → Real
+    public function sub($x);           # :: (Number, Number) → Number
+    public function tan();             # :: Number → Real
   }
