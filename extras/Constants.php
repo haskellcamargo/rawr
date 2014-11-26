@@ -19,16 +19,14 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  
+  define("MT_RAND_MAX", mt_getrandmax());
+  define("RAWR_VERSION", "1.0.0.1");
 
-  # Use memoization to store already processed data in a static variable
-  # This way you can increase the performance in more than 95% of 
-  # already processed data.
-
-  require_once 'IBinary.interface.php';
-
-  class Binary extends DataTypes {
-    public function __construct($val) {
-      parent :: __construct();
-      $this->value = $val;
-    }
-  }
+  # New Keywords
+  define("no",        false);
+  define("off",       false);
+  define("on",        true);
+  define("undefined", false);
+  define("void",      false)
+  define("yes",       true);

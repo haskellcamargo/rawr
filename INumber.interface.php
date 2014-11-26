@@ -20,28 +20,53 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  # Break here: http://php.net/manual/en/function.atan2.php
+
+  # Please, somebody, put this in alphabetic order!
+  # I have obsessive compulsive disorder and I can't see this way!
+  # Redefine types definition correctly, like PHP documentation does.
+
   interface INumber {
-    public function abs();             # :: Number → Number
-    public function acos();            # :: Number → Real
-    public function acosh();           # :: Number → Real
-    public function add($x);           # :: (Number, Number) → Number
-    public function asin();            # :: Number → Real
-    public function asinh();           # :: Number → Real
-    public function atan();            # :: Number → Real
-    public function atan2($x);         # :: Number → Real
-    public function atanh();           # :: Number → Real
-    public function ceil();            # :: Number → Real
-    public function cos();             # :: Number → Real
-    public function div($x);           # :: (Number, Number) → Number
-    public function exp();             # :: Number → Real
-    public function floor();           # :: Number → Real
-    public function log();             # :: Number → Real
-    public function mod($x);           # :: (Number, Number) → Number
-    public function mul($x);           # :: (Number, Number) → Number
-    public function pow($x);           # :: (Number, Number) → Number
-    public function round($x = 0);     # :: Number → Real | (Number, Int) → Real
-    public function sin();             # :: Number → Real
-    public function sqrt();            # :: Number → Real
-    public function sub($x);           # :: (Number, Number) → Number
-    public function tan();             # :: Number → Real
+    public function abs();                                        # :: a -> Number
+    public function arc_cos();                                    # :: Float -> Float
+    public function add($x);                                      # :: (Float, Float) -> Float
+    public function arc_sin();                                    # :: Float -> Float
+    public function arc_tan2($x);                                 # :: (Float, Float) -> Float
+    public function arc_tan();                                    # :: Float -> Float
+    public function ceil();                                       # :: Float -> Float
+    public function cos();                                        # :: Float -> Float
+    public function deg_to_rad();                                 # :: Float -> Float
+    public function div($x);                                      # :: (Float, Float) -> Float
+    public function exp();                                        # :: Float -> Float
+    public function expm1();                                      # :: Float -> Float
+    public function floor();                                      # :: Float -> Float
+    public function h_arc_cos();                                  # :: Float -> Float
+    public function h_arc_sin();                                  # :: Float -> Float
+    public function h_arc_tan();                                  # :: Float -> Float
+    public function h_cos();                                      # :: Float -> Float
+    public function h_sin();                                      # :: Float -> Float
+    public function h_tan();                                      # :: Float -> Float
+    public function hypot($x);                                    # :: (Float, Float) -> Float
+    public function is_finite();                                  # :: Float -> Boolean
+    public function is_infinite();                                # :: Float -> Boolean
+    public function is_nan();                                     # :: Float -> Boolean
+    public function log10();                                      # :: Float -> Float
+    public function log1p();                                      # :: Float -> Float
+    public function log($y = M_E);                                # :: (Float, Maybe Float) -> Float
+    public function mt_rand_until($x = MT_RAND_MAX);              # :: (Int, Maybe Int) -> Int
+    public function mod($x);                                      # :: (Float, Float) -> Float
+    public function mt_seed_rand($x);                             # :: Int -> Void
+    public function mul($x);                                      # :: (Float, Float) -> Float
+    public function pow($x);                                      # :: (Number, Number) -> Number
+    public function rad_to_deg();                                 # :: Float -> Float
+    public function rand_until($y = RAND_MAX);                    # :: (Int, Maybe Int) -> Int
+    public function round($x = 0, $y = PHP_ROUND_HALF_UP);        # :: (Float, Maybe Int, Maybe Int) -> Float
+    public function seed_rand();                                  # :: Int -> Void   
+    public function sin();                                        # :: Float -> Float
+    public function sqrt();                                       # :: Float -> Float
+    public function sub($x);                                      # :: (Float, Float) -> Float
+    public function tan();                                        # :: Float -> Float
+    public function to_binary();                                  # :: Int -> String
+    public function to_hex();                                     # :: Int -> String
+    public function to_oct();                                     # :: Int -> String
   }

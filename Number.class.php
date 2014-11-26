@@ -22,9 +22,17 @@
 
   require_once 'INumber.interface.php';
 
-  class Number extends DataTypes implements INumber {
+  # Parent class for Real and Int.
+  # This class knows how to choose between the types according
+  # to the correct occasion.
+  # Numeric types might extend it.
 
-    private function __do__($closure, $aux = null) {
+  class Number extends DataTypes {
+
+    # This method is responsible by, if the variable already is type X, 
+    # cast the variable to Y, by returning a new Y. Otherwise change its
+    # inner value.
+    private function as_real_do($closure, $aux = null) { # (Func, Maybe Float) -> Float
        if (get_class($this) === "Real") {
         $this->value = $aux === null?
           $closure($this->value)
@@ -35,105 +43,118 @@
         : new Real($closure($this->value, $aux));
     }
 
-    public function __construct($val) {
+    public function __construct($val) { # a -> a
+      # We expect $val to be a numeric value.
       if (is_numeric($val))
         $this->value = $val;
       else throw new Exception("Expecting `{$val}` to be a valid number. Received " . gettype($val));
       return $this;
     }
 
-    # Number → Number
-    public function abs() {
+    # Absolute value.
+    public function abs() { # a -> Number
       $this->value = abs($this->value);
       return $this;
     }
 
-    # Number → Real
-    public function acos() {
+    # Arc cosin.
+    public function arc_cos() { # Float -> Float
       return $this
-        -> __do__('acos');
+        -> as_real_do('acos');
     }
 
-    # Number → Real
-    public function acosh() {
+    # Hyperbolic arc cosin,
+    public function h_arc_cos() { # Float -> Float
       return $this
-        -> __do__('acosh');
+        -> as_real_do('acosh');
     }
 
-    # (Number, Number) → Number
-    public function add($value) {
+    # Adds $value to the number.
+    public function add($value) { # (Float, Float) -> Float
       $this->value += TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this->value);
+      return TypeInference :: infer($this);
     }
 
-    # Number → Real
-    public function asin() {
+    # Arc sin.
+    public function arc_sin() { # Float -> Float
       return $this
-        -> __do__('asin');
+        -> as_real_do('asin');
     }
 
-    # Number → Real
-    public function asinh() {
+    # Hyperbolic arc sin.
+    public function h_arc_sin() { # Float -> Float
       return $this
-        -> __do__('asinh');
+        -> as_real_do('asinh');
     }
 
-    # Number → Real
-    public function atan() {
+    # Arc tangent.
+    public function atan() { # Float -> Float
       return $this
-        -> __do__('atan');
+        -> as_real_do('atan');
     }
 
-    # Number → Real
+    # Number -> Real
     public function atan2($input) {
       return $this
-        -> __do__('atan2', 
+        -> as_real_do('atan2', 
           TypeInference :: to_primitive($input));
     }
 
-    # Number → Real
+    # Number -> Real
     public function atanh() {
       return $this
-        -> __do__('atanh');
+        -> as_real_do('atanh');
     }
 
-    # Number → Real
+    # Number -> Real
     public function ceil() {
       return $this
-        -> __do__('ceil');
+        -> as_real_do('ceil');
     }
 
-    # Number → Real
+    # Number -> Real
     public function cos() {
       return $this
-        -> __do__('cos');
+        -> as_real_do('cos');
     }
 
-    # (Number, Number) → Number
+    # Number -> Real
+    public function deg_to_rad() {
+      return $this
+        -> as_real_do('deg2rad');
+    }
+
+    # (Number, Number) -> Number
     public function div($value) {
       $this->value /= TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # Number → Real
+    # Number -> Real
     public function exp() {
       return $this
-        -> __do__('exp');
+        -> as_real_do('exp');
     }
 
-    # Number → Real
+    # Number -> Real
+    public function expm1() {
+      return $this
+        -> as_real_do('expm1');
+    }
+
+    # Number -> Real
     public function floor() {
       return $this
-        -> __do__('floor');
+        -> as_real_do('floor');
     }
 
-    # Number → Real
+    # Number -> Real
     public function log() {
       return $this
-        -> __do__('log');
+        -> as_real_do('log');
     }
 
-    # (Number, Number) → Number 
+    # (Number, Number) -> Number 
     public function mod($value) {
       // PHP, someday you will yet be punished by force me this conditional
       // and by the non-implementation of operator overloading in module operator. 
@@ -145,46 +166,46 @@
       return TypeInference :: infer($this);
     }
 
-    # (Number → Number) → Number
+    # (Number -> Number) -> Number
     public function mul($value) {
       $this->value *= TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # (Number, Number) → Number
+    # (Number, Number) -> Number
     public function pow($exp) {
       $this->value = pow($this->value, TypeInference :: to_primitive($exp));
       return TypeInference :: infer($this);
     }
 
-    # Number → Real
-    # (Number, Int) → Real
+    # Number -> Real
+    # (Number, Int) -> Real
     public function round($precision = 0) {
       return $this
-        -> __do__('round',
+        -> as_real_do('round',
           TypeInference :: to_primitive($precision));
     }
 
-    # Number → Real
+    # Number -> Real
     public function sin() {
       return $this
-        -> __do__('sin');
+        -> as_real_do('sin');
     }
 
-    # Number → Real
+    # Number -> Real
     public function sqrt() {
       return new Real(sqrt($this->value));
     }
 
-    # (Number, Number) → Number
+    # (Number, Number) -> Number
     public function sub($value) {
       $this->value -= TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # Number → Real
+    # Number -> Real
     public function tan() {
       return $this
-        -> __do__('tan');
+        -> as_real_do('tan');
     }
   }

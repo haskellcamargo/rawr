@@ -20,12 +20,13 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  require_once 'Extras/Constants.php';
+
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
   require_once 'typing/TypeInference.class.php';
   
   # Parent class for numeric types
   require_once 'Number.class.php';
-  require_once 'Binary.class.php';
   require_once 'Boolean.class.php';
   require_once 'Byte.class.php';
   require_once 'Char.class.php';
