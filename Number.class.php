@@ -27,11 +27,22 @@
   # to the correct occasion.
   # Numeric types might extend it.
 
-  class Number extends DataTypes {
+  class Number extends DataTypes implements INumber {
 
-    # This method is responsible by, if the variable already is type X, 
+    # These methods are responsible by, if the variable already is type X, 
     # cast the variable to Y, by returning a new Y. Otherwise change its
     # inner value.
+    private function as_int_do($closure, $aux = null) { # (Func, Maybe Float) -> Float
+       if (get_class($this) === "Int") {
+        $this->value = $aux === null?
+          $closure($this->value)
+        : $closure($this->value, $aux);
+        return $this;
+       } else return $aux === null?
+          new Int($closure($this->value))
+        : new Int($closure($this->value, $aux));
+    }
+
     private function as_real_do($closure, $aux = null) { # (Func, Maybe Float) -> Float
        if (get_class($this) === "Real") {
         $this->value = $aux === null?
@@ -52,160 +63,258 @@
     }
 
     # Absolute value.
-    public function abs() { # a -> Number
+    public function abs() { # :: a -> Number
       $this->value = abs($this->value);
       return $this;
     }
 
     # Arc cosin.
-    public function arc_cos() { # Float -> Float
+    public function arc_cos() { # :: Float -> Float
       return $this
         -> as_real_do('acos');
     }
 
-    # Hyperbolic arc cosin,
-    public function h_arc_cos() { # Float -> Float
-      return $this
-        -> as_real_do('acosh');
-    }
-
     # Adds $value to the number.
-    public function add($value) { # (Float, Float) -> Float
+    public function add($value) { # :: (Float, Float) -> Float
       $this->value += TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
     # Arc sin.
-    public function arc_sin() { # Float -> Float
+    public function arc_sin() { # :: Float -> Float
       return $this
         -> as_real_do('asin');
     }
 
-    # Hyperbolic arc sin.
-    public function h_arc_sin() { # Float -> Float
-      return $this
-        -> as_real_do('asinh');
-    }
-
-    # Arc tangent.
-    public function atan() { # Float -> Float
-      return $this
-        -> as_real_do('atan');
-    }
-
-    # Number -> Real
-    public function atan2($input) {
+    # Arc tangent of 2 values.
+    public function arc_tan2($input) { # :: (Float -> Float) -> Float
       return $this
         -> as_real_do('atan2', 
           TypeInference :: to_primitive($input));
     }
 
-    # Number -> Real
-    public function atanh() {
+    # Arc tangent.
+    public function arc_tan() { # :: Float -> Float
       return $this
-        -> as_real_do('atanh');
+        -> as_real_do('atan');
     }
 
-    # Number -> Real
-    public function ceil() {
+    # Round fractions up.
+    public function ceil() { # :: Float -> Float
       return $this
         -> as_real_do('ceil');
     }
 
-    # Number -> Real
-    public function cos() {
+    # Cosin.
+    public function cos() { # :: Float -> Float
       return $this
         -> as_real_do('cos');
     }
 
-    # Number -> Real
-    public function deg_to_rad() {
+    # Dregrees to radians.
+    public function deg_to_rad() { # :: Float -> Float
       return $this
         -> as_real_do('deg2rad');
     }
 
-    # (Number, Number) -> Number
-    public function div($value) {
+    # Divides by $value.
+    public function div($value) { # :: (Float, Float) -> Float
       $this->value /= TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # Number -> Real
-    public function exp() {
+    # Calculates the exponent of e.
+    public function exp() { # :: Float -> Float
       return $this
         -> as_real_do('exp');
     }
 
-    # Number -> Real
-    public function expm1() {
+    # Returns exp(Number) - 1, computed in a way that is accurate even
+    # when the value of number is close to zero.
+    public function expm1() { # :: Float -> Float
       return $this
         -> as_real_do('expm1');
     }
 
-    # Number -> Real
-    public function floor() {
+    # Round fractions down.
+    public function floor() { # :: Float -> Float
       return $this
         -> as_real_do('floor');
     }
 
-    # Number -> Real
-    public function log() {
+    # Hyperbolic arc cosin,
+    public function h_arc_cos() { # :: Float -> Float
       return $this
-        -> as_real_do('log');
+        -> as_real_do('acosh');
     }
 
-    # (Number, Number) -> Number 
-    public function mod($value) {
-      // PHP, someday you will yet be punished by force me this conditional
-      // and by the non-implementation of operator overloading in module operator. 
-      // This day will come. Wait for it!
+    # Hyperbolic arc sin.
+    public function h_arc_sin() { # :: Float -> Float
+      return $this
+        -> as_real_do('asinh');
+    }
+
+    # Hyperbolic arc tangent.
+    public function h_arc_tan() { # :: Float -> Float
+      return $this
+        -> as_real_do('atanh');
+    }
+
+    # Hyperbolic cosin.
+    public function h_cos() { # :: Float -> Float
+      return $this
+        -> as_real_do('cosh');
+    }
+
+    # Hyperbolic sin.
+    public function h_sin() { # :: Float -> Float
+      return $this
+        -> as_real_do('sinh');
+    }
+
+    # Hyperbolic tangent.
+    public function h_tan() { # :: Float -> Float
+      return $this
+        -> as_real_do('tanh');
+    }
+
+    # Returns the hypotenuse of a triangle.
+    public function hypot($value) { # :: (Float, Float) -> Float
+      $this->value = hypot($this->value, TypeInference :: to_primitive($value));
+      return TypeInference :: infer($this);
+    }
+
+    # Returns a boolean saying if the number is finite.
+    public function is_finite() { # :: Float -> Boolean
+      return new Boolean(is_finite($this->value));
+    }
+    
+    # Returns a boolean saying if the number is infinite.
+    public function is_infinite() { # :: Float -> Boolean
+      return new Boolean(is_infinite($this->value));
+    }
+
+    # Returns true if the valus is not a number.
+    public function is_nan() { # :: Float -> Boolean
+      return new Boolean(is_nan($this->value));
+    }
+
+    # Base 10 logarithm.
+    public function log10() { # :: Float -> Float
+      return $this
+        -> as_real_do('log10');
+    }
+
+    # Returns log(1 + Number), computed in a way that is accurate even
+    # when the value of number is close to zero.
+    public function log1p() { # :: Float -> Float
+      return $this
+        -> as_real_do('log1p');
+    }
+
+    # Natural logarithm.
+    public function log($value = M_E) { # :: (Float, Maybe Float) -> Float
+      return $this
+        -> as_real_do('log', TypeInference :: to_primitive($value));
+    }
+
+    # The module of the division.
+    public function mod($value) { # (Float, Float) -> Float
       if (get_class($value) === "Real")
         $this->value = fmod($this->value, TypeInference :: to_primitive($value));
-      else 
+      else # Manual implementation of operator overloading.
         $this->value = $this->value % TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # (Number -> Number) -> Number
-    public function mul($value) {
+    # Generate a better random value.
+    public function mt_rand_until($value = MT_RAND_MAX) { # :: (Int, Maybe Int) -> Int
+      return $this
+        -> as_int_do('mt_rand', TypeInference :: to_primitive($value));
+    }
+
+    # Seed the better random number generator.
+    public function mt_seed_rand() { # :: Int -> Void
+      mt_srand(TypeInference :: to_primitive($this->value));
+      return $this;
+    }
+
+    # Multiplication by $value.
+    public function mul($value) { # :: (Float, Float) -> Float
       $this->value *= TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # (Number, Number) -> Number
-    public function pow($exp) {
+    # Exponential expression.
+    public function pow($exp) { # :: (Number, Number) -> Number
       $this->value = pow($this->value, TypeInference :: to_primitive($exp));
       return TypeInference :: infer($this);
     }
 
-    # Number -> Real
-    # (Number, Int) -> Real
-    public function round($precision = 0) {
+    # Converts the radian number to the equivalent number in degrees.
+    public function rad_to_deg() { # :: Float -> Float
       return $this
-        -> as_real_do('round',
-          TypeInference :: to_primitive($precision));
+        -> as_real_do('rad2deg');
     }
 
-    # Number -> Real
-    public function sin() {
+    # Generate a random integer.
+    public function rand_until($value = RAND_MAX) { # :: (Int, Maybe Int) -> Int
+      return $this
+        -> as_int_do('rand', $value);
+    }
+
+    # Rounds a float.
+    public function round($x = 0, $y = PHP_ROUND_HALF_UP) { # :: (Float, Maybe Int, Maybe Int) -> Float
+      if (get_class($this) === "Real") {
+        $this->value = round($this->value, 
+          TypeInference :: to_primitive($x), 
+          TypeInference :: to_primitive($y));
+        return $this;
+      } else
+        return new Real(round($this->value, $x, $y));
+    }
+
+    # Seed the random number generator.
+    public function seed_rand() { # :: Int -> Void
+      srand($this->value);
+      return $this;
+    }
+
+    # Sin.
+    public function sin() { # :: Float -> Float
       return $this
         -> as_real_do('sin');
     }
 
-    # Number -> Real
-    public function sqrt() {
+    # Square root of the number.
+    public function sqrt() { # :: Float -> Float
       return new Real(sqrt($this->value));
     }
 
-    # (Number, Number) -> Number
-    public function sub($value) {
+    # Subtraction
+    public function sub($value) { # :: (Float, Float) -> Float
       $this->value -= TypeInference :: to_primitive($value);
       return TypeInference :: infer($this);
     }
 
-    # Number -> Real
-    public function tan() {
+    # Tangent.
+    public function tan() { # :: Float -> Float
       return $this
         -> as_real_do('tan');
+    }
+
+    # Gives a string containing the binary conversion of the number.
+    public function to_binary() { # :: Int -> String
+      return new String(decbin($this->value));
+    }
+
+    # Gives a string containing the hexadecimal value of the number.
+    public function to_hex() { # :: Int -> String
+      return new String(dechex($this->value));
+    }
+
+    # Gives a string containing the octal value of the number.
+    public function to_oct() { # :: Int -> String
+      return new String(decoct($this->value));
     }
   }

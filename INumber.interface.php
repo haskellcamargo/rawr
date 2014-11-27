@@ -53,9 +53,9 @@
     public function log10();                                      # :: Float -> Float
     public function log1p();                                      # :: Float -> Float
     public function log($y = M_E);                                # :: (Float, Maybe Float) -> Float
-    public function mt_rand_until($x = MT_RAND_MAX);              # :: (Int, Maybe Int) -> Int
     public function mod($x);                                      # :: (Float, Float) -> Float
-    public function mt_seed_rand($x);                             # :: Int -> Void
+    public function mt_rand_until($x = MT_RAND_MAX);              # :: (Int, Maybe Int) -> Int
+    public function mt_seed_rand();                               # :: Maybe Int -> Void
     public function mul($x);                                      # :: (Float, Float) -> Float
     public function pow($x);                                      # :: (Number, Number) -> Number
     public function rad_to_deg();                                 # :: Float -> Float

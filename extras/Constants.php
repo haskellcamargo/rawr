@@ -21,12 +21,16 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
   define("MT_RAND_MAX", mt_getrandmax());
+  define("RAND_MAX", getrandmax());
   define("RAWR_VERSION", "1.0.0.1");
 
   # New Keywords
   define("no",        false);
   define("off",       false);
   define("on",        true);
-  define("undefined", false);
-  define("void",      false)
+  define("void",      false);
   define("yes",       true);
+
+
+  define("Maybe", mt_rand());
+  define("undefined", Maybe);
