@@ -153,20 +153,17 @@
 
     # Hyperbolic sin.
     public function h_sin() { # :: Float -> Float
-      return $this
-        -> as_real_do('sinh');
+      return new Real(sinh($this->value));
     }
 
     # Hyperbolic tangent.
     public function h_tan() { # :: Float -> Float
-      return $this
-        -> as_real_do('tanh');
+      return new tanh($this->value);
     }
 
     # Returns the hypotenuse of a triangle.
     public function hypot($value) { # :: (Float, Float) -> Float
-      $this->value = hypot($this->value, TypeInference :: to_primitive($value));
-      return TypeInference :: infer($this);
+      return new Real(hypot($this->value, TypeInference :: to_primitive($value)));
     }
 
     # Returns a boolean saying if the number is finite.
@@ -186,89 +183,76 @@
 
     # Base 10 logarithm.
     public function log10() { # :: Float -> Float
-      return $this
-        -> as_real_do('log10');
+      return new Real(log10($this->value));
     }
 
     # Returns log(1 + Number), computed in a way that is accurate even
     # when the value of number is close to zero.
     public function log1p() { # :: Float -> Float
-      return $this
-        -> as_real_do('log1p');
+      return new Real(log1p($this->value));
     }
 
     # Natural logarithm.
     public function log($value = M_E) { # :: (Float, Maybe Float) -> Float
-      return $this
-        -> as_real_do('log', TypeInference :: to_primitive($value));
+      return new Real(
+        log($this->value, TypeInference :: to_primitive($value)));
     }
 
     # The module of the division.
     public function mod($value) { # (Float, Float) -> Float
-      if (get_class($value) === "Real")
-        $this->value = fmod($this->value, TypeInference :: to_primitive($value));
-      else # Manual implementation of operator overloading.
-        $this->value = $this->value % TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this);
+      return new Real(fmod($this->value, TypeInference :: to_primitive($value)));
     }
 
     # Generate a better random value.
     public function mt_rand_until($value = MT_RAND_MAX) { # :: (Int, Maybe Int) -> Int
-      return $this
-        -> as_int_do('mt_rand', TypeInference :: to_primitive($value));
+      return new Int(
+        mt_rand($this->value, TypeInference :: to_primitive($value)));
     }
 
     # Seed the better random number generator.
     public function mt_seed_rand() { # :: Int -> Void
-      mt_srand(TypeInference :: to_primitive($this->value));
-      return $this;
+      mt_srand($this->value);
+      return new Void;
     }
 
     # Multiplication by $value.
     public function mul($value) { # :: (Float, Float) -> Float
-      $this->value *= TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this);
+      return new Real($this->value * TypeInference :: to_primitive($value));
     }
 
     # Exponential expression.
     public function pow($exp) { # :: (Number, Number) -> Number
-      $this->value = pow($this->value, TypeInference :: to_primitive($exp));
-      return TypeInference :: infer($this);
+      return new Number(pow($this->value, TypeInference :: to_primitive($exp)));
     }
 
     # Converts the radian number to the equivalent number in degrees.
     public function rad_to_deg() { # :: Float -> Float
-      return $this
-        -> as_real_do('rad2deg');
+      return new Real(rad2deg($this->value));
     }
 
     # Generate a random integer.
     public function rand_until($value = RAND_MAX) { # :: (Int, Maybe Int) -> Int
-      return $this
-        -> as_int_do('rand', $value);
+      return new Int(
+        rand($this->value, TypeInference :: to_primitive($value)));
     }
 
     # Rounds a float.
     public function round($x = 0, $y = PHP_ROUND_HALF_UP) { # :: (Float, Maybe Int, Maybe Int) -> Float
-      if (get_class($this) === "Real") {
-        $this->value = round($this->value, 
-          TypeInference :: to_primitive($x), 
-          TypeInference :: to_primitive($y));
-        return $this;
-      } else
-        return new Real(round($this->value, $x, $y));
+      return new Real(
+        round($this->value, 
+          TypeInference :: to_primitive($x),
+          TypeInference :: to_primitive($y)));
     }
 
     # Seed the random number generator.
     public function seed_rand() { # :: Int -> Void
       srand($this->value);
-      return $this;
+      return new Void;
     }
 
     # Sin.
     public function sin() { # :: Float -> Float
-      return $this
-        -> as_real_do('sin');
+      return new Real(sin($this->value));
     }
 
     # Square root of the number.
@@ -278,14 +262,12 @@
 
     # Subtraction
     public function sub($value) { # :: (Float, Float) -> Float
-      $this->value -= TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this);
+      return new Real($this->value - TypeInference :: to_primitive($value));
     }
 
     # Tangent.
     public function tan() { # :: Float -> Float
-      return $this
-        -> as_real_do('tan');
+      return new Real(tan($this->value));
     }
 
     # Gives a string containing the binary conversion of the number.
