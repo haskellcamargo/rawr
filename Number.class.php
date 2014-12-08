@@ -76,94 +76,79 @@
 
     # Adds $value to the number.
     public function add($value) { # :: (Float, Float) -> Float
-      $this->value += TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this);
+      return new Real($this->value + TypeInference :: to_primitive($value));
     }
 
     # Arc sin.
     public function arc_sin() { # :: Float -> Float
-      return $this
-        -> as_real_do('asin');
+      return new Real(asin($this->value));
     }
 
     # Arc tangent of 2 values.
     public function arc_tan2($input) { # :: (Float -> Float) -> Float
-      return $this
-        -> as_real_do('atan2', 
-          TypeInference :: to_primitive($input));
+      return new Real(
+        atan2($this->value, TypeInference :: to_primitive($input)));
     }
 
     # Arc tangent.
     public function arc_tan() { # :: Float -> Float
-      return $this
-        -> as_real_do('atan');
+      return new Real(atan($this->value));
     }
 
     # Round fractions up.
     public function ceil() { # :: Float -> Float
-      return $this
-        -> as_real_do('ceil');
+      return new Real(ceil($this->value));
     }
 
     # Cosin.
     public function cos() { # :: Float -> Float
-      return $this
-        -> as_real_do('cos');
+      return new Real(cos($this->value));
     }
 
     # Dregrees to radians.
     public function deg_to_rad() { # :: Float -> Float
-      return $this
-        -> as_real_do('deg2rad');
+      return new Real(deg2rad($this->value));
     }
 
     # Divides by $value.
     public function div($value) { # :: (Float, Float) -> Float
-      $this->value /= TypeInference :: to_primitive($value);
-      return TypeInference :: infer($this);
+      return new Real($this->value / TypeInference :: to_primitive($value));
     }
 
     # Calculates the exponent of e.
     public function exp() { # :: Float -> Float
-      return $this
-        -> as_real_do('exp');
+      return new Real(exp($this->value));
     }
 
     # Returns exp(Number) - 1, computed in a way that is accurate even
     # when the value of number is close to zero.
     public function expm1() { # :: Float -> Float
-      return $this
-        -> as_real_do('expm1');
+      return new Real(expm1($this->value));
     }
 
     # Round fractions down.
     public function floor() { # :: Float -> Float
-      return $this
-        -> as_real_do('floor');
+      return new Real(floor($this->value));
     }
 
     # Hyperbolic arc cosin,
     public function h_arc_cos() { # :: Float -> Float
-      return $this
-        -> as_real_do('acosh');
+      return new Real(acosh($this->value));
     }
 
     # Hyperbolic arc sin.
     public function h_arc_sin() { # :: Float -> Float
-      return $this
-        -> as_real_do('asinh');
+      return new Real(asinh($this->value));
     }
 
     # Hyperbolic arc tangent.
     public function h_arc_tan() { # :: Float -> Float
-      return $this
-        -> as_real_do('atanh');
+      return new Real(atanh($this->value));
     }
 
     # Hyperbolic cosin.
     public function h_cos() { # :: Float -> Float
-      return $this
-        -> as_real_do('cosh');
+      return new Real(cosh($this->value));
     }
 
     # Hyperbolic sin.
