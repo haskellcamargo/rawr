@@ -21,5 +21,8 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   interface IFunc {
-    public function invoke();           # Maybe Dynamic -> Maybe Dynamic
+    public function export($ret = false);           # (Func, Maybe String) -> String
+    public function get_closure();                  # Func -> Closure
+    public function invoke();                       # Maybe Dynamic -> Maybe Dynamic
+    public function is_disabled();                  # Func -> Boolean
   }

@@ -29,31 +29,6 @@
 
   class Number extends DataTypes implements INumber {
 
-    # These methods are responsible by, if the variable already is type X, 
-    # cast the variable to Y, by returning a new Y. Otherwise change its
-    # inner value.
-    private function as_int_do($closure, $aux = null) { # (Func, Maybe Float) -> Float
-       if (get_class($this) === "Int") {
-        $this->value = $aux === null?
-          $closure($this->value)
-        : $closure($this->value, $aux);
-        return $this;
-       } else return $aux === null?
-          new Int($closure($this->value))
-        : new Int($closure($this->value, $aux));
-    }
-
-    private function as_real_do($closure, $aux = null) { # (Func, Maybe Float) -> Float
-       if (get_class($this) === "Real") {
-        $this->value = $aux === null?
-          $closure($this->value)
-        : $closure($this->value, $aux);
-        return $this;
-       } else return $aux === null?
-          new Real($closure($this->value))
-        : new Real($closure($this->value, $aux));
-    }
-
     public function __construct($val) { # a -> a
       # We expect $val to be a numeric value.
       if (is_numeric($val)) {
@@ -237,6 +212,9 @@
     }
 
     # Rounds a float.
+    # Uncle Rasmus doesn't allow returned functions to be applied.
+    # Some day I'll throw a pie in Lerdorf's face by this.
+    # That's why round isn't an unary function.
     public function round($x = 0, $y = PHP_ROUND_HALF_UP) { # :: (Float, Maybe Int, Maybe Int) -> Float
       return new Real(
         round($this->value, 
