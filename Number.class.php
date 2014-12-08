@@ -57,7 +57,7 @@
     public function __construct($val) { # a -> a
       # We expect $val to be a numeric value.
       if (is_numeric($val)) {
-        parent :: __construct();
+        #parent :: __construct();
         $this->value = $val;
       }
       else throw new Exception("Expecting `{$val}` to be a valid number. Received " . gettype($val));
@@ -66,14 +66,12 @@
 
     # Absolute value.
     public function abs() { # :: a -> Number
-      $this->value = abs($this->value);
-      return $this;
+      return new Number(abs($this->value));
     }
 
     # Arc cosin.
     public function arc_cos() { # :: Float -> Float
-      return $this
-        -> as_real_do('acos');
+      return new Real(acos($this->value));
     }
 
     # Adds $value to the number.

@@ -27,7 +27,7 @@
 
     public function __construct($func) {
       if (!is_callable($func))
-        throw new Exception;
+        throw new Exception; # Not a closure
       else {
         parent :: __construct();
         $this->value = $func;
@@ -36,8 +36,9 @@
     }
 
     public function invoke() {
-      if (func_get_args() < $this->reflection->getNumberOfRequiredParameters());
-
+      if (func_get_args() < $this->reflection->getNumberOfRequiredParameters())
+        throw new Exception; # Required arguments
+      
       if (count($args = func_get_args()) > 0)
         return TypeInference :: infer(call_user_func_array($this->value, $args));
       else
