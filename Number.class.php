@@ -56,8 +56,10 @@
 
     public function __construct($val) { # a -> a
       # We expect $val to be a numeric value.
-      if (is_numeric($val))
+      if (is_numeric($val)) {
+        parent :: __construct();
         $this->value = $val;
+      }
       else throw new Exception("Expecting `{$val}` to be a valid number. Received " . gettype($val));
       return $this;
     }

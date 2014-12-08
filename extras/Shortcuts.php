@@ -44,8 +44,16 @@
     return TypeInference :: infer($v);
   }
 
+  function false() {
+    return new FalseClass;
+  }
+
   function float($v) {
     return new Real($v);
+  }
+
+  function func($v) {
+    return new Func($v);
   }
 
   function int($v) {
@@ -54,6 +62,10 @@
 
   function integer($v) {
     return new Int($v);
+  }
+
+  function lambda($v) {
+    return new Func($v);
   }
 
   function loop() {
@@ -70,4 +82,8 @@
 
   function string($v) {
     return new String($v);
+  }
+
+  function true() {
+    return new TrueClass;
   }

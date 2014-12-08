@@ -19,19 +19,7 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
-  define("MT_RAND_MAX", mt_getrandmax());
-  define("RAND_MAX", getrandmax());
-  define("RAWR_VERSION", "1.0.0.1");
 
-  # New Keywords
-  # true and false must be instances of TrueClass and FalseClass
-  define("no",        false);
-  define("off",       false);
-  define("on",        true);
-  define("void",      false);
-  define("yes",       true);
-
-  /* Take care with the purism. Hitler started this way. */
-  define("Maybe",     mt_rand() /* Change this */);
-  define("undefined", Maybe);
+  class Error extends Exception {
+    
+  }
