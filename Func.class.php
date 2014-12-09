@@ -25,7 +25,7 @@
   class Func extends DataTypes implements IFunc {
     public $reflection;
 
-    public function __construct($func) {
+    public function __construct($func) { # :: a -> a
       if (!is_callable($func) && !is_string($func))
         throw new Exception; # Not a closure.
       else {
@@ -53,15 +53,15 @@
       return new Int($this->reflection->getEndLine());
     }
 
-    public function export($ret = false) { # :: (String, String) -> String
+    public function export($ret = false) { # :: (String, Maybe String) -> String
       return new String(ReflectionFunction :: export($this->value, $ret));
     }
 
-    public function extension() { # :: Func -> ReflectionExtension
+    public function ext() { # :: Func -> ReflectionExtension
       return $this->reflection->getExtension();
     }
 
-    public function extension_name() { # :: Func -> String
+    public function ext_name() { # :: Func -> String
       return ($temp = $this->reflection->getExtensionName()) === false?
         new Boolean(false)
       : new String($temp);
@@ -71,7 +71,7 @@
       return new String($this->reflection->getFileName());
     }
 
-    public function get_closure() { # :: Func -> Closure
+    public function get_clos() { # :: Func -> Closure
       return $this->reflection->getClosure();
     }
 

@@ -21,8 +21,19 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   interface IFunc {
+    public function __construct($func);             # a -> a
+    public function clos_scope_class();             # Func -> ReflectionClass
+    public function clos_this();                    # Func -> Object
+    public function doc_comment();                  # Func -> String
+    public function end_line();                     # Func -> Int
     public function export($ret = false);           # (Func, Maybe String) -> String
-    public function get_closure();                  # Func -> Closure
+    public function ext();                          # Func -> ReflectionExtension
+    public function ext_name();                     # Func -> String
+    public function file_name();                    # Func -> String
+    public function get_clos();                     # Func -> Closure
+    public function in_ns();                        # Func -> Boolean
     public function invoke();                       # Maybe Dynamic -> Maybe Dynamic
+    public function is_clos():                      # Func -> Boolean
+    public function is_depr();                      # Func -> Boolean
     public function is_disabled();                  # Func -> Boolean
   }
