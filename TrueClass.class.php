@@ -20,6 +20,11 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  public class TrueClass extends Boolean {
-    
+  final class TrueClass {
+    public function __construct() { # Void -> TrueClass
+      unset($this->memoize);
+      unset($this->prototype);
+      unset($this->value);
+      return $this;
+    }
   }

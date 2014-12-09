@@ -23,12 +23,15 @@
   require_once 'Extras/Constants.php';
   require_once 'Error.class.php';
 
+  require_once 'Boolean.class.php';
+  require_once 'FalseClass.class.php';
+  require_once 'TrueClass.class.php';
+
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
   require_once 'typing/TypeInference.class.php';
   
   # Parent class for numeric types
   require_once 'Number.class.php';
-  require_once 'Boolean.class.php';
   require_once 'Byte.class.php';
   require_once 'Char.class.php';
   require_once 'Collection.class.php';

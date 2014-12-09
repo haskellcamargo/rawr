@@ -19,48 +19,15 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
-  class TypeInference {
-    public static function infer($variable) {
 
-      if (is_float($variable))
-        return real ($variable);
- 
-      else if (is_integer($variable))
-        return int ($variable);
-
-      else if (is_string($variable))
-        return string ($variable);
-
-      else if (is_array($variable))
-        return collection ($variable);
-
-      else if (is_bool($variable))
-        return boolean ($variable);
-
-      else if (is_callable($variable))
-        return func ($variable);
-
-      else if (is_null($variable))
-        return Null;
-
-      else return $variable;
-    }
-
-    public static function to_primitive($variable) {
-      if (is_object($variable)) {
-        if (method_exists(get_class($variable), 'value')) {
-          return $variable->value();
-        } else {
-          if ($variable instanceof TrueClass) 
-            return True;
-          else if ($variable instanceof FalseClass)
-            return False;
-          else
-            return Null;
-        }
-      } else {
-        return $variable;
-      }
-    }
+  interface IBoolean {
+    public function __construct($val);                 # :: a -> a
+    public function _and($x);                          # :: Boolean -> Boolean
+    public function _or($x);                           # :: Boolean -> Boolean
+    public function _xor($x);                          # :: Boolean -> Boolean
+    public function if_true($x);                       # :: Func -> Boolean
+    public function if_false($x);                      # :: Func -> Boolean
+    public function not();                             # :: Void -> Boolean
+    public function then_else($x, $y);                 # :: (Func, Func) -> Boolean
+    public function value();                           # :: Void -> Boolean
   }
