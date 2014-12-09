@@ -33,7 +33,7 @@
     public function get_clos();                     # :: Func -> Closure
     public function in_ns();                        # :: Func -> Boolean
     public function invoke();                       # :: Maybe Dynamic -> Maybe Dynamic
-    public function is_clos():                      # :: Func -> Boolean
+    public function is_clos();                      # :: Func -> Boolean
     public function is_depr();                      # :: Func -> Boolean
     public function is_disabled();                  # :: Func -> Boolean
     public function is_gen();                       # :: Func -> Boolean
