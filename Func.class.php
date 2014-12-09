@@ -26,7 +26,7 @@
     public $reflection;
 
     public function __construct($func) {
-      if (!is_callable($func))
+      if (!is_callable($func) && !is_string($func))
         throw new Exception; # Not a closure.
       else {
         parent :: __construct();
@@ -91,8 +91,32 @@
         # call_user_func is 125% slower than a simple call.
     }
 
+    public function is_clos() { # :: Func -> Boolean
+      return new Boolean($this->reflection->isClosure());
+    }
+
+    public function is_depr() { # :: Func -> Boolean
+      return new Boolean($this->reflection->isDeprecated());
+    }
+
     public function is_disabled() { # :: Func -> Boolean
       return new Boolean($this->reflection->isDisabled());
+    }
+
+    public function is_gen() { # :: Func -> Boolean
+      return new Boolean($this->reflection->isGenerator());
+    }
+
+    public function is_internal() { # :: Func -> Boolean
+      return new Boolean($this->reflection->isInternal());
+    }
+
+    public function is_user_def() { # :: Func -> Boolean
+      return new Boolean($this->reflection->isUserDefined());
+    }
+
+    public function is_variadic() { # :: Func -> Boolean
+      return new Boolean($this->reflection->isVariadica());
     }
 
     public function name() { # :: Func -> String
@@ -113,6 +137,10 @@
 
     public function param() { # :: Func -> [ReflectionParameter] 
       return new Collection($this->reflection->getParameters());
+    }
+
+    public function ret_ref() { # :: Func -> Boolean
+      return new Boolean($this->reflection->returnsReference());
     }
 
     public function short_name() { # :: Func -> String
