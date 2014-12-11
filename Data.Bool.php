@@ -20,9 +20,13 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
+  namespace Data;
+  use \Data\Bool\TrueClass  as TrueClass;
+  use \Data\Bool\FalseClass as FalseClass;
+
   # This can receive primitive true and false definitions or instances
   # of TrueClass or FalseClass.
-  class Boolean extends DataTypes {
+  class Bool extends DataTypes {
     public function __construct($val) { # :: a -> a
       # Memoization isn't very useful here.
       unset($this->memoize);

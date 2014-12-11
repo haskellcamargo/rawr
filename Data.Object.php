@@ -20,7 +20,21 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  require_once 'DataTypes.class.php';
+  namespace Data;
 
-  Import :: pack ('get_environment')
-        ->  from ('Server');
+  class Object extends DataTypes {
+    public $def = null;
+    
+    public function __construct() {
+      $this->def = new Define;
+    }
+    
+    public function __call($name, $arguments) {
+      array_unshift($arguments, $this);
+      return call_user_func_array($this->def->{$name}, $arguments);
+    }
+    
+    public function __clone() {
+      $this->def = clone $this->def;
+    }
+  }

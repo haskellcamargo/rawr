@@ -24,6 +24,8 @@
   # This way you can increase the performance in more than 95% of 
   # already processed data.
 
-  interface IReal {
-    public function __construct($i);
+  namespace Data\Num\Contract;
+
+  interface IInt {
+    public function __construct($a);        # :: a -> a
   }

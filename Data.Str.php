@@ -1,4 +1,4 @@
-﻿<?php
+<?php
   # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -20,13 +20,11 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  # Use memoization to store already processed data in a static variable
-  # This way you can increase the performance in more than 95% of 
-  # already processed data.
+  namespace Data;
 
-  require_once 'IString.interface.php';
+  require_once 'IStr.interface.php';
 
-  class String extends DataTypes {
+  class Str extends DataTypes {
     # By default, data types that inherit from this class
     # and don't override the constructor must pass the internal
     # value of the variable in it.

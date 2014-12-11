@@ -1,4 +1,4 @@
 module Contributors where
 
-haskellCamargo :: Programmer
+marceloCamargo :: Programmer
 rafaelBernardo :: Programmer

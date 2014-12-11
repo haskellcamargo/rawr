@@ -20,11 +20,12 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  final class FalseClass {
-    public function __construct() { # Void -> FalseClass
-      unset($this->memoize);
-      unset($this->prototype);
-      unset($this->value);
-      return $this;
-    } 
+  namespace Data\Num;
+
+  require_once 'IFloat.interface.php';
+
+  class Float extends \Data\Num implements Contract\IFloat {
+    public function __construct($i) { # :: a -> a
+      parent :: __construct((float) $i);
+    }
   }

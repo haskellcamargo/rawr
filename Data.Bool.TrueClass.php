@@ -20,11 +20,13 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  include_once('IReal.interface.php');
+  namespace Data\Bool;
 
-  class Real extends Number implements IReal {
-    public function __construct($i) {
-      $this->value = (double) $i;
+  final class TrueClass {
+    public function __construct() { # Void -> TrueClass
+      unset($this->memoize);
+      unset($this->prototype);
+      unset($this->value);
       return $this;
     }
   }

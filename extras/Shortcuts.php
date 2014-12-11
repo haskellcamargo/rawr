@@ -20,70 +20,70 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  function binary($v) {
-    return new Binary($v);
+  function λ($v) {
+    return new \Data\Func($v);
   }
 
   function bool($v) {
-    return new Boolean($v);
+    return new \Data\Bool($v);
   }
 
   function boolean($v) {
-    return new Boolean($v);
+    return new \Data\Bool($v);
   }
 
   function collection($v) {
-    return new Collection($v);
+    return new \Data\Collection($v);
   }
 
   function double($v) {
-    return new Real($v);
+    return new \Data\Num\Float($v);
   }
 
   function dynamic($v) {
-    return TypeInference :: infer($v);
+    return \Data\TypeInference :: infer($v);
   }
 
   function false() {
-    return new FalseClass;
+    return new \Data\Bool\FalseClass;
   }
 
   function float($v) {
-    return new Real($v);
+    return new \Data\Num\Float($v);
   }
 
   function func($v) {
-    return new Func($v);
+    return new \Data\Func($v);
   }
 
   function int($v) {
-    return new Int($v);
+    return new \Data\Num\Int($v);
   }
 
   function integer($v) {
-    return new Int($v);
+    return new \Data\Num\Int($v);
   }
 
   function lambda($v) {
-    return new Func($v);
+    return new \Data\Func($v);
   }
 
-  function loop() {
-    return new Loop; 
+  function num($v) {
+    return new \Data\Num($v);
   }
 
   function real($v) {
-    return new Real($v);
+    return new \Data\Num\Float($v);
   }
 
   function str($v) {
-    return new String($v);
+    return new \Data\Str($v);
   }
 
   function string($v) {
-    return new String($v);
+    return new \Data\Str($v);
   }
 
   function true() {
-    return new TrueClass;
+    return new \Data\Bool\TrueClass;
   }

@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -20,19 +20,12 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  class Object extends DataTypes {
-    public $def = null;
-    
-    public function __construct() {
-      $this->def = new Define;
-    }
-    
-    public function __call($name, $arguments) {
-      array_unshift($arguments, $this);
-      return call_user_func_array($this->def->{$name}, $arguments);
-    }
-    
-    public function __clone() {
-      $this->def = clone $this->def;
+  namespace Data;
+
+  final class Void extends DataTypes {
+    public function __construct() { # :: a -> a
+      unset($this->memoize);
+      unset($this->prototype);
+      unset($this->value);
     }
   }

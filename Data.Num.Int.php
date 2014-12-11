@@ -20,8 +20,12 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  # Use memoization to store already processed data in a static variable
-  # This way you can increase the performance in more than 95% of 
-  # already processed data.
+  namespace Data\Num;
 
-  interface IInt {}
+  require_once "IInt.interface.php";
+
+  class Int extends \Data\Num implements Contract\IInt {
+    public function __construct($i) { # :: a -> a
+      parent :: __construct((int) $i);
+    }
+  }

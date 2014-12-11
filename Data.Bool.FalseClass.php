@@ -20,14 +20,13 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  interface IBoolean {
-    public function __construct($val);                 # :: a -> a
-    public function _and($x);                          # :: Boolean -> Boolean
-    public function _or($x);                           # :: Boolean -> Boolean
-    public function _xor($x);                          # :: Boolean -> Boolean
-    public function if_true($x);                       # :: Func -> Boolean
-    public function if_false($x);                      # :: Func -> Boolean
-    public function not();                             # :: Void -> Boolean
-    public function then_else($x, $y);                 # :: (Func, Func) -> Boolean
-    public function value();                           # :: Void -> Boolean
+  namespace Data\Bool;
+
+  final class FalseClass {
+    public function __construct() { # Void -> FalseClass
+      unset($this->memoize);
+      unset($this->prototype);
+      unset($this->value);
+      return $this;
+    } 
   }

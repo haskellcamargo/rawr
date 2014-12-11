@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -26,7 +26,9 @@
   # I have obsessive compulsive disorder and I can't see this way!
   # Redefine types definition correctly, like PHP documentation does.
 
-  interface INumber {
+  namespace Data\Contract;
+
+  interface INum {
     public function abs();                                        # :: a -> Number
     public function arc_cos();                                    # :: Float -> Float
     public function add($x);                                      # :: (Float, Float) -> Float
@@ -47,9 +49,9 @@
     public function h_sin();                                      # :: Float -> Float
     public function h_tan();                                      # :: Float -> Float
     public function hypot($x);                                    # :: (Float, Float) -> Float
-    public function is_finite();                                  # :: Float -> Boolean
-    public function is_infinite();                                # :: Float -> Boolean
-    public function is_nan();                                     # :: Float -> Boolean
+    public function is_finite();                                  # :: Float -> Bool
+    public function is_infinite();                                # :: Float -> Bool
+    public function is_nan();                                     # :: Float -> Bool
     public function log10();                                      # :: Float -> Float
     public function log1p();                                      # :: Float -> Float
     public function log($y = M_E);                                # :: (Float, Maybe Float) -> Float

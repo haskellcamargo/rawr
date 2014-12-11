@@ -20,6 +20,12 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  class Error extends Exception {
-    
+  # Use memoization to store already processed data in a static variable
+  # This way you can increase the performance in more than 95% of 
+  # already processed data.
+
+  namespace Data\Num\Contract;
+
+  interface IFloat {
+    public function __construct($a);            # :: (Enum a) => a -> a
   }

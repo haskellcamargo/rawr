@@ -20,12 +20,16 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  require_once "IInt.interface.php";
+  namespace Data\Contract;
 
-  class Int extends Number {
-    # Mixed → Void
-    public function __construct($i) {
-      $this->value = (int) $i;
-      return $this;
-    }
+  interface IBool {
+    public function __construct($val);                 # :: a -> a
+    public function _and($x);                          # :: Boolean -> Boolean
+    public function _or($x);                           # :: Boolean -> Boolean
+    public function _xor($x);                          # :: Boolean -> Boolean
+    public function if_true($x);                       # :: Func -> Boolean
+    public function if_false($x);                      # :: Func -> Boolean
+    public function not();                             # :: Void -> Boolean
+    public function then_else($x, $y);                 # :: (Func, Func) -> Boolean
+    public function value();                           # :: Void -> Boolean
   }

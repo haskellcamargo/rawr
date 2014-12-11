@@ -19,6 +19,8 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  namespace Data;
   
   class TypeInference {
     public static function infer($variable) {
@@ -36,7 +38,7 @@
         return collection ($variable);
 
       else if (is_bool($variable))
-        return boolean ($variable);
+        return bool ($variable);
 
       else if (is_callable($variable))
         return func ($variable);

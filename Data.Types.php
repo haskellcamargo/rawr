@@ -20,10 +20,12 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  namespace Data;
+
   require_once 'Extras/Constants.php';
   require_once 'Error.class.php';
 
-  require_once 'Boolean.class.php';
+  require_once 'Bool.class.php';
   require_once 'FalseClass.class.php';
   require_once 'TrueClass.class.php';
 
@@ -31,17 +33,17 @@
   require_once 'typing/TypeInference.class.php';
   
   # Parent class for numeric types
-  require_once 'Number.class.php';
+  require_once 'Num.class.php';
   require_once 'Byte.class.php';
   require_once 'Char.class.php';
   require_once 'Collection.class.php';
   require_once 'Either.class.php';
   require_once 'Func.class.php';
   require_once 'Int.class.php';
-  require_once 'Loop.class.php';
   require_once 'Object.class.php';
-  require_once 'Real.class.php';
-  require_once 'String.class.php';
+  require_once 'Float.class.php';
+  require_once 'Str.class.php';
+  require_once 'Void.class.php';
   require_once 'Extras/Shortcuts.php';
   require_once 'Modules/Memoize.class.php';
   require_once 'prototype/Prototype.class.php';
@@ -140,12 +142,6 @@
     # Mixed → Integer
     public function to_int() {
       return new Int($this->value);
-    }
-
-    # Casts to Loop (Why in the world would somebody do this!?).
-    # Mixed → Loop
-    public function to_loop() {
-      return new Loop($this->value);
     }
 
     # Casts to Object.
