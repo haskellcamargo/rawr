@@ -62,13 +62,11 @@
 
     # Mapping.
     public function map($lambda) { # :: [a] -> [a]
-      $t = array();
+      $let['t'] = array();
       foreach ($this->value as $item) {
         $let['currying'] = \Data\TypeInference :: to_primitive($lambda);
-        $let['currying']();
+        array_push($let['t'], $let['currying']($item));
       }
-
-      return $this; # As much as types are secure, we can return
-                    # the same object with the exact same type.
+      return new Collection($let['t']);
     }
   }

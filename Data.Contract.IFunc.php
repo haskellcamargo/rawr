@@ -24,6 +24,7 @@
 
   interface IFunc {
     public function __construct($func);             # :: a -> a
+    public function ⃝($func);                       # (Func, Func) -> Func
     public function clos_scope_class();             # :: Func -> ReflectionClass
     public function clos_this();                    # :: Func -> Object
     public function doc_comment();                  # :: Func -> String
@@ -47,6 +48,7 @@
     public function num_param();                    # :: Func -> Int
     public function num_req_param();                # :: Func -> Int
     public function param();                        # :: Func -> [ReflectionParameter]
+    public function o($func);                       # :: (Func, Func) -> Func
     public function ret_ref();                      # :: Func -> Boolean
     public function short_name();                   # :: Func -> String
     public function start_line();                   # :: Func -> Int

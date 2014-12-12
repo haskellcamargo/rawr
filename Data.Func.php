@@ -38,6 +38,16 @@
       }
     }
 
+    # Function composition.
+    public function ⃝($func) { # :: (Func, Func) -> Func
+      # Math definition: (f ⃝ g)(x) = f(g(x)) where
+      $let['f'] = $this->value;
+      $let['g'] = \Data\TypeInference :: to_primitive($func);
+      return new Func(function ($x) use ($let) {
+        return $let['f']($let['g']($x));
+      });
+    }
+
     public function clos_scope_class() { # :: Func -> ReflectionClass
       return $this->reflection->getClosureScopeClass();
     }
@@ -135,6 +145,12 @@
 
     public function num_req_param() { # :: Func -> Int
       return new Int($this->reflection->getNumberOfRequiredParameters());
+    }
+
+    # Alias to function composition.
+    public function o($func) { # :: (Func, Func) -> Func
+      # (f ⃝ g)(x) = f(g(x))
+      return $this->⃝($func);
     }
 
     public function param() { # :: Func -> [ReflectionParameter] 
