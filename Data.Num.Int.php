@@ -22,10 +22,18 @@
 
   namespace Data\Num;
 
-  require_once "IInt.interface.php";
+  require_once "Data.Num.Contract.IInt.php";
 
   class Int extends \Data\Num implements Contract\IInt {
     public function __construct($i) { # :: a -> a
       parent :: __construct((int) $i);
+    }
+
+    # Returns a list of integrals
+    public function to($input) { # :: (Enum a, Integral a) => (a, a) -> [a]
+      return § (range($this->value, \Data\TypeInference :: to_primitive($input)))
+      -> map (function ($t) {
+        return new Int ($t);
+      });
     }
   }

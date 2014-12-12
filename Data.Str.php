@@ -22,7 +22,7 @@
 
   namespace Data;
 
-  require_once 'IStr.interface.php';
+  require_once 'Data.Contract.IStr.php';
 
   class Str extends DataTypes {
     # By default, data types that inherit from this class

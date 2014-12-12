@@ -22,7 +22,7 @@
 
   namespace Data;
 
-  require_once 'INum.interface.php';
+  require_once 'Data.Contract.INum.php';
 
   # Parent class for Real and Int.
   # This class knows how to choose between the types according
@@ -109,6 +109,11 @@
       return new Num\Float(floor($this->value));
     }
 
+    # Greater than.
+    public function gt($input) { # :: (Float, Float) -> Bool
+      return new Bool($this->value > TypeInference :: to_primitive($input));
+    }
+
     # Hyperbolic arc cosin,
     public function h_arc_cos() { # :: Float -> Float
       return new Num\Float(acosh($this->value));
@@ -174,6 +179,11 @@
     public function log($value = M_E) { # :: (Float, Maybe Float) -> Float
       return new Num\Float(
         log($this->value, TypeInference :: to_primitive($value)));
+    }
+
+    # Less than.
+    public function lt($input) { # :: (Float, Float) -> Bool
+      return new Bool($this->value < TypeInference :: to_primitive($input));
     }
 
     # The module of the division.

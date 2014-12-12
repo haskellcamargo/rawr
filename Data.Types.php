@@ -22,32 +22,34 @@
 
   namespace Data;
 
-  require_once 'Extras/Constants.php';
-  require_once 'Error.class.php';
+  require_once 'Data.Error.php';
 
-  require_once 'Bool.class.php';
-  require_once 'FalseClass.class.php';
-  require_once 'TrueClass.class.php';
+  require_once 'Data.Bool.php';
+  require_once 'Data.Bool.FalseClass.php';
+  require_once 'Data.Bool.TrueClass.php';
 
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
   require_once 'typing/TypeInference.class.php';
   
   # Parent class for numeric types
-  require_once 'Num.class.php';
-  require_once 'Byte.class.php';
-  require_once 'Char.class.php';
-  require_once 'Collection.class.php';
-  require_once 'Either.class.php';
-  require_once 'Func.class.php';
-  require_once 'Int.class.php';
-  require_once 'Object.class.php';
-  require_once 'Float.class.php';
-  require_once 'Str.class.php';
-  require_once 'Void.class.php';
+  require_once 'Data.Num.php';
+  require_once 'Data.Byte.php';
+  require_once 'Data.Char.php';
+  require_once 'Data.Collection.php';
+  require_once 'Data.Either.php';
+  require_once 'Data.Func.php';
+  require_once 'Data.Num.Int.php';
+  require_once 'Data.Object.php';
+  require_once 'Data.Num.Float.php';
+  require_once 'Data.Str.php';
+  require_once 'Data.Void.php';
+  
   require_once 'Extras/Shortcuts.php';
   require_once 'Modules/Memoize.class.php';
   require_once 'prototype/Prototype.class.php';
   require_once 'prototype/Define.class.php';
+
+  require_once 'extras/Constants.php';
 
   # Types may want to inherit from this class.
   class Datatypes {
@@ -159,6 +161,6 @@
     # Casts to String.
     # Mixed → String
     public function to_string() {
-      return new String($this->value);
+      return new Str($this->value);
     }
   }

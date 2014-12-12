@@ -24,6 +24,10 @@
     return new \Data\Func($v);
   }
 
+  function §($v) {
+    return new \Data\Collection($v);
+  }
+
   function bool($v) {
     return new \Data\Bool($v);
   }
@@ -86,4 +90,8 @@
 
   function true() {
     return new \Data\Bool\TrueClass;
+  }
+
+  function void() {
+    return new \Data\Void;
   }

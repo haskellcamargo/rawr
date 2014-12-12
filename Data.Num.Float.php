@@ -22,7 +22,7 @@
 
   namespace Data\Num;
 
-  require_once 'IFloat.interface.php';
+  require_once 'Data.Num.Contract.IFloat.php';
 
   class Float extends \Data\Num implements Contract\IFloat {
     public function __construct($i) { # :: a -> a

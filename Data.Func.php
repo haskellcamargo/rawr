@@ -23,7 +23,7 @@
   namespace Data;
   use \ReflectionFunction;
 
-  require_once 'IFunc.interface.php';
+  require_once 'Data.Contract.IFunc.php';
 
   class Func extends DataTypes implements Contract\IFunc {
     public $reflection;
@@ -90,8 +90,7 @@
       if (count($args = func_get_args()) > 0)
         return TypeInference :: infer(call_user_func_array($this->value, $args));
       else
-        return TypeInference :: infer($this->value()); 
-        # call_user_func is 125% slower than a simple call.
+        return TypeInference :: infer(call_user_func($this->value()));
     }
 
     public function is_clos() { # :: Func -> Boolean

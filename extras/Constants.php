@@ -26,12 +26,12 @@
 
   # New Keywords
   # true and false must be instances of TrueClass and FalseClass
-  define("no",        false);
-  define("off",       false);
-  define("on",        true);
-  define("void",      false);
-  define("yes",       true);
+  define("No",        false);
+  define("Off",       false);
+  define("On",        true);
+  define("Void",      "Void");
+  define("Yes",       true);
 
   /* Take care with the purism. Hitler started this way. */
   define("Maybe",     mt_rand() /* Change this */);
-  define("undefined", Maybe);
+  define("Undefined", Maybe);
