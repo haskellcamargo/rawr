@@ -34,7 +34,7 @@
       if (gettype($arguments) === "array" && func_num_args() === 1) {
         # Received a single list in format [n, n + 1, n + 2 ...]
         if (($list = $arguments[0]) === []) # Avoid use of `empty` function here
-          return;
+          return;                           # I prefer pattern matching :/
 
         else {
           if (is_object($list[0])) { # It's possibly a Rawr type
@@ -54,12 +54,21 @@
               }
             }
           }
+
+          $this->value = $list;
         }
       }
     }
 
     # Mapping.
     public function map($lambda) { # :: [a] -> [a]
+      $t = array();
+      foreach ($this->value as $item) {
+        $let['currying'] = \Data\TypeInference :: to_primitive($lambda);
+        $let['currying']();
+      }
 
+      return $this; # As much as types are secure, we can return
+                    # the same object with the exact same type.
     }
   }
