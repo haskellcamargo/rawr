@@ -60,6 +60,24 @@
         $this->value = $list;
       } else {
         # String parsing for list generation.
+        if ($let['numArgs'] === 3 && $let['args'][1] === '...') {
+          $let['startAt'] = TypeInference :: to_primitive($let['args'][0]);
+          $let['endAt']   = TypeInference :: to_primitive($let['args'][2]);
+          if (gettype($let['startAt']) !== gettype($let['endAt']))
+            throw new Exception("List range requires start value and end value to be of the same type.");
+
+          $this->type = gettype($let['startAt']);
+          $this->value = range($let['startAt'], $let['endAt']);
+        } else if ($let['numArgs'] === 4 && $let['args'][2] === '...') {
+          $let['startAt'] = TypeInference :: to_primitive($let['args'][0]);
+          $let['jmpVal']  = TypeInference :: to_primitive($let['args'][1]);
+          $let['endAt']   = TypeInference :: to_primitive($let['args'][3]);
+          if (gettype($let['startAt']) !== gettype($let['endAt']))
+            throw new Exception("List range requires start value and end value to be of the same type.");
+
+          $this->type = gettype($let['startAt']);
+          
+        }
       }
     }
 
