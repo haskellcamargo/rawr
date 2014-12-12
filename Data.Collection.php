@@ -66,17 +66,26 @@
           if (gettype($let['startAt']) !== gettype($let['endAt']))
             throw new Exception("List range requires start value and end value to be of the same type.");
 
-          $this->type = gettype($let['startAt']);
+          $this->type  = gettype($let['startAt']);
           $this->value = range($let['startAt'], $let['endAt']);
         } else if ($let['numArgs'] === 4 && $let['args'][2] === '...') {
           $let['startAt'] = TypeInference :: to_primitive($let['args'][0]);
           $let['jmpVal']  = TypeInference :: to_primitive($let['args'][1]);
           $let['endAt']   = TypeInference :: to_primitive($let['args'][3]);
-          if (gettype($let['startAt']) !== gettype($let['endAt']))
+
+          # Type constraint
+          if (gettype($let['startAt']) !== gettype($let['endAt'])
+           || gettype($let['startAt']) !== gettype($let['jmpVal']))
             throw new Exception("List range requires start value and end value to be of the same type.");
 
-          $this->type = gettype($let['startAt']);
-          
+          # Not working with characters.
+          # Range by.
+          $let['acc'] = []; # Accumulator
+          for ($i = $let['startAt']; $i <= $let['endAt']; $i += ($let['jmpVal'] - $let['startAt']))
+            array_push($let['acc'], $i);
+
+          $this->type  = gettype($let['startAt']);
+          $this->value = $let['acc'];
         }
       }
     }
