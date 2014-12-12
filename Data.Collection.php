@@ -30,33 +30,36 @@
     public function __construct() { # a -> a
       # Ensure type of all the elements in the list.
       # Collections are unityped.
-      $arguments = func_get_args();
-      if (gettype($arguments) === "array" && func_num_args() === 1) {
+
+      # Bindings to useful variables
+      $let['args']    = func_get_args();
+      $let['numArgs'] = func_num_args();
+
+      if (gettype($let['args']) === "array" && $let['numArgs'] === 1) {
         # Received a single list in format [n, n + 1, n + 2 ...]
-        if (($list = $arguments[0]) === []) # Avoid use of `empty` function here
-          return;                           # I prefer pattern matching :/
+        if (($list = $let['args'][0]) === []) # Avoid use of `empty` function here
+          return;                             # I prefer pattern matching :/
 
-        else {
-          if (is_object($list[0])) { # It's possibly a Rawr type
-            $this->type = get_class($list[0]);
-            foreach ($list as $item)
-              if (get_class($item) !== $this->type) { # Type constraint
-                $let["t"] = is_object($item) ? get_class($item) : gettype($item);
-                throw new Exception("Type constraint: Expecting `it` to be of type {$this->type}. Instead got {$let['t']}.");
-              }
-
-          } else { # It's a primitive value
-            $this->type = gettype($list[0]);
-            foreach ($list as $item) {
-              if (gettype($item) !== $this->type) { # Type constraint
-                $let["t"] = is_object($item) ? get_class($item) : gettype($item);
-                throw new Exception("Type constraint: Expecting `it` to be of type {$this->type}. Instead got {$let['t']}.");
-              }
+        $let['typeConstraint'] = function ($predicate) use ($list) { # :: Closure -> (Throws TypeException)
+          $this->type = $predicate($list[0]);
+          # Pass by each element of the list checking if its type matches
+          # with the type of the head of the list.
+          foreach ($list as $item):
+            if ($predicate($item) !== $this->type) { # Type constraint
+              $let['t'] = is_object($item) ? get_class($item) : gettype($item);
+              throw new Exception("Type constraint: Expecting `it` to be of type {$this->type}. Instead got {$let['t']}.");
             }
-          }
+          endforeach;
+        };
 
-          $this->value = $list;
-        }
+        if (is_object($list[0]))
+          $let['typeConstraint']('get_class');
+        else
+          $let['typeConstraint']('gettype');
+
+        $this->value = $list;
+      } else {
+        # String parsing for list generation.
       }
     }
 
