@@ -27,54 +27,73 @@
   use \TypeClass\Eq        as Eq;
   use \TypeClass\Ord       as Ord;
 
-  # This can receive primitive true and false definitions or instances
-  # of TrueClass or FalseClass.
+  # This can receive primitive true and false.
   class Bool extends DataTypes implements IBool {
-    public function __construct($val) { # :: a -> Bool
+    function __construct($val) { # :: a -> Bool
       unset($this->memoize);
       $this->value = (bool) $val;
     }
 
+    # Invokes a function and returns it result.
     private function __behaviour($clos) { # :: Func -> a
-      switch (get_class($clos)) {
-        case 'Closure':
+      switch (get_class($clos)):
+        case 'Closure':     # It's a primitive function
           return $clos();
-        case 'Data\Func':
+        case 'Data\Func':   # It's a Rawr defined function
           return $clos->invoke();
-      }
+        default:
+          $let['type'] = gettype($clos);
+          throw new Exception("Expected Func or Closure, instead got {$let['type']}.");
+      endswitch;
     }
 
-    public function _and($expr) { # :: (Bool, Bool) -> Bool
+    # Returns true if both the value of the object and of the received
+    # expression are true. Otherwise false.
+    function _and($expr) { # :: (Bool, Bool) -> Bool
       return new Bool($this->value() && TypeInference :: to_primitive($expr));
     }
 
-    public function _or($expr) { # :: (Bool, Bool) -> Bool
+    # Returns true if any of the values, of the object, or of the received
+    # expression are true. Otherwise false.
+    function _or($expr) { # :: (Bool, Bool) -> Bool
       return new Bool($this->value() || TypeInference :: to_primitive($expr));
     }
 
-    public function _xor($expr) { # :: (Bool, Bool) -> Bool
+    # Returns true if only one of the values is true, between
+    # the value of the object and the received expression.
+    # Otherwise false.
+    function _xor($expr) { # :: (Bool, Bool) -> Bool
       return new Bool($this->value() ^ TypeInference :: to_primitive($expr));
     }
 
-    public function diff(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
+    # Different of. Requires all the values to be of the same type
+    # and derived from Eq typeclass.
+    function diff(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
       return new Bool(Eq :: diff($this->value, $y->value()));
     }
 
-    public function eq(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
+    # Equals to, but requires both values to be of the same type and
+    # derived from Eq typeclass.
+    function eq(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
       return new Bool(Eq :: eq($this->value, $y->value())); 
     }
 
-    public function greaterOrEq(Bool $y) { # :: (Eq, Ord) => (Bool, Bool) -> Bool
+    # Returns if the value of this object is greater or equal to
+    # the value of received value. Must be derived from Ord typeclass
+    # and, obviously, derived from Eq typeclass.
+    function greaterOrEq(Bool $y) { # :: (Eq, Ord) => (Bool, Bool) -> Bool
       return new Bool($this->greaterThan($y) || $this->eq($y));
     }
 
-    public function greaterThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
+    # Returns if the value of this objetc is greater than the received
+    # object. Deriving Ord.
+    function greaterThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
       return new Bool(Ord :: GT($this->value, $y->value()));
     }
 
     # The closure passed as parameter is performed if the value of
     # this object is TrueClass.
-    public function ifTrue($clos) { # :: Func -> Bool
+    function ifTrue($clos) { # :: Func -> Bool
       if ($this->value === true)
         $this->__behaviour($clos);
       return new Bool($this->value);
@@ -82,32 +101,40 @@
 
     # The closure passed as parameter is performed if the value of
     # this object is FalseClass.
-    public function ifFalse($clos) { # :: Func -> Bool
+    function ifFalse($clos) { # :: Func -> Bool
       if ($this->value === false)
         $this->__behaviour($clos);
       return new Bool($this->value);
     }
 
-    public function lesserThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
+    # Returns if the value of this object is lesser or equal
+    # to the value of the received object. Deriving Ord, Eq.
+    function lesserOrEq(Bool $y) { # :: (Eq, Ord) => (Bool, Bool) -> Bool
+      return new Bool($this->lesserThan($y) || $this->eq($y));
+    }
+
+    # Returns if the value of this object is lesser than
+    # the value of the received object. Deriving Ord.
+    function lesserThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
       return new Bool(Ord :: LT($this->value, $y->value()));
     }
 
     # Negates the value of the object.
-    public function not() { # :: Void -> Bool
+    function not() { # :: Bool -> Bool
       return new Bool(!$this->value);
     }
 
     # Alias to if_false
-    public function otherwise($clos) { # :: Func -> Bool
+    function otherwise($clos) { # :: Func -> Bool
       return $this->if_false($clos);
     }
 
     # The same as -> if_true () -> if_false ().
-    public function thenElse($then, $else) { # :: (Func, Func) -> Bool
+    function thenElse($then, $else) { # :: (Func, Func) -> Bool
       if ($this->value === true)
-        $then();
+        $this->__behaviour($then);
       else 
-        $else();
+        $this->__behaviour($else);
       return new Bool($this->value);
     }
   }

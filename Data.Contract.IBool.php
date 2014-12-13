@@ -21,16 +21,17 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data\Contract;
+  use \Data\Bool as Bool;
 
   interface IBool {
     function __construct($val);                 # :: a -> Bool
     function _and($expr);                       # :: Bool -> Bool
     function _or($expr);                        # :: Bool -> Bool
     function _xor($expr);                       # :: Bool -> Bool
-    function diff(Bool $expr)                   # :: (Eq) => (Bool, Bool) -> Bool
-    function eq(Bool $expr)                     # :: (Eq) => (Bool, Bool) -> Bool
+    function diff(Bool $expr);                  # :: (Eq) => (Bool, Bool) -> Bool
+    function eq(Bool $expr);                    # :: (Eq) => (Bool, Bool) -> Bool
     function greaterOrEq(Bool $expr);           # :: (Eq, Ord) => (Bool, Bool) -> Bool
-    function greaterThan(Bool $expr)            # :: (Ord) => (Bool, Bool) -> Bool
+    function greaterThan(Bool $expr);           # :: (Ord) => (Bool, Bool) -> Bool
     function ifTrue($do);                       # :: Func -> Bool
     function ifFalse($do);                      # :: Func -> Bool
     function lesserThan(Bool $expr);            # :: (Ord) => (Bool, Bool) -> Bool
