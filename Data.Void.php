@@ -21,6 +21,7 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
+  use \TypeClass\Eq as Eq;
 
   final class Void extends DataTypes {
     public function __construct() { # :: a -> a

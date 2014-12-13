@@ -24,8 +24,8 @@
     return new \Data\Func($v);
   }
 
-  function §($v) {
-    return new \Data\Collection($v);
+  function §() {
+    return new \Data\Collection(func_get_args());
   }
 
   function bool($v) {
@@ -36,8 +36,8 @@
     return new \Data\Bool($v);
   }
 
-  function collection($v) {
-    return new \Data\Collection($v);
+  function collection() {
+    return new \Data\Collection(func_get_args());
   }
 
   function double($v) {

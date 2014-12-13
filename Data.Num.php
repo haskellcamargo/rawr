@@ -23,18 +23,19 @@
   namespace Data;
 
   require_once 'Data.Contract.INum.php';
+  use \Data\Contract\INum as INum;
+  use \TypeClass\Eq       as Eq;
 
   # Parent class for Real and Int.
   # This class knows how to choose between the types according
   # to the correct occasion.
   # Numeric types might extend it.
 
-  class Num extends DataTypes implements Contract\INum {
+  class Num extends DataTypes implements INum {
 
-    public function __construct($val) { # :: a -> a
+    public function __construct($val) { # :: a -> Num
       # We expect $val to be a numeric value.
       if (is_numeric($val)) {
-        #parent :: __construct();
         $this->value = $val;
       }
       else 
@@ -43,7 +44,7 @@
     }
 
     # Absolute value.
-    public function abs() { # :: a -> Number
+    public function abs() { # :: a -> Num
       return new Num(abs($this->value));
     }
 
@@ -88,9 +89,17 @@
       return new Num\Float(deg2rad($this->value));
     }
 
+    public function diff(Num $y) { # :: (Eq a) => (Num, Num) -> Bool
+      return new Bool(Eq :: diff($this->value, $y->value()));
+    }
+
     # Divides by $value.
     public function div($value) { # :: (Float, Float) -> Float
       return new Num\Float($this->value / TypeInference :: to_primitive($value));
+    }
+
+    public function eq(Num $y) { # :: (Eq a) => (Num, Num) -> Bool
+      return new Bool(Eq :: eq($this->value, $y->value())); 
     }
 
     # Calculates the exponent of e.
@@ -263,16 +272,16 @@
 
     # Gives a string containing the binary conversion of the number.
     public function to_binary() { # :: Int -> String
-      return new String(decbin($this->value));
+      return new Str(decbin($this->value));
     }
 
     # Gives a string containing the hexadecimal value of the number.
     public function to_hex() { # :: Int -> String
-      return new String(dechex($this->value));
+      return new Str(dechex($this->value));
     }
 
     # Gives a string containing the octal value of the number.
     public function to_oct() { # :: Int -> String
-      return new String(decoct($this->value));
+      return new Str(decoct($this->value));
     }
   }

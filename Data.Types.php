@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -22,21 +22,25 @@
 
   namespace Data;
 
+  # Typeclasses
+
+  require_once "typeclasses/Eq.interface.php";
+  require_once "typeclasses/Ord.interface.php";
+  require_once "typeclasses/Eq.php";
+  require_once "typeclasses/Ord.php";
+
+  # Boolean
+
   require_once 'Data.Error.php';
 
   require_once 'Data.Bool.php';
-  require_once 'Data.Bool.FalseClass.php';
-  require_once 'Data.Bool.TrueClass.php';
 
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
   require_once 'typing/TypeInference.class.php';
   
   # Parent class for numeric types
   require_once 'Data.Num.php';
-  require_once 'Data.Byte.php';
-  require_once 'Data.Char.php';
   require_once 'Data.Collection.php';
-  require_once 'Data.Either.php';
   require_once 'Data.Func.php';
   require_once 'Data.Num.Int.php';
   require_once 'Data.Object.php';
@@ -63,104 +67,47 @@
       return $this;
     }
 
-    public function __call($name, $arguments) {
+    public function __toString() { # :: string
+      return (string) $this->value;
+    }
+
+    public function __call($name, $arguments) { # :: (string, array) -> mixed
       array_unshift($arguments, $this);
       return call_user_func_array($this->prototype->{$name}, $arguments);
     }
 
-    public function __clone() {
+    public function __clone() { # :: void
       $this->prototype = clone $this->prototype;
     }
 
+    public static function type_name($t) { # :: string -> string
+      return str_replace("\\", ".", $t);
+    }
+
     # Equivalent to php's var_dump in the object.
-    # a → Void
-    public function about() {
+    public function about() { # :: object
       var_dump($this);
       return $this;
     }
 
-    # Compares two variables and its types.
-    # Mixed → Boolean
-    public function equals($var) {
-      
-    }
-
     # Returns the element by itself.
-    # Mixed → Mixed
-    public function id() {
+    public function id() { # :: a -> a
       return $this;
     }
 
     # Equivalent to php's var_dump.
-    # Mixed → Void
-    public function inspect() {
+    public function inspect() { # :: object
       var_dump($this->value);
       return $this;
     }
 
-    # Returns the protected value as a php primitive.
-    # Mixed → Mixed
-    public function value() {
-      return $this->value;
-    }
-
-    # Casts to Binary.
-    # Mixed → Binary
-    public function to_binary() {
-      return new Binary($this->value);
-    }
-
-    # Casts to Boolean.
-    # Mixed → Boolean
-    public function to_boolean() {
-      return new Boolean($this->value);
-    }
-
-    # Casts to Byte.
-    # Mixed → Byte
-    public function to_byte() {
-      return new Byte($this->value);
-    }
-
-    # Casts to Char.
-    # Mixed → Char
-    public function to_char() {
-      return new Char($this->value);
-    }
-
-    # Casts to Either.
-    # Mixed → Either
-    public function to_either() {
-      return new Either($this->value);
-    }
-
-    # Casts to Func.
-    # Mixed → Func
-    public function to_func() {
-      return new Func($this->value);
-    }
-
-    # Casts to Integer.
-    # Mixed → Integer
-    public function to_int() {
-      return new Int($this->value);
-    }
-
-    # Casts to Object.
-    # Mixed → Object
-    public function to_object() {
-      return new Object($this->value);
-    }
-
-    # Casts to Real.
-    # Mixed → Real
-    public function to_real() {
-      return new Real($this->value);
-    }
-
-    # Casts to String.
-    # Mixed → String
-    public function to_string() {
+    # Casting to string
+    public function to_string() { # :: String
       return new Str($this->value);
+    }
+
+    # Returns the protected value as a php primitive.
+    public function value() { # :: a
+      return $this->value;
     }
   }

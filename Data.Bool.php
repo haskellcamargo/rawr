@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -21,37 +21,27 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
   namespace Data;
-  use \Data\Bool\TrueClass  as TrueClass;
-  use \Data\Bool\FalseClass as FalseClass;
 
   require_once 'Data.Contract.IBool.php';
+  use \Data\Contract\IBool as IBool;
+  use \TypeClass\Eq        as Eq;
+  use \TypeClass\Ord       as Ord;
 
   # This can receive primitive true and false definitions or instances
   # of TrueClass or FalseClass.
-  class Bool extends DataTypes implements Contract\IBool {
-    public function __construct($val) { # :: a -> a
-      # Memoization isn't very useful here.
+  class Bool extends DataTypes implements IBool {
+    public function __construct($val) { # :: a -> Bool
       unset($this->memoize);
-      # Keep value if they are objects and instances of FalseClass or
-      # TrueClass.
-      if ($val instanceof TrueClass || $val instanceof FalseClass)
-        $this->value = $val;
-      else
-      # Cast (true, false) => (TrueClass, FalseClass);
-        $this->value = ($val === true) ? (new TrueClass) : (new FalseClass);
-      return $this;
+      $this->value = (bool) $val;
     }
 
-    private function __behaviour($clos) { # :: Func -> Void
+    private function __behaviour($clos) { # :: Func -> a
       switch (get_class($clos)) {
         case 'Closure':
-          $clos();
-          break;
+          return $clos();
         case 'Data\Func':
-          $clos->invoke();
-          break;
+          return $clos->invoke();
       }
-      return Void;
     }
 
     public function _and($expr) { # :: (Bool, Bool) -> Bool
@@ -66,28 +56,45 @@
       return new Bool($this->value() ^ TypeInference :: to_primitive($expr));
     }
 
+    public function diff(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
+      return new Bool(Eq :: diff($this->value, $y->value()));
+    }
+
+    public function eq(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
+      return new Bool(Eq :: eq($this->value, $y->value())); 
+    }
+
+    public function greaterOrEq(Bool $y) { # :: (Eq, Ord) => (Bool, Bool) -> Bool
+      return new Bool($this->greaterThan($y) || $this->eq($y));
+    }
+
+    public function greaterThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
+      return new Bool(Ord :: GT($this->value, $y->value()));
+    }
+
     # The closure passed as parameter is performed if the value of
     # this object is TrueClass.
-    public function if_true($clos) { # :: Func -> Bool
-      if ($this->value instanceof TrueClass)
+    public function ifTrue($clos) { # :: Func -> Bool
+      if ($this->value === true)
         $this->__behaviour($clos);
       return new Bool($this->value);
     }
 
     # The closure passed as parameter is performed if the value of
     # this object is FalseClass.
-    public function if_false($clos) { # :: Func -> Bool
-      if ($this->value instanceof FalseClass)
+    public function ifFalse($clos) { # :: Func -> Bool
+      if ($this->value === false)
         $this->__behaviour($clos);
       return new Bool($this->value);
     }
 
+    public function lesserThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
+      return new Bool(Ord :: LT($this->value, $y->value()));
+    }
+
     # Negates the value of the object.
     public function not() { # :: Void -> Bool
-      if ($this->value instanceof TrueClass)
-        return new Bool(False);
-      elseif ($this->value instanceof FalseClass)
-        return new Bool(True);
+      return new Bool(!$this->value);
     }
 
     # Alias to if_false
@@ -96,17 +103,11 @@
     }
 
     # The same as -> if_true () -> if_false ().
-    public function then_else($then, $else) { # :: (Func, Func) -> Bool
-      if ($this->value instanceof TrueClass) 
+    public function thenElse($then, $else) { # :: (Func, Func) -> Bool
+      if ($this->value === true)
         $then();
       else 
         $else();
       return new Bool($this->value);
-    }
-
-    # Overrides the method `value` to return the primitive
-    # value of the object.
-    public function value() { # :: Void -> Bool
-      return $this->value instanceof TrueClass;
     }
   }

@@ -49,6 +49,19 @@
       else return $variable;
     }
 
+    public function is_true($value) {
+      if ($value === True) return True; # Redundant, but increases performance.
+                                        # Use strict-equality.
+      if (is_object($value)) {
+        if ($value instanceof Bool\TrueClass)       return true;
+        else if ($value instanceof Bool\FalseClass) return false;
+        else if ($value instanceof Bool)
+          return $value->value();
+        
+        throw new \Exception("Type error: Can't determine value");
+      }
+    }
+
     public static function to_primitive($variable) {
       if (is_object($variable)) {
         if (method_exists(get_class($variable), 'value')) {

@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -23,17 +23,25 @@
   namespace Data\Num;
 
   require_once "Data.Num.Contract.IInt.php";
+  use \Data\Num\Contract\IInt as IInt;
+  use \TypeClass\Eq           as Eq;
 
-  class Int extends \Data\Num implements Contract\IInt {
+  class Int extends \Data\Num implements IInt {
     public function __construct($i) { # :: a -> a
       parent :: __construct((int) $i);
     }
 
+    public function diff(Int $y) { # :: (Eq a) => (Int, Int) -> bool
+      return new \Data\Bool(Eq :: diff($this->value, $y->value()));
+    }
+
+    public function eq(Int $y) { # :: (Eq a) => (Int, Int) -> bool
+      return new \Data\Bool(Eq :: eq($this->value, $y->value())); 
+    }
+
     # Returns a list of integrals
-    public function to($input) { # :: (Enum a, Integral a) => (a, a) -> [a]
-      return § (range($this->value, \Data\TypeInference :: to_primitive($input)))
-      -> map (function ($t) {
-        return new Int ($t);
-      });
+    public function to($input) { # :: (Int, Int) -> [Int]
+      return (new \Data\Collection(range($this->value, \Data\TypeInference :: to_primitive($input))))
+        -> of ('Data.Num.Int');
     }
   }

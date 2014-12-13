@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -23,11 +23,13 @@
   namespace Data;
   use \Exception;
 
+  require_once 'Data.Contract.ICollection.php';
+
   # Collections of all types.
-  class Collection extends DataTypes {
+  class Collection extends DataTypes implements Contract\ICollection {
     private $type = "[]";
 
-    public function __construct() { # a -> a
+    public function __construct() { # :: [a] -> Collection
       # Ensure type of all the elements in the list.
       # Collections are unityped.
 
@@ -80,7 +82,7 @@
 
           # Not working with characters.
           # Range by.
-          $let['acc'] = []; # Accumulator
+          $let['acc'] = array(); # Accumulator
           for ($i = $let['startAt']; $i <= $let['endAt']; $i += ($let['jmpVal'] - $let['startAt']))
             array_push($let['acc'], $i);
 
@@ -90,13 +92,90 @@
       }
     }
 
-    # Mapping.
-    public function map($lambda) { # :: [a] -> [a]
-      $let['t'] = array();
-      foreach ($this->value as $item) {
-        $let['currying'] = \Data\TypeInference :: to_primitive($lambda);
-        array_push($let['t'], $let['currying']($item));
-      }
-      return new Collection($let['t']);
+    # Returns the callable part of an object
+    private function closure($lambda) { # :: Func -> Closure
+      if (get_class($lambda) === "Closure")
+        return $lambda;
+      else if (get_class($lambda) === "Data\Func")
+        return $lambda->value();
+      else
+        throw new Exception("Expecting Func or Closure.");
+    }
+
+    public function each($lambda) { # :: (Collection, Func) -> Collection
+      $let['currying'] = $this->closure($lambda);
+
+      foreach ($this->value as $item)
+        $let['currying']($item);
+
+      return new Collection($this->value);
+    }
+
+    # Filters a list according to the given predicate
+    public function filter($lambda) { # :: (Collection, Func<Bool>) -> Collection
+      $let['acc'] = array();
+      $let['currying'] = $this->closure($lambda);
+
+      foreach ($this->value as $item):
+        $let['bool'] = TypeInference :: is_true($let['currying']($item));
+
+        if ($let['bool'])
+          array_push($let['acc'], $item);
+
+      endforeach;
+
+      return new Collection($let['acc']);
+    }
+
+    public function intersperse($item) {
+      $let['acc'] = array();
+      $let['add_pair_acc'] = function ($x, $y) use (&$let) {
+        array_push($let['acc'], $x);
+        array_push($let['acc'], $y);
+      };
+
+      foreach ($this->value as $t)
+        $let['add_pair_acc']($t, $item);
+
+      return new Collection($let['acc']);
+    }
+
+    # Mapping over a list.
+    public function map($lambda) { # :: (Collection, Func) -> Collection
+      $let['acc'] = array();
+      $let['currying'] = $this->closure($lambda);
+        
+      foreach ($this->value as $item)
+        array_push($let['acc'], $let['currying']($item));
+
+      return new Collection($let['acc']);
+    }
+
+    # Casts the values of the list to object typed values
+    public function of($type) { # :: Str -> Collection
+      $let['class'] = str_replace(".", "\\", $type);
+
+      if (!class_exists($let['class']))
+        throw new Exception("Type `{$type}` not found.");
+        
+      $acc = array();
+      for ($i = 0; $i < count($this->value); $i++)
+        $acc[$i] = new $let['class']($this->value[$i]);
+      return new Collection($acc);
+    }
+
+    public function reject($lambda) { # :: (Collection, Func<Bool>) -> Collection
+      $let['acc'] = array();
+      $let['currying'] = $this->closure($lambda);
+
+      foreach ($this->value as $item):
+        $let['bool'] = TypeInference :: is_true($let['currying']($item));
+
+        if (!$let['bool'])
+          array_push($let['acc'], $item);
+
+      endforeach;
+
+      return new Collection($let['acc']);
     }
   }

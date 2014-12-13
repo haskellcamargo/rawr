@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -22,19 +22,12 @@
 
   namespace Data\Contract;
 
-  interface IBool {
-    function __construct($val);                 # :: a -> Bool
-    function _and($expr);                       # :: Bool -> Bool
-    function _or($expr);                        # :: Bool -> Bool
-    function _xor($expr);                       # :: Bool -> Bool
-    function diff(Bool $expr)                   # :: (Eq) => (Bool, Bool) -> Bool
-    function eq(Bool $expr)                     # :: (Eq) => (Bool, Bool) -> Bool
-    function greaterOrEq(Bool $expr);           # :: (Eq, Ord) => (Bool, Bool) -> Bool
-    function greaterThan(Bool $expr)            # :: (Ord) => (Bool, Bool) -> Bool
-    function ifTrue($do);                       # :: Func -> Bool
-    function ifFalse($do);                      # :: Func -> Bool
-    function lesserThan(Bool $expr);            # :: (Ord) => (Bool, Bool) -> Bool
-    function not();                             # :: Bool -> Bool
-    function otherwise($do);                    # :: Func -> Bool
-    function thenElse($x, $y);                  # :: (Func, Func) -> Bool
+  interface ICollection {
+    public function __construct();              # :: [a] -> Collection
+    public function each($lambda);              # :: (Colllection, Func) -> Collection
+    public function filter($lambda);            # :: (Collection, Func<Bool>) -> Collection
+    public function intersperse($item);         # :: (Collection<a>, a) -> Collection
+    public function map($lambda);               # :: (Collection, Func) -> Collection
+    public function of($type);                  # :: Str -> Collection
+    public function reject($lambda);            # :: (Collection, Func<Bool>) -> Collection
   }

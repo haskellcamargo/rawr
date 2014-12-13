@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -20,13 +20,9 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  namespace Data\Bool;
+  namespace TypeClass\Contract;
 
-  final class TrueClass {
-    public function __construct() { # Void -> TrueClass
-      unset($this->memoize);
-      unset($this->prototype);
-      unset($this->value);
-      return $this;
-    }
+  interface IOrd {
+    function GT($a, $a);           # :: (Ord a) => (a, a) -> bool
+    function LT($a, $a);           # :: (Ord a) => (a, a) -> bool
   }
