@@ -19,7 +19,7 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
+
   namespace Data;
 
   require_once 'Data.Contract.IBool.php';
@@ -68,40 +68,40 @@
 
     # Different of. Requires all the values to be of the same type
     # and derived from Eq typeclass.
-    function diff(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
+    function diff(Bool $y) { # :: (Eq a) => (a, a) -> Bool
       return new Bool(Eq :: diff($this->value, $y->value()));
     }
 
     # Equals to, but requires both values to be of the same type and
     # derived from Eq typeclass.
-    function eq(Bool $y) { # :: (Eq) => (Bool, Bool) -> Bool
-      return new Bool(Eq :: eq($this->value, $y->value())); 
+    function eq(Bool $y) { # :: (Eq a) => (a, a) -> Bool
+      return new Bool(Eq :: eq($this->value, $y->value()));
     }
 
     # Returns if the value of this object is greater or equal to
     # the value of received value. Must be derived from Ord typeclass
     # and, obviously, derived from Eq typeclass.
-    function greaterOrEq(Bool $y) { # :: (Eq, Ord) => (Bool, Bool) -> Bool
+    function greaterOrEq(Bool $y) { # :: (Eq a, Ord a) => (a, a) -> Bool
       return new Bool($this->greaterThan($y) || $this->eq($y));
     }
 
-    # Returns if the value of this objetc is greater than the received
+    # Returns if the value of this object is greater than the received
     # object. Deriving Ord.
-    function greaterThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
+    function greaterThan(Bool $y) { # :: (Ord a) => (a, a) -> Bool
       return new Bool(Ord :: GT($this->value, $y->value()));
     }
 
     # The closure passed as parameter is performed if the value of
-    # this object is TrueClass.
-    function ifTrue($clos) { # :: Func -> Bool
+    # this object is true.
+    function ifTrue($clos) { # :: (Bool, Func) -> Bool
       if ($this->value === true)
         $this->__behaviour($clos);
       return new Bool($this->value);
     }
 
     # The closure passed as parameter is performed if the value of
-    # this object is FalseClass.
-    function ifFalse($clos) { # :: Func -> Bool
+    # this object is false.
+    function ifFalse($clos) { # :: (Bool, Func) -> Bool
       if ($this->value === false)
         $this->__behaviour($clos);
       return new Bool($this->value);
@@ -109,13 +109,13 @@
 
     # Returns if the value of this object is lesser or equal
     # to the value of the received object. Deriving Ord, Eq.
-    function lesserOrEq(Bool $y) { # :: (Eq, Ord) => (Bool, Bool) -> Bool
+    function lesserOrEq(Bool $y) { # :: (Eq a, Ord a) => (a, a) -> Bool
       return new Bool($this->lesserThan($y) || $this->eq($y));
     }
 
     # Returns if the value of this object is lesser than
     # the value of the received object. Deriving Ord.
-    function lesserThan(Bool $y) { # :: (Ord) => (Bool, Bool) -> Bool
+    function lesserThan(Bool $y) { # :: (Ord a) => (a, a) -> Bool
       return new Bool(Ord :: LT($this->value, $y->value()));
     }
 
@@ -124,16 +124,16 @@
       return new Bool(!$this->value);
     }
 
-    # Alias to if_false
-    function otherwise($clos) { # :: Func -> Bool
+    # Alias to ifFalse.
+    function otherwise($clos) { # :: (Bool, Func) -> Bool
       return $this->if_false($clos);
     }
 
-    # The same as -> if_true () -> if_false ().
-    function thenElse($then, $else) { # :: (Func, Func) -> Bool
+    # The same as -> ifTrue () -> iFalse ().
+    function thenElse($then, $else) { # :: (Bool, Func, Func) -> Bool
       if ($this->value === true)
         $this->__behaviour($then);
-      else 
+      else
         $this->__behaviour($else);
       return new Bool($this->value);
     }
