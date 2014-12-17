@@ -20,37 +20,23 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  # Don't shame on me! I'll change this all later... maybe
+  require_once 'TokenList.php';
 
-  namespace TypeDefinitionParser;
-
-  (new Collection ('a', '...', 'z'))
-  -> each (':atomize');
-
-  abstract class AbstractSyntaxTree {
-    const T_LPAREN = "(";
-    const T_RPAREN = ")";
-    const T_MINUS  = "-";
-    const T_PLUS   = "+";
-    const T_LBRACK = "[";
-    const T_RBRACK = "]";
-    const T_EQUAL  = "=";
-    const T_RARR   = ">";
-    const T_LARR   = "<";
-
-    public function isDigit($x);
-    public function isIdent($x);
-    public function makeToken($k);
-  }
-
-  class SyntaxTree extends AbstractSyntaxTree {
-    public function isDigit($x) {
-      return (new Collection (1, '...', 9)
-        -> elem ($x));
-    }
-
-    public function isLetter($x) {
-      return (new Collection (a, '...', z))
-        -> elem ($x);
+  class CommentParser extends TokenList {
+    public function tokenize($src) {
+      $ast = [];
+      $astJoin = function ($t) use (&$ast) {
+        array_push($ast, $t);
+      };
+      for ($i = 0, $len = strlen($src); $i < $len; $i++)
+        foreach ($this->getTokens() as $token => $value)
+          if ($value == $src[$i]) {
+            $astJoin($token);
+            continue;
+          }
+      return $ast;
     }
   }
+
+  $parser = new CommentParser;
+  var_dump($parser -> tokenize(":: (Eq a) => a -> Bool"));

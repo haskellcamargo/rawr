@@ -27,6 +27,7 @@ import Data.Char
 import Data.List
 import qualified Data.Function as Func
 import qualified Data.Map      as Map
+import Library
 
 genericTree :: String -> [String]
 genericTree "" = []
@@ -48,4 +49,4 @@ defineToken t
   
 -- continue: Group chars to form tokens: ->, =>, :: and determine precedence
   
-makeTest = genericTree $ " :: (Ord a, Show b) -> a -> b"
+makeTest = each putStrLn $ genericTree " :: (Ord a, Show b) -> a -> b"

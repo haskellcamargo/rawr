@@ -46,6 +46,7 @@
   require_once 'Data.Object.php';
   require_once 'Data.Num.Float.php';
   require_once 'Data.Str.php';
+  require_once 'Data.Undefined.php';
   require_once 'Data.Void.php';
   
   require_once 'Extras/Shortcuts.php';

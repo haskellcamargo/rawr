@@ -20,16 +20,26 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  define("MT_RAND_MAX", mt_getrandmax());
-  define("RAND_MAX", getrandmax());
-  define("RAWR_VERSION", "1.0.0.1");
+  class TokenList extends stdclass {
+    const T_LPAREN    = '(';
+    const T_RPAREN    = ')';
+    const T_DOUBLEDOT = ':';
+    const T_LBRACKET  = '[';
+    const T_RBRACKET  = ']';
+    const T_PLUS      = '+';
+    const T_MINUS     = '-';
+    const T_AMP       = '&';
+    const T_DOLLAR    = '$';
+    const T_SHARP     = '#';
+    const T_AT        = '@';
+    const T_EXCL      = '!';
+    const T_PERCENT   = '%';
+    const T_STAR      = '*';
+    const T_WSPACE    = ' ';
+    
 
-  # New Keywords
-  # true and false must be instances of TrueClass and FalseClass
-  define("No",        false);
-  define("Off",       false);
-  define("On",        true);
-  define("Yes",       true);
-
-  /* Take care with the purism. Hitler started this way (Linspector, Torrens). */
-  define("Maybe",     mt_rand() /* Change this */);
+    public function getTokens() {
+      return (new ReflectionClass(get_class($this)))
+        -> getConstants();
+    }
+  }

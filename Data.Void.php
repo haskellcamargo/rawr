@@ -29,4 +29,19 @@
       unset($this->prototype);
       unset($this->value);
     }
+
+    # Different of. Requires all the values to be of the same type
+    # and derived from Eq typeclass.
+    function diff(Void $y) { # :: (Eq a) => (a, a) -> Bool
+      # Taking account they have no value and the constraint explicit
+      # accepts only Data.Void types, this will ALWAYS return false.
+      return new Bool(False);
+    }
+
+    # Equals to, but requires both values to be of the same type and
+    # derived from Eq typeclass.
+    function eq(Void $y) { # :: (Eq a) => (a, a) -> Bool
+      # Same note taken to diff, but true.
+      return new Bool(True);
+    }
   }

@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -90,6 +90,10 @@
 
   function true() {
     return new \Data\Bool\TrueClass;
+  }
+
+  function undefined() {
+    return new \Data\Undefined;
   }
 
   function void() {

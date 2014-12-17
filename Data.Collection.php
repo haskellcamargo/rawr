@@ -165,7 +165,7 @@
     }
 
     public function reject($lambda) { # :: (Collection, Func<Bool>) -> Collection
-      $let['acc'] = array();
+      $let['acc']      = array();
       $let['currying'] = $this->closure($lambda);
 
       foreach ($this->value as $item):
