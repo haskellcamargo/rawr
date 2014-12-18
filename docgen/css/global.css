@@ -1,0 +1,45 @@
+body, html {
+  background: #ecf0f1;
+  font-family: "Segoe UI";
+}
+
+#main-content {
+
+}
+
+#main-menu {
+  background-color: #34495E;
+}
+
+#main-menu > a {
+  color: #FFFFFF;
+  margin-right: 20px;
+}
+
+#menu-container {
+  background-color: #34495E;
+  font-size: 17px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.block {
+  padding: 10px;
+}
+
+.page-bottom {
+  background: #333;
+  color: #FFFFFF;
+  height: 40px;
+  line-height: 40px;
+}
+
+.type-def {
+  color: #444444;
+  font-family: consolas, "courier new";
+}
+
+pre {
+  border: 0 !important;
+  padding: 0 !important;
+}

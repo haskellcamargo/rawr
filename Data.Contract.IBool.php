@@ -25,17 +25,17 @@
 
   interface IBool {
     function __construct($val);                 # :: a -> Bool
-    function _and($expr);                       # :: Bool -> Bool
-    function _or($expr);                        # :: Bool -> Bool
-    function _xor($expr);                       # :: Bool -> Bool
-    function diff(Bool $expr);                  # :: (Eq) => (Bool, Bool) -> Bool
-    function eq(Bool $expr);                    # :: (Eq) => (Bool, Bool) -> Bool
-    function greaterOrEq(Bool $expr);           # :: (Eq, Ord) => (Bool, Bool) -> Bool
-    function greaterThan(Bool $expr);           # :: (Ord) => (Bool, Bool) -> Bool
-    function ifTrue($do);                       # :: Func -> Bool
-    function ifFalse($do);                      # :: Func -> Bool
-    function lesserThan(Bool $expr);            # :: (Ord) => (Bool, Bool) -> Bool
+    function _and($expr);                       # :: (Bool, Bool) -> Bool
+    function _or($expr);                        # :: (Bool, Bool) -> Bool
+    function _xor($expr);                       # :: (Bool, Bool) -> Bool
+    function diff(Bool $expr);                  # :: (Eq a) => (a, a) -> Bool
+    function eq(Bool $expr);                    # :: (Eq a) => (a, a) -> Bool
+    function greaterOrEq(Bool $expr);           # :: (Eq a, Ord a) => (a, a) -> Bool
+    function greaterThan(Bool $expr);           # :: (Ord a) => (a, a) -> Bool
+    function ifTrue($do);                       # :: (Bool, Func) -> Bool
+    function ifFalse($do);                      # :: (Bool, Func) -> Bool
+    function lesserThan(Bool $expr);            # :: (Ord a) => (a, a) -> Bool
     function not();                             # :: Bool -> Bool
-    function otherwise($do);                    # :: Func -> Bool
-    function thenElse($x, $y);                  # :: (Func, Func) -> Bool
+    function otherwise($do);                    # :: (Bool, Func) -> Bool
+    function thenElse($x, $y);                  # :: (Bool, Func, Func) -> Bool
   }

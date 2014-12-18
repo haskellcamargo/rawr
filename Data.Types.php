@@ -29,10 +29,7 @@
   require_once "typeclasses/Eq.php";
   require_once "typeclasses/Ord.php";
 
-  # Boolean
-
   require_once 'Data.Error.php';
-
   require_once 'Data.Bool.php';
 
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
@@ -72,7 +69,7 @@
       return (string) $this->value;
     }
 
-    public function __call($name, $arguments) { # :: (string, array) -> mixed
+    public function __call($name, $arguments) { # :: (a, string, array) -> mixed
       array_unshift($arguments, $this);
       return call_user_func_array($this->prototype->{$name}, $arguments);
     }
@@ -81,12 +78,12 @@
       $this->prototype = clone $this->prototype;
     }
 
-    public static function type_name($t) { # :: string -> string
+    public static function type_name($t) { # :: (a, string) -> string
       return str_replace("\\", ".", $t);
     }
 
     # Equivalent to php's var_dump in the object.
-    public function about() { # :: object
+    public function about() { # :: a -> object
       var_dump($this);
       return $this;
     }
@@ -102,13 +99,73 @@
       return $this;
     }
 
-    # Casting to string
-    public function to_string() { # :: String
+    # Casting to Bool.
+    public function toBool() { # :: a -> String 
+      return new Bool($this->value);
+    }
+
+    # Casting to Collection.
+    public function toCollection() { # :: a -> String
+      return new Collection([$this->value]);
+    }
+
+    # Casting to Error.
+    public function toError() { # :: a -> Error
+      return new Error($this->value);
+    }
+
+    # Casting to File (path).
+    public function toFile() { # :: a -> File
+      return new File($this->value);
+    }
+
+    # Casting to Func.
+    public function toFunc() { # :: a -> Func
+      return new Func($this->value);
+    }
+
+    # Casting to Null.
+    public function toNull() { # :: a -> Null
+      return new Null;
+    }
+
+    # Casting to Num.
+    public function toNum() { # :: a -> Num
+      return new Num($this->value);
+    }
+
+    # Casting to Float.
+    public function toFloat() { # :: a -> Float
+      return new Num\Float($this->value);
+    }
+
+    # Casting to Int.
+    public function toInt() { # :: a -> Int
+      return new Num\Int($this->value);
+    }
+
+    # Casting to Object.
+    public function toObject() { # :: a -> Object
+      return new Object($this->value);
+    }
+
+    # Casting to String.
+    public function toString() { # :: a -> String
       return new Str($this->value);
     }
 
+    # Casting to Undefined (unset value).
+    public function toUndefined() { # :: a -> Undefined
+      return new Undefined;
+    }
+
+    # Casting to Void (return-less).
+    public function toVoid() { # :: a -> Void
+      return new Void;
+    }
+
     # Returns the protected value as a php primitive.
-    public function value() { # :: a
+    public function value() { # :: a -> a
       return $this->value;
     }
   }
