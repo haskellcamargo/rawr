@@ -88,6 +88,23 @@
       return $this;
     }
 
+    # Applies a function or a set of instructions of the object
+    public function apply($functions) { # :: (a, Str) -> a
+      $let = [
+        "refl"  =>  new \ReflectionClass(get_class($this))
+      , "func"  =>  array_reverse(explode(" . ", $functions))
+      ];
+      $stack = $this;
+
+      foreach ($let['func'] as $func)
+        if ($let['refl'] -> hasMethod($func))
+          $stack = (new $let['refl'] -> name ($stack -> value())) -> {$func}();
+        else
+          throw new \Exception("Object of type {$let['refl'] -> name} has no method {$func}.");
+
+      return $stack;
+    }
+
     # Returns the element by itself.
     public function id() { # :: a -> a
       return $this;

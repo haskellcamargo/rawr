@@ -29,7 +29,7 @@
 type-definition := '::', [ '(' , typeclass-def, ')' | typeclass-def, '=>' ], 
                  ( rawr-type | user-type | min-letter ) | '(', not-unary, ')', 
                  { '->', rawr-type | user-type | min-letter } .
-typeclass-def := typeclass, min-letter, { ',', typeclass-def } ;
+typeclass-def := typeclass, min-letter, { ',', typeclass-def } .
 rawr-type := 'Bool' | 'Collection' | 'Error' | 'File' | 'Func' | 'Null'
            | 'Num' | 'Num.Float' | 'Num.Int' | 'Object' | 'Str' | 'Undefined'
            | 'Void' .

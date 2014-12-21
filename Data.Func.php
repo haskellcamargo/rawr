@@ -44,31 +44,31 @@
     public function ⃝($func) { # :: (Func, Func) -> Func
       # Math definition: (f ⃝ g)(x) = f(g(x)) where
       $let['f'] = $this->value;
-      $let['g'] = \Data\TypeInference :: to_primitive($func);
+      $let['g'] = \Data\TypeInference :: toPrimitive($func);
       return new Func(function ($x) use ($let) {
         return $let['f']($let['g']($x));
       });
     }
 
-    public function clos_scope_class() { # :: Func -> ReflectionClass
+    public function closScopeClass() { # :: Func -> ReflectionClass
       return $this->reflection->getClosureScopeClass();
     }
 
-    public function clos_this() { # :: Func -> Object
+    public function closThis() { # :: Func -> Object
       return $this->reflection->getClosureThis();     
     }
 
-    public function doc_comment() { # :: Func -> String
+    public function docComment() { # :: Func -> String
       return ($temp = $this->reflection->getDocComment()) === false?
         new Boolean(false)
       : new String($temp);
     }
 
-    public function end_line() { # :: Func -> Int
+    public function endLine() { # :: Func -> Int
       return new Int($this->reflection->getEndLine());
     }
 
-    public function export($ret = false) { # :: (String, Maybe String) -> String
+    public function export($ret = false) { # :: (String, Maybe Bool) -> String
       return new String(ReflectionFunction :: export($this->value, $ret));
     }
 
@@ -159,19 +159,19 @@
       return new Collection($this->reflection->getParameters());
     }
 
-    public function ret_ref() { # :: Func -> Boolean
+    public function retRef() { # :: Func -> Bool
       return new Boolean($this->reflection->returnsReference());
     }
 
-    public function short_name() { # :: Func -> String
+    public function shortName() { # :: Func -> String
       return new String($this->reflection->getShortName());
     }
 
-    public function start_line() { # :: Func -> Int
+    public function startLine() { # :: Func -> Int
       return new Int($this->reflection->getStartLine());
     }
 
-    public function static_var() { # :: Func -> [Dynamic]
+    public function staticVar() { # :: Func -> Collection
       return new Collection($this->reflection->getStaticVariables());
     }
   }

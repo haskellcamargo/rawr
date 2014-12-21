@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -49,7 +49,7 @@
       else return $variable;
     }
 
-    public function is_true($value) {
+    public function isTrue($value) {
       if ($value === True) return True; # Redundant, but increases performance.
                                         # Use strict-equality.
       if (is_object($value)) {
@@ -62,7 +62,7 @@
       }
     }
 
-    public static function to_primitive($variable) {
+    public static function toPrimitive($variable) {
       if (is_object($variable)) {
         if (method_exists(get_class($variable), 'value')) {
           return $variable->value();
@@ -77,5 +77,12 @@
       } else {
         return $variable;
       }
+    }
+
+    public static function fromStr($str) {
+      if (preg_match("/^([0-9]*)$/", $str))
+        return (int) $str;
+      else if (preg_match("/^([0-9]*\.[0-9]*)$/", $str))
+        return (float) $str;
     }
   }

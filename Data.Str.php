@@ -21,7 +21,7 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
-
+ 
   require_once 'Data.Contract.IStr.php';
   use \TypeClass\Eq as Eq;
 
@@ -29,238 +29,214 @@
     # By default, data types that inherit from this class
     # and don't override the constructor must pass the internal
     # value of the variable in it.
-    # Mixed → Void
-    public function __construct($val) {
-      parent :: __construct();
+    function __construct($val) { # :: a -> String
+      parent :: __construct(); # Apply memoization
       $this->value = (string) $val;
-    }
-
-    # Returns the length of the string in bytes.
-    # String → Integer
-    public function byte_size() {
-      return new Integer(mb_strlen($this->value));
     }
 
     # Returns the string with the first character converted to
     # uppercase and the remainder to lowercase. Note: case 
-    # conversion is effective only in ASCII region.
-    # String → String
-    public function capitalize() {
-      $string = str_split(strtolower($this->value));
-      $this->value = strtolower($this->value);
-      for ($i = 0; $i < count($string); $i++) {
-        if (preg_match('/[a-z]|[A-Z]/', $string[$i])) {
-          $this->value[$i] = strtoupper($string[$i]);
-          return $this;
+    # conversion is effective only in ASCII region
+    function capitalize() { # :: Str -> Str
+      $let['acc'] = strtolower($this->value);
+      for ($i = 0, $len = strlen($let['acc']); $i < $len; $i++)
+        if (preg_match('/[a-zA-Z]/', $let['acc'][$i])) {
+          $let['acc'][$i] = strtoupper($let['acc'][$i]);
+          return new Str($let['acc']);
         }
-      }
-      return $this;
+
+      return new Str($let['acc']);
     }
 
     # Returns an array of characters in string.
-    # String -> [String]
-    public function chars() {
-      $this->value = new Collection(explode('', $this->value));
-    }
-
-    # Returns a string with the given record separator removed from
-    # the end of str, if present. Case of no parameters, chomp can
-    # remove carriage return characters (that is it will remove \n,
-    # \r, and \r\n).
-    # String -> [String]
-    public function chomp($arg = false) {
-      if ($arg !== false) {
-        // Implement chomp on string
-      }
-
-      $rec_chomp = function() {
-        if (($ref = ($this->value[strlen($this->value) - 1]) == 'n' || $ref == 'r')
-          && $this->value[strlen($this->value) - 2] == '\\') {
-          $this->value = substr($this->value, 0, -2);
-          $rec_chomp();
-        } else return null;
-      };
-
-      if (is_null($rec_chomp()))
-        return $this->value;
+    function chars() { # :: Str -> Collection
+      return new Collection(str_split($this->value));
     }
 
     # Returns a one-character string at the beginning of the string.
-    # String → Char
-    public function chr() {
-      return new Char($this->value[0]); 
+    function chr() { # :: Str -> Str
+      return new Str($this->value[0]); 
     }
 
     # Makes string empty
-    # String → String
-    public function clear() {
-      $this->value = "";
-      return $this;
+    function clear() { # :: Str -> Str
+      return new Str('');
     }
 
     # Returns an array of the Integer ordinals of the characters in
-    # String → [Integer]
-    public function code_points() {
-      $integers = Array();
-      foreach ($this->value as $char) {
-        if (preg_match('/\d/', $char)) {
-          array_push($integers, (int) $char);
-        }
-      }
-      return new Collection($integers);
+    function codePoints() { # :: Str -> Collection
+      $let['acc'] = [];
+      for ($i = 0, $len = strlen($this->value); $i < $len; $i++)
+        array_push($let['acc'], (int) ord($this->value[$i]));
+      return new Collection($let['acc']);
     }
 
     # Append the given object to string. If object is an Integer,
     # it is considered as a codepoint, and is converted to a character
     # before concatenation.
-    # String → String
-    public function concat() {
-      for ($i = 0; $i < count(func_get_args()); $i++) {
-        if (is_integer(func_get_args()[$i])) {
-          $this->value = $this->value . chr(func_get_args()[$i]);
-        } else $this->value = $this->value . func_get_args()[$i];
-      }
-      return $this;
+    function concat() { # :: (Str ...) -> Str
+      $let['acc']  = $this->value;
+      $let['args'] = func_get_args();
+      for ($i = 0, $len = func_num_args(); $i < $len; $i++)
+        if (is_integer($let['args'][$i]) || $let['args'][$i] instanceof \Data\Num\Int) {
+          $let['acc'] .= gettype($let['args'][$i]) === "object" ? 
+            chr((string) $let['args'][$i])
+          : chr($let['args'][$i]);
+        } else $let['acc'] .= $let['args'][$i];
+
+      return new Str($let['acc']);
     }
 
     # Downcases a string.
-    # String → String
-    public function down_case() {
-      $this->value = strtolower($this->value);
-      return $this;
+    function toLower() { # :: Str -> Str
+      return new Str(strtolower($this->value));
     }
 
-    public function diff(Str $y) { # :: (Eq a) => (Str, Str) -> Bool
+    function diff(Str $y) { # :: (Eq a) => (a, a) -> Bool
       return new Data\Bool(Eq :: diff($this->value, $y->value()));
     }
 
-    public function eq(Str $y) { # :: (Eq a) => (Str, Str) -> Bool
+    function eq(Str $y) { # :: (Eq a) => (a, a) -> Bool
       return new Data\Bool(Eq :: eq($this->value, $y->value())); 
     }
     
     # Applies a function to each char in the string
-    # String → Void
-    public function each_char($func) {
+    function eachChar($func) { # :: (Str, Func) -> Str
       $this->chars()->each($func);
+      return $this;
     }
     
     # Applies a function to each codepoint in the string
-    # String → Void
-    public function each_codepoint($func) {
+    function eachCodePoint($func) { # :: (Str, Func) -> Str
       $this->codePoints()->each($func);
+      return $this;
     }
     
     # Applies a function to each line
-    # String → Void
-    public function each_line($func) {
+    function eachLine($func) { # :: (Str, Func) -> Str
       $this->lines()->each($func);
     }
 
     # Joins a list with the specified separator
-    # String → String → [String]
-    public function join($arr) {
-      $this->value = join($this->value, $arr);
-      return $this;
+    function join($arr) { # :: (Str, Collection) -> Str
+      return new Str(join($this->value, TypeInference :: to_primitive($arr)));
     }
     
     # Returns the length of a string
-    # String → Integer
-    public function length() {
-      return new Integer(strlen($this->value));
+    function length() { # :: Str -> Int
+      return new Num\Int(strlen($this->value));
     }
 
     # Splits a string at newlines into a list.
     # String → [String]
-    public function lines() {
-      return new Collection(
-        preg_replace("/\t/", "", explode("\n", $this->value)));
+    function lines() {
+      return (new Collection(
+        preg_replace("/\t/", "", explode("\n", $this->value)))) -> of ('Data.Str');
     }
 
     # Outputs to screen a string and doesn't break line.
-    # String → Void
-    public function output() {
+    function putStr() { # :: Str -> Str
       echo $this->value;
       return $this;
     }
 
     # Outputs to screen a string and breaks line.
-    # String → Void
-    public function outputln() {
-      echo $this->value . "<br>\n";
+    function putStrLn() { # :: Str -> Str
+      echo $this->value . "<br />\n";
       return $this;
     }
 
     # Returns a collection of the string separated by the
     # given pattern.
-    # String → [String]
-    public function split($pattern) {
+    function split($pattern) { # :: (Str, Str) -> Collection
       return new Collection(split($pattern, $this->value));
     }
 
     # Takes its second argument, and repeats it n times to create a new,
     # single, string.
-    # String → Integer → String
-    public function repeat($times) {
-      $res = $this->value;
+    function repeat($times) { # :: (Str, Int) -> Str
+      $let['acc'] = $this->value;
       for ($i = 0; $i < $times - 1; $i++)
-        $res .= $this->value;
-      $this->value = $res;
-      return $this;
+        $let['acc'] .= $this->value;
+      return new Str($let['acc']);
     }
 
     # Reverses a string.
-    # String → String
-    public function reverse() {
+    function reverse() { # :: Str -> Str
       $memoize = $this->memoize;
       $reverse = $memoize (function() {
         $str = '';
         for ($i = strlen($this->value) - 1; $i >= 0; $i--)
           $str .= $this->value[$i];
-        $this->value = $str;
+        return $str;
       });
-      $reverse();
-      return $this;
-    }
-
-    # Tries to convert something to a string.
-    # Mixed → Maybe String
-    public function try_convert() {
-      $this->value = (string) $this->value;
-      return $this;
+      return new Str($reverse());
     }
 
     # Converts a string to uppercase.
-    # String → String
-    public function up_case() {
-      $this->value = strtoupper($this->value);
-      return $this;
+    function toUpper() { # :: Str -> Str
+      return new Str(strtoupper($this->value));
     }
 
     # Swaps the case of a string.
-    # String → String
-    public function swap_case() {
-      $newString = '';
-      foreach (str_split($this->value) as $char) {
-        if (preg_match('/[a-z]/', $this->value))
-          $newString .= strtoupper($char);
-        else if (preg_match('/[A-Z]/', $this->value))
-          $newString .= strtolower($char);
-        else
-          $newString .= $char;
-      }
-      $this->value = $newString;
-      return $this;
+    function swapCase() { # :: Str -> Str
+      $strcopy = $this->value;
+      for ($i = 0, $len = strlen($strcopy); $i < $len; $i++)
+        if (preg_match('/[a-z]/', $strcopy[$i]))
+          $strcopy[$i] = strtoupper($strcopy[$i]);
+        else if (preg_match('/[A-Z]/', $strcopy[$i]))
+          $strcopy[$i] = strtolower($strcopy[$i]);
+      return new Str($strcopy);
     }
 
     # Splits a string at spaces (one or more), returning
     # a list of strings
-    # String → [String]
-    public function words() {
-      return (new Collection(
-        explode(' ', $this->value)
-        , 'String'))
-      -> reject(function($x) {
-        return $x == '';
-      });
+    function words() { # :: Str -> Collection
+      return (new Collection (explode(' ', $this->value)))
+      -> of ('Data.Str');
+    }
+
+    # Returns if the current string value is prefix of the parameter
+    function isPrefixOf($of) { # :: (Str, Str) -> Bool
+      # Re-implementation of comparasion basis
+      # Non-deterministic parsing. Faster than using preg_match
+      # [pass] => [pass] => [pass] => [pass] ...
+      #        => [fail] => [break]
+      # Apply this function by use of recursion:
+      $isPrefixOf = function ($prefix, $string) use (&$isPrefixOf) {
+        # Edge condition:
+        if ($prefix == "")
+          return new Bool(True);
+
+        # Compare head.
+        if ($prefix[0] === $string[0])
+          return $isPrefixOf(substr($prefix, 1), substr($string, 1));
+
+        return new Bool(False);
+      };
+
+      return $isPrefixOf($this->value, $of);
+    }
+
+    # Returns if the current string value is suffix of the parameter
+    function isSuffixOf($of) { # :: (Str, Str) -> Bool
+      # Same application to isSuffixOf
+      # HOLY SHIT!
+      # WHY SUBSTR DON'T EAT THE LAST ELEMENT OF THE STR!?
+      $isSuffixOf = function ($suffix, $string) use (&$isSuffixOf) {
+        echo $suffix . " <+> " . $string . "<br />";
+        # Edge condition:
+        if ($suffix == "")
+          return new Bool(True);
+
+        # Compare last.
+        if (($t = $suffix[strlen($suffix) - 1]) === ($t1 = $string[strlen($string) - 1])) {
+          return $isSuffixOf(substr($suffix, -(strlen($suffix) - 1)), substr($string, -(strlen($string) - 1)));
+        }
+
+        return new Bool(False);
+      };
+
+      return $isSuffixOf($this->value, $of);
     }
   }

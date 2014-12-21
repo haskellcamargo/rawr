@@ -23,62 +23,61 @@
   namespace Data\Contract;
 
   interface IStr {
-    public function __construct($val);
+    public function __construct($val);               # :: a -> Str
     public function add_cslashes();
     public function add_slashes();
     public function ascii_only();
     public function b();
     public function byte_size();
     public function bytes();
-    public function capitalize();
+    public function capitalize();                    # :: Str -> Str
     public function char($char);
     public function char_at($where);
-    public function chars();
+    public function chars();                         # :: Str -> Collection
     public function chomp($arg);
     public function chop();
-    public function chr();
-    public function clear();
-    public function codepoints();
+    public function chr();                           # :: Str -> Str
+    public function clear();                         # :: Str -> Str
+    public function codePoints();                    # :: Str -> Collection
     public function cmp_case();
-    public function concat();
+    public function concat();                        # :: (Str ...) -> Str
     public function contains($what);
     public function crypt();
     public function delete($pattern);
     public function dump();
-    public function down_case();
+    public function toLower();                       # :: Str -> Str
     public function each_byte($func);
-    public function each_char($func);
-    public function each_codepoint($func);
-    public function each_line($func);
+    public function eachChar($func);                # :: (Str, Func) -> Str
+    public function eachCodePoint($func);           # :: (Str, Func) -> Str
+    public function eachLine($func);                # :: (Str, Func) -> Str
     public function encode();
     public function ends_with($what);
-    public function equals($what);
     public function get_byte($byte);
     public function gsub($pattern, $by);
     public function hex();
     public function index($of);
     public function insert($what);
     public function is_empty();
-    public function join($arr);
+    public function join($arr);                      # :: (Str, Collection) -> Str
     public function l_just();
     public function l_strip();
-    public function length();
-    public function lines();
+    public function length();                        # :: Str -> Int
+    public function lines();                         # :: Str -> Collection
     public function match($with);
     public function next();
     public function oct();
     public function ord();
     public function ordinal_integer();
-    public function output();
-    public function outputln();
+    public function putStr();                        # :: Str -> Str
+    public function putStrLn();                      # :: Str -> Str
     public function prepend();
     public function r_index($i);
     public function r_just();
     public function r_partition();
     public function r_strip();
-    public function repeat($times);
+    public function repeat($times);                  # :: (Str, Int) -> Str
     public function replace($pattern, $by);
-    public function reverse();
+    public function reverse();                       # :: Str -> Str
     public function scan();
     public function scrub();
     public function set_byte($byte, $val);
@@ -90,9 +89,8 @@
     public function strip();
     public function succ();
     public function sum();
-    public function swap_case();
-    public function try_convert();
+    public function swapCase();                      # :: Str -> Str
     public function unpack();
-    public function up_case();
-    public function words();
+    public function toUpper();                       # :: Str -> Str
+    public function words();                         # :: Str -> Collection
   }
