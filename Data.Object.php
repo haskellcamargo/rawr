@@ -21,20 +21,30 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
+  use \Exception;
 
   class Object extends DataTypes {
-    public $def = null;
-    
-    public function __construct() {
-      $this->def = new Define;
+    public $prototype = null;
+
+    public function __construct($v = []) {
+      if (gettype($v) == "array" && !empty($v))
+        foreach ($v as $property => $type)
+          if (gettype($type) == "array" && sizeof($type) === 1)
+            $this->{$property} = (new \Data\Collection([])) 
+              -> of (\Data\DataTypes :: typeName ($type[0]));
+          else
+            $this->{$property} = function ($self, $x) use ($type, $property) {
+              if (get_class($x) == $type)
+                $this->{$property} = $x;
+              else {
+                echo "Expecting: " . $type . "<br />";
+                echo "Got:       " . get_class($x);
+              }
+            };
     }
     
     public function __call($name, $arguments) {
       array_unshift($arguments, $this);
-      return call_user_func_array($this->def->{$name}, $arguments);
-    }
-    
-    public function __clone() {
-      $this->def = clone $this->def;
+      return call_user_func_array($this->{$name}, $arguments);
     }
   }

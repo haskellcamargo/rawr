@@ -48,20 +48,16 @@
   
   require_once 'Extras/Shortcuts.php';
   require_once 'Modules/Memoize.class.php';
-  require_once 'prototype/Prototype.class.php';
-  require_once 'prototype/Define.class.php';
 
   require_once 'extras/Constants.php';
 
   # Types may want to inherit from this class.
   class Datatypes {
     protected $value, $memoize;
-    public $prototype = null;
 
     public function __construct() {
       global $memoize;
       $this->memoize   = $memoize;
-      $this->prototype = new Define;
       return $this;
     }
 
@@ -74,12 +70,8 @@
       return call_user_func_array($this->prototype->{$name}, $arguments);
     }
 
-    public function __clone() { # :: void
+    public function __clone() { # :: a -> void
       $this->prototype = clone $this->prototype;
-    }
-
-    public static function type_name($t) { # :: (a, string) -> string
-      return str_replace("\\", ".", $t);
     }
 
     # Equivalent to php's var_dump in the object.
@@ -179,6 +171,11 @@
     # Casting to Void (return-less).
     public function toVoid() { # :: a -> Void
       return new Void;
+    }
+
+    # Replaces backslashes by dots.
+    public static function typeName($t) { # :: (a, string) -> string
+      return str_replace("\\", ".", $t);
     }
 
     # Returns the protected value as a php primitive.

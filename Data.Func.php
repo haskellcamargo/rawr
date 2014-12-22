@@ -43,8 +43,10 @@
     # Function composition.
     public function ⃝($func) { # :: (Func, Func) -> Func
       # Math definition: (f ⃝ g)(x) = f(g(x)) where
-      $let['f'] = $this->value;
-      $let['g'] = \Data\TypeInference :: toPrimitive($func);
+      $let = [
+        "f" =>  $this -> value
+      , "g" =>  \Data\TypeInference :: toPrimitive($func)
+      ];
       return new Func(function ($x) use ($let) {
         return $let['f']($let['g']($x));
       });
@@ -58,40 +60,40 @@
       return $this->reflection->getClosureThis();     
     }
 
-    public function docComment() { # :: Func -> String
+    public function docComment() { # :: Func -> Str
       return ($temp = $this->reflection->getDocComment()) === false?
-        new Boolean(false)
-      : new String($temp);
+        new Bool(false)
+      : new Str($temp);
     }
 
     public function endLine() { # :: Func -> Int
       return new Int($this->reflection->getEndLine());
     }
 
-    public function export($ret = false) { # :: (String, Maybe Bool) -> String
-      return new String(ReflectionFunction :: export($this->value, $ret));
+    public function export($ret = false) { # :: (Str, Maybe Bool) -> Str
+      return new Str(ReflectionFunction :: export($this->value, $ret));
     }
 
     public function ext() { # :: Func -> ReflectionExtension
       return $this->reflection->getExtension();
     }
 
-    public function ext_name() { # :: Func -> String
+    public function extName() { # :: Func -> Str
       return ($temp = $this->reflection->getExtensionName()) === false?
-        new Boolean(false)
-      : new String($temp);
+        new Bool(false)
+      : new Str($temp);
     }
 
-    public function file_name() { # :: Func -> String
-      return new String($this->reflection->getFileName());
+    public function fileName() { # :: Func -> Str
+      return new Str($this->reflection->getFileName());
     }
 
-    public function get_clos() { # :: Func -> Closure
+    public function clos() { # :: Func -> Closure
       return $this->reflection->getClosure();
     }
 
-    public function in_ns() { # :: Func -> Boolean
-      return new Boolean($this->reflection->inNamespace());
+    public function inNs() { # :: Func -> Bool
+      return new Bool($this->reflection->inNamespace());
     }
 
     # Own implementation for a 100% optimization in velocity.
@@ -105,47 +107,47 @@
         return TypeInference :: infer(call_user_func($this->value()));
     }
 
-    public function is_clos() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isClosure());
+    public function isClos() { # :: Func -> Bool
+      return new Bool($this->reflection->isClosure());
     }
 
-    public function is_depr() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isDeprecated());
+    public function isDepr() { # :: Func -> Bool
+      return new Bool($this->reflection->isDeprecated());
     }
 
-    public function is_disabled() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isDisabled());
+    public function isDisabled() { # :: Func -> Bool
+      return new Bool($this->reflection->isDisabled());
     }
 
-    public function is_gen() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isGenerator());
+    public function isGen() { # :: Func -> Bool
+      return new Bool($this->reflection->isGenerator());
     }
 
-    public function is_internal() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isInternal());
+    public function isInternal() { # :: Func -> Bool
+      return new Bool($this->reflection->isInternal());
     }
 
-    public function is_user_def() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isUserDefined());
+    public function isUserDef() { # :: Func -> Bool
+      return new Bool($this->reflection->isUserDefined());
     }
 
-    public function is_variadic() { # :: Func -> Boolean
-      return new Boolean($this->reflection->isVariadica());
+    public function isVariadic() { # :: Func -> Bool
+      return new Bool($this->reflection->isVariadic());
     }
 
-    public function name() { # :: Func -> String
-      return new String($this->reflection->getName());
+    public function name() { # :: Func -> Str
+      return new Str($this->reflection->getName());
     }
 
-    public function ns_name() { # :: Func -> String
-      return new String($this->reflection->getNamespaceName());
+    public function ns() { # :: Func -> Str
+      return new Str($this->reflection->getNamespaceName());
     }
 
-    public function num_param() { # :: Func -> Int
+    public function numParam() { # :: Func -> Int
       return new Int($this->reflection->getNumberOfParameters());
     }
 
-    public function num_req_param() { # :: Func -> Int
+    public function numReqParam() { # :: Func -> Int
       return new Int($this->reflection->getNumberOfRequiredParameters());
     }
 
@@ -160,11 +162,11 @@
     }
 
     public function retRef() { # :: Func -> Bool
-      return new Boolean($this->reflection->returnsReference());
+      return new Bool($this->reflection->returnsReference());
     }
 
-    public function shortName() { # :: Func -> String
-      return new String($this->reflection->getShortName());
+    public function shortName() { # :: Func -> Str
+      return new Str($this->reflection->getShortName());
     }
 
     public function startLine() { # :: Func -> Int

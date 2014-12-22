@@ -142,8 +142,8 @@
 
     # Mapping over a list.
     public function map($lambda) { # :: (Collection, Func) -> Collection
-      $let['acc'] = array();
-      $let['currying'] = $this->closure($lambda);
+      $let =  [ 'acc'       =>  array()
+              , 'currying'  =>  $this->closure($lambda)];
         
       foreach ($this->value as $item)
         array_push($let['acc'], $let['currying']($item));
@@ -153,6 +153,11 @@
 
     # Casts the values of the list to object typed values
     public function of($type) { # :: Str -> Collection
+      if ($this->type == "[]") {
+        $this->type = str_replace(".", "\\", $type);
+        return $this;
+      }
+
       $let['class'] = str_replace(".", "\\", $type);
 
       if (!class_exists($let['class']))

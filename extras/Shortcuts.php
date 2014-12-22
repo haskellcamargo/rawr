@@ -76,6 +76,14 @@
     return new \Data\Num($v);
   }
 
+  function obj($v) {
+    return new \Data\Object($v);
+  }
+
+  function object($v) {
+    return new \Data\Object($v);
+  }
+
   function real($v) {
     return new \Data\Num\Float($v);
   }

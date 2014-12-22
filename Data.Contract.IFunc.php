@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -31,22 +31,22 @@
     public function endLine();                      # :: Func -> Int
     public function export($ret = false);           # :: (Func, Maybe Bool) -> String
     public function ext();                          # :: Func -> ReflectionExtension
-    public function ext_name();                     # :: Func -> String
-    public function file_name();                    # :: Func -> String
-    public function get_clos();                     # :: Func -> Closure
-    public function in_ns();                        # :: Func -> Bool
+    public function extName();                      # :: Func -> String
+    public function fileName();                     # :: Func -> String
+    public function clos();                         # :: Func -> Closure
+    public function inNs();                         # :: Func -> Bool
     public function invoke();                       # :: Maybe Dynamic -> Maybe Dynamic
-    public function is_clos();                      # :: Func -> Bool
-    public function is_depr();                      # :: Func -> Bool
-    public function is_disabled();                  # :: Func -> Bool
-    public function is_gen();                       # :: Func -> Bool
-    public function is_internal();                  # :: Func -> Bool
-    public function is_user_def();                  # :: Func -> Bool
-    public function is_variadic();                  # :: Func -> Bool
+    public function isClos();                       # :: Func -> Bool
+    public function isDepr();                       # :: Func -> Bool
+    public function isDisabled();                   # :: Func -> Bool
+    public function isGen();                        # :: Func -> Bool
+    public function isInternal();                   # :: Func -> Bool
+    public function isUserDef();                    # :: Func -> Bool
+    public function isVariadic();                   # :: Func -> Bool
     public function name();                         # :: Func -> String
-    public function ns_name();                      # :: Func -> String
-    public function num_param();                    # :: Func -> Int
-    public function num_req_param();                # :: Func -> Int
+    public function ns();                           # :: Func -> String
+    public function numParam();                     # :: Func -> Int
+    public function numReqParam();                  # :: Func -> Int
     public function param();                        # :: Func -> [ReflectionParameter]
     public function o($func);                       # :: (Func, Func) -> Func
     public function retRef();                       # :: Func -> Bool

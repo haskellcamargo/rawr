@@ -22,7 +22,7 @@
 
   define("MT_RAND_MAX", mt_getrandmax());
   define("RAND_MAX", getrandmax());
-  define("RAWR_VERSION", "1.0.0.1");
+  define("RAWR_VERSION", "1.0.0.2");
 
   # New Keywords
   # true and false must be instances of TrueClass and FalseClass
@@ -33,3 +33,22 @@
 
   /* Take care with the purism. Hitler started this way (Linspector, Torrens). */
   define("Maybe",     mt_rand() /* Change this */);
+
+  # Type-safety for objects and default values for empty objects.
+
+  /************** ALIAS ********** FOR TYPE ***********/
+  /**/ define("Bool",        "Data\\Bool");         /**/
+  /**/ define("Boolean",     "Data\\Bool");         /**/
+  /**/ define("Collection",  "Data\\Collection");   /**/
+  /**/ define("Error",       "Data\\Error");        /**/
+  /**/ define("File",        "Data\\File");         /**/
+  /**/ define("Func",        "Data\\Func");         /**/
+  /**/ define("Float",       "Data\\Num\\Float");   /**/
+  /**/ define("Int",         "Data\\Num\\Int");     /**/
+  /**/ define("Null",        "Data\\Null");         /**/
+  /**/ define("Num",         "Data\\Num");          /**/
+  /**/ define("Str",         "Data\\Str");          /**/
+  /**/ define("String",      "Data\\Str");          /**/
+  /**/ define("Undefined",   "Data\\Undefined");    /**/
+  /**/ define("Void",        "Data\\Void");         /**/
+  /****************************************************/
