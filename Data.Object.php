@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -24,27 +24,45 @@
   use \Exception;
 
   class Object extends DataTypes {
-    public $prototype = null;
+    public  $prototype = null;
+    private $typeOf = []; 
 
-    public function __construct($v = []) {
-      if (gettype($v) == "array" && !empty($v))
+    public function __donstruct($v = []) {
+      if (gettype($v) === "array" && !empty($v))
         foreach ($v as $property => $type)
           if (gettype($type) == "array" && sizeof($type) === 1)
             $this->{$property} = (new \Data\Collection([])) 
               -> of (\Data\DataTypes :: typeName ($type[0]));
-          else
-            $this->{$property} = function ($self, $x) use ($type, $property) {
-              if (get_class($x) == $type)
-                $this->{$property} = $x;
-              else {
-                echo "Expecting: " . $type . "<br />";
-                echo "Got:       " . get_class($x);
-              }
-            };
     }
-    
+
     public function __call($name, $arguments) {
       array_unshift($arguments, $this);
-      return call_user_func_array($this->{$name}, $arguments);
+      if (is_object($this->{$name}))
+        return call_user_func_array($this->{$name}->value(), $arguments);
+      else
+        return call_user_func_array($this->{$name}, $arguments);
+    }
+
+    public function __construct($v = []) {
+      if (gettype($v) === "array" && !empty($v))
+        foreach ($v as $property => $type)
+          $this->typeOf[$property] = $type;
+    }
+    
+    public function __set($property, $value) {
+      if (isset($this->typeOf[$property]))
+        if (is_array($this->typeOf[$property]) && sizeof($this->typeOf[$property])) {
+
+        } else     # PHP && operator works like Erlang's andelse.
+          if (is_object($value) && get_class($value) == $this->typeOf[$property]) # Rawr object, no need of optimization
+            $this->{$property} = $value;
+          else {
+              # Another PHP bug. Pff.
+              $className = "\\" . $this->typeOf[$property];
+              $this->{$property} = new $className($value);
+            
+          }
+      else
+        throw new Exception("Object has no property '{$property}'.");
     }
   }
