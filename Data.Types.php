@@ -21,7 +21,7 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
-
+  header("X-Powered-By: RAWR/1.0.0.2");
   # Typeclasses
 
   require_once "typeclasses/Eq.interface.php";
@@ -75,7 +75,7 @@
     }
 
     # Equivalent to php's var_dump in the object.
-    public function about() { # :: a -> object
+    final public function about() { # :: a -> object
       var_dump($this);
       return $this;
     }
@@ -95,6 +95,14 @@
           throw new \Exception("Object of type {$let['refl'] -> name} has no method {$func}.");
 
       return $stack;
+    }
+
+    # Equivalent to cond or switch
+    public function caseOf($of) {
+      foreach ($of as $case => $ret)
+        if ($this->value == $case)
+          return TypeInference :: infer($ret);
+      return TypeInference :: infer($of[otherwise]);
     }
 
     # Returns the element by itself.

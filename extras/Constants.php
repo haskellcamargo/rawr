@@ -30,6 +30,7 @@
   define("Off",       false);
   define("On",        true);
   define("Yes",       true);
+  define("otherwise", "[:otherwise:]");
 
   /* Take care with the purism. Hitler started this way (Linspector, Torrens). */
   define("Maybe",     mt_rand() /* Change this */);

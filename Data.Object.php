@@ -57,10 +57,8 @@
           if (is_object($value) && get_class($value) == $this->typeOf[$property]) # Rawr object, no need of optimization
             $this->{$property} = $value;
           else {
-              # Another PHP bug. Pff.
               $className = "\\" . $this->typeOf[$property];
               $this->{$property} = new $className($value);
-            
           }
       else
         throw new Exception("Object has no property '{$property}'.");
