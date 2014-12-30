@@ -35,17 +35,39 @@
 
     public function __construct($val) { # :: a -> Num
       # We expect $val to be a numeric value.
-      if (is_numeric($val)) {
+      if (is_numeric($val))
         $this->value = $val;
-      }
       else 
         throw new Exception("Expecting `{$val}` to be a valid number. Received " . gettype($val));
-      return $this;
+    }
+
+    # Type rules are here specified.
+    # PHP has variable variables, therefore, we just
+    # return a primitive string saying the type we want
+    # to return and after we search on classes where a class
+    # is defined with the same name of the string and we make
+    # a new instance of them to return.
+    private function _return(&$operand) {
+      if (($type = gettype($this())) === ($opType = gettype($operand))) {
+        switch ($type) {
+          case "float":
+            return "\\Data\\Num\\Float";
+          case "int":
+            return "\\Data\\Num\\Int";
+          default:
+            return "\\Data\\Num"; # Unreachable code (?)
+        }
+      } else { # They are obligatory <float, int> | <int, float>
+
+        int c = 1;
+        float b = 1.5;
+        c = c + b;
+      }
     }
 
     # Absolute value.
     public function abs() { # :: a -> Num
-      return new Num(abs($this->value));
+      return new Num(abs($this()));
     }
 
     # Arc cosin.
