@@ -23,25 +23,26 @@
   namespace Data\Num;
 
   require_once "Data.Num.Contract.IInt.php";
-  use \Data\Num\Contract\IInt as IInt;
-  use \TypeClass\Eq           as Eq;
+  use \Data\Num\Contract\IInt;
 
   class Int extends \Data\Num implements IInt {
     public function __construct($i) { # :: a -> a
       parent :: __construct((int) $i);
     }
 
-    public function diff(Int $y) { # :: (Eq a) => (Int, Int) -> bool
-      return new \Data\Bool(Eq :: diff($this->value, $y->value()));
+    public function mtSeedRand() {
+      mt_srand($this());
+      return $this;
     }
 
-    public function eq(Int $y) { # :: (Eq a) => (Int, Int) -> bool
-      return new \Data\Bool(Eq :: eq($this->value, $y->value())); 
+    public function seedRand() {
+      srand($this());
+      return $this;
     }
 
     # Returns a list of integrals
-    public function to($input) { # :: (Int, Int) -> [Int]
-      return (new \Data\Collection(range($this->value, \Data\TypeInference :: to_primitive($input))))
+    public function to(Int &$n) { # :: (Int, Int) -> [Int]
+      return (new \Data\Collection(range($this->value, $input())))
         -> of ('Data.Num.Int');
     }
   }

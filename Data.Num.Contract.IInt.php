@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
+  # Copyright (c) 2014 Marcelo Camargo <marcelo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -25,7 +25,15 @@
   # already processed data.
 
   namespace Data\Num\Contract;
+  use \Data\Num\Int;
 
   interface IInt {
-    public function __construct($a);        # :: a -> a
+  #      | METHOD NAME       |  METHOD ARGUMENTS           | TYPE SIGNATURE
+    function __construct        ($a);                      # :: a -> Int
+    function mtSeedRand         ();                        # :: Int -> Int
+    function seedRand           ();                        # :: Int -> Int
+    function to                 (Int &$n);                 # :: (Int, Int)
+    function toBin              ();                        # :: Int -> Str
+    function toHex              ();                        # :: Int -> Str
+    function toOct              ();                        # :: Int -> Str
   }

@@ -20,55 +20,55 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  # Break here: http://php.net/manual/en/function.atan2.php
-
-  # Please, somebody, put this in alphabetic order!
-  # I have obsessive compulsive disorder and I can't see this way!
-  # Redefine types definition correctly, like PHP documentation does.
-
   namespace Data\Contract;
+  use \Data\Num;
+  use \Data\Num\Int;
+  use \Data\Num\Float;
+
+  # In `PHP interfaces, `public` keyword is redundant because all methods
+  # declared in it must be obligatory public. Interfaces can act like
+  # final abstract classes in the backend, allowing type hinting, with the singular
+  # difference that they cannot show the implementation of a method.
+  # Well, they are a PHP workaround with basis on final abstract classes.
+  # That's why you cannot create a final abstract class in PHP.
 
   interface INum {
-    public function abs();                                        # :: a -> Number
-    public function arc_cos();                                    # :: Float -> Float
-    public function add($x);                                      # :: (Float, Float) -> Float
-    public function arc_sin();                                    # :: Float -> Float
-    public function arc_tan2($x);                                 # :: (Float, Float) -> Float
-    public function arc_tan();                                    # :: Float -> Float
-    public function ceil();                                       # :: Float -> Float
-    public function cos();                                        # :: Float -> Float
-    public function deg_to_rad();                                 # :: Float -> Float
-    public function div($x);                                      # :: (Float, Float) -> Float
-    public function exp();                                        # :: Float -> Float
-    public function expm1();                                      # :: Float -> Float
-    public function floor();                                      # :: Float -> Float
-    public function h_arc_cos();                                  # :: Float -> Float
-    public function h_arc_sin();                                  # :: Float -> Float
-    public function h_arc_tan();                                  # :: Float -> Float
-    public function h_cos();                                      # :: Float -> Float
-    public function h_sin();                                      # :: Float -> Float
-    public function h_tan();                                      # :: Float -> Float
-    public function hypot($x);                                    # :: (Float, Float) -> Float
-    public function is_finite();                                  # :: Float -> Bool
-    public function is_infinite();                                # :: Float -> Bool
-    public function is_nan();                                     # :: Float -> Bool
-    public function log10();                                      # :: Float -> Float
-    public function log1p();                                      # :: Float -> Float
-    public function log($y = M_E);                                # :: (Float, Maybe Float) -> Float
-    public function mod($x);                                      # :: (Float, Float) -> Float
-    public function mt_rand_until($x = MT_RAND_MAX);              # :: (Int, Maybe Int) -> Int
-    public function mt_seed_rand();                               # :: Maybe Int -> Void
-    public function mul($x);                                      # :: (Float, Float) -> Float
-    public function pow($x);                                      # :: (Number, Number) -> Number
-    public function rad_to_deg();                                 # :: Float -> Float
-    public function rand_until($y = RAND_MAX);                    # :: (Int, Maybe Int) -> Int
-    public function round($x = 0, $y = PHP_ROUND_HALF_UP);        # :: (Float, Maybe Int, Maybe Int) -> Float
-    public function seed_rand();                                  # :: Int -> Void   
-    public function sin();                                        # :: Float -> Float
-    public function sqrt();                                       # :: Float -> Float
-    public function sub($x);                                      # :: (Float, Float) -> Float
-    public function tan();                                        # :: Float -> Float
-    public function to_binary();                                  # :: Int -> String
-    public function to_hex();                                     # :: Int -> String
-    public function to_oct();                                     # :: Int -> String
+  #      | METHOD NAME       |  METHOD ARGUMENTS           | TYPE SIGNATURE
+    function abs                ();                        # :: Num -> Num
+    function arcCos             ();                        # :: Num -> Float
+    function add                (Num &$n);                 # :: (Num, Num) -> Num
+    function arcSin             ();                        # :: Num -> Float
+    function arcTan2            (Num &$n);                 # :: (Num, Num) -> Float
+    function arcTan             ();                        # :: Num -> Float
+    function ceil               ();                        # :: Num -> Float
+    function cos                ();                        # :: Num -> Float
+    function degToRad           ();                        # :: Num -> Float
+    function div                (Num &$n);                 # :: (Num, Num) -> Num
+    function exp                ();                        # :: Num -> Float
+    function expm1              ();                        # :: Num -> Float
+    function floor              ();                        # :: Num -> Float
+    function hArcCos            ();                        # :: Num -> Float
+    function hArcSin            ();                        # :: Num -> Float
+    function hArcTan            ();                        # :: Num -> Float
+    function hCos               ();                        # :: Num -> Float
+    function hSin               ();                        # :: Num -> Float
+    function hTan               ();                        # :: Num -> Float
+    function hypot              (Num &$n);                 # :: (Num, Num) -> Float
+    function isFinite           ();                        # :: Num -> Bool
+    function isInfinite         ();                        # :: Num -> Bool
+    function isNAN              ();                        # :: Num -> Bool
+    function log10              ();                        # :: Num -> Float
+    function log1p              ();                        # :: Num -> Float
+    function log                (Num &$n); # $n = M_E      # :: (Num, Num) -> Float
+    function mod                (Num &$n);                 # :: (Num, Num) -> Float
+    function mtRandUntil        (Num &$n); # $n = MT_RAND_MAX  # :: (Num, Num) -> Int
+    function mul                (Num &$n);                 # :: (Num, Num) -> Num
+    function pow                (Num &$n);                 # :: (Num, Num) -> Num
+    function radToDeg           ();                        # :: Num -> Float
+    function randUntil          (Num &$n); # $n = RAND_MAX  # :: (Num, Num) -> Int
+    function round              (Int &$n, Int &$o); # $n = 0, $o = PHP_ROUND_HALF_UP # :: (Num, Int, Int) -> Float
+    function sin                ();                        # :: Num -> Float
+    function sqrt               ();                        # :: Float -> Float
+    function sub                (Num &$n);                 # :: (Num, Num) -> Num
+    function tan                ();                        # :: Num -> Float
   }

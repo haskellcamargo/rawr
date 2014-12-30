@@ -31,7 +31,7 @@
   # to the correct occasion.
   # Numeric types might extend it.
 
-  class Num extends DataTypes implements INum {
+  class Num extends DataTypes {
 
     public function __construct($val) { # :: a -> Num
       # We expect $val to be a numeric value.
@@ -47,26 +47,27 @@
     # to return and after we search on classes where a class
     # is defined with the same name of the string and we make
     # a new instance of them to return.
-    private function _return(&$operand) {
-      if (($type = gettype($this())) === ($opType = gettype($operand))) {
+    private function _return($operand) {
+      if (($type = gettype($this())) === gettype($operand)) {
         switch ($type) {
           case "float":
+          case "double":
+          case "real":
             return "\\Data\\Num\\Float";
           case "int":
+          case "integer":
             return "\\Data\\Num\\Int";
-          default:
-            return "\\Data\\Num"; # Unreachable code (?)
         }
-      } else { # They are obligatory <float, int> | <int, float>
-
-        int c = 1;
-        float b = 1.5;
-        c = c + b;
+      } else {
+        $source = is_double($operand) ? "Data.Num.Float" : "Data.Num.Int";
+        $target = str_replace("\\", ".", get_class($this));
+        throw new \Exception(
+          "Cannot implicity convert \"{$target}\" to \"{$source}\".");
       }
     }
 
     # Absolute value.
-    public function abs() { # :: a -> Num
+    public function abs() { # :: a -> a
       return new Num(abs($this()));
     }
 
@@ -76,8 +77,9 @@
     }
 
     # Adds $value to the number.
-    public function add($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value + TypeInference :: toPrimitive($value));
+    public function add(Num &$n) { # :: (a, a) -> a
+      $_ = $this->_return($n());
+      return new $_($this() + $n());
     }
 
     # Arc sin.
