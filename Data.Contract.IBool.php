@@ -22,20 +22,21 @@
 
   namespace Data\Contract;
   use \Data\Bool as Bool;
+  use \Data\Func as Func;
 
   interface IBool {
-    function __construct($val);                 # :: a -> Bool
-    function _and($expr);                       # :: (Bool, Bool) -> Bool
-    function _or($expr);                        # :: (Bool, Bool) -> Bool
-    function _xor($expr);                       # :: (Bool, Bool) -> Bool
-    function diff(Bool $expr);                  # :: (Eq a) => (a, a) -> Bool
-    function eq(Bool $expr);                    # :: (Eq a) => (a, a) -> Bool
-    function greaterOrEq(Bool $expr);           # :: (Eq a, Ord a) => (a, a) -> Bool
-    function greaterThan(Bool $expr);           # :: (Ord a) => (a, a) -> Bool
-    function ifTrue($do);                       # :: (Bool, Func) -> Bool
-    function ifFalse($do);                      # :: (Bool, Func) -> Bool
-    function lesserThan(Bool $expr);            # :: (Ord a) => (a, a) -> Bool
-    function not();                             # :: Bool -> Bool
-    function otherwise($do);                    # :: (Bool, Func) -> Bool
-    function thenElse($x, $y);                  # :: (Bool, Func, Func) -> Bool
+  #      | METHOD NAME   |  METHOD ARGUMENTS       | TYPE SIGNATURE
+    function __construct   ($val);                 # :: a -> Bool
+    function _and          (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function _or           (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function diff          (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function eq            (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function greaterOrEq   (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function greaterThan   (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function ifTrue        (Func &$f);             # :: (Bool, Func) -> Bool
+    function ifFalse       (Func &$f);             # :: (Bool, Func) -> Bool
+    function lesserThan    (Bool &$b);             # :: (Bool, Bool) -> Bool
+    function not           ();                     # :: Bool -> Bool
+    function otherwise     (Func &$f);             # :: (Bool, Func) -> Bool
+    function thenElse      (Func &$t, Func &$e);   # :: (Bool, Func, Func) -> Bool
   }

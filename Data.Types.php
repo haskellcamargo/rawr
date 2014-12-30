@@ -61,10 +61,6 @@
       return $this;
     }
 
-    public function __toString() { # :: string
-      return (string) $this->value;
-    }
-
     public function __call($name, $arguments) { # :: (a, string, array) -> mixed
       array_unshift($arguments, $this);
       return call_user_func_array($this->prototype->{$name}, $arguments);
@@ -72,6 +68,14 @@
 
     public function __clone() { # :: a -> void
       $this->prototype = clone $this->prototype;
+    }
+
+    public function __invoke() { # :: a -> a
+      return $this->value;
+    }
+
+    public function __toString() { # :: a -> string
+      return (string) $this->value;
     }
 
     # Equivalent to php's var_dump in the object.

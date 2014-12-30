@@ -76,6 +76,10 @@
     return new \Data\Num($v);
   }
 
+  function number($v) {
+    return new \Data\Num($v);
+  }
+
   function obj($v) {
     return new \Data\Object($v);
   }

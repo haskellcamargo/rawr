@@ -25,15 +25,7 @@
 
   class Object extends DataTypes {
     public  $prototype = null;
-    private $typeOf = []; 
-
-    public function __donstruct($v = []) {
-      if (gettype($v) === "array" && !empty($v))
-        foreach ($v as $property => $type)
-          if (gettype($type) == "array" && sizeof($type) === 1)
-            $this->{$property} = (new \Data\Collection([])) 
-              -> of (\Data\DataTypes :: typeName ($type[0]));
-    }
+    private $typeOf    = [];
 
     public function __call($name, $arguments) {
       array_unshift($arguments, $this);
@@ -46,7 +38,10 @@
     public function __construct($v = []) {
       if (gettype($v) === "array" && !empty($v))
         foreach ($v as $property => $type)
-          $this->typeOf[$property] = $type;
+          if (is_string($property))
+            $this->typeOf[$property] = $type;
+          else
+            throw new Exception("Not an identifier: {$property}");
     }
     
     public function __set($property, $value) {

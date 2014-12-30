@@ -55,7 +55,7 @@
 
     # Adds $value to the number.
     public function add($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value + TypeInference :: to_primitive($value));
+      return new Num\Float($this->value + TypeInference :: toPrimitive($value));
     }
 
     # Arc sin.
@@ -66,7 +66,7 @@
     # Arc tangent of 2 values.
     public function arc_tan2($input) { # :: (Float -> Float) -> Float
       return new Num\Float(
-        atan2($this->value, TypeInference :: to_primitive($input)));
+        atan2($this->value, TypeInference :: toPrimitive($input)));
     }
 
     # Arc tangent.
@@ -95,7 +95,7 @@
 
     # Divides by $value.
     public function div($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value / TypeInference :: to_primitive($value));
+      return new Num\Float($this->value / TypeInference :: toPrimitive($value));
     }
 
     public function eq(Num $y) { # :: (Eq a) => (Num, Num) -> Bool
@@ -120,7 +120,7 @@
 
     # Greater than.
     public function gt($input) { # :: (Float, Float) -> Bool
-      return new Bool($this->value > TypeInference :: to_primitive($input));
+      return new Bool($this->value > TypeInference :: toPrimitive($input));
     }
 
     # Hyperbolic arc cosin,
@@ -155,7 +155,7 @@
 
     # Returns the hypotenuse of a triangle.
     public function hypot($value) { # :: (Float, Float) -> Float
-      return new Num\Float(hypot($this->value, TypeInference :: to_primitive($value)));
+      return new Num\Float(hypot($this->value, TypeInference :: toPrimitive($value)));
     }
 
     # Returns a boolean saying if the number is finite.
@@ -187,23 +187,23 @@
     # Natural logarithm.
     public function log($value = M_E) { # :: (Float, Maybe Float) -> Float
       return new Num\Float(
-        log($this->value, TypeInference :: to_primitive($value)));
+        log($this->value, TypeInference :: toPrimitive($value)));
     }
 
     # Less than.
     public function lt($input) { # :: (Float, Float) -> Bool
-      return new Bool($this->value < TypeInference :: to_primitive($input));
+      return new Bool($this->value < TypeInference :: toPrimitive($input));
     }
 
     # The module of the division.
     public function mod($value) { # (Float, Float) -> Float
-      return new Num\Float(fmod($this->value, TypeInference :: to_primitive($value)));
+      return new Num\Float(fmod($this->value, TypeInference :: toPrimitive($value)));
     }
 
     # Generate a better random value.
     public function mt_rand_until($value = MT_RAND_MAX) { # :: (Int, Maybe Int) -> Int
       return new Num\Int(
-        mt_rand($this->value, TypeInference :: to_primitive($value)));
+        mt_rand($this->value, TypeInference :: toPrimitive($value)));
     }
 
     # Seed the better random number generator.
@@ -214,12 +214,12 @@
 
     # Multiplication by $value.
     public function mul($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value * TypeInference :: to_primitive($value));
+      return new Num\Float($this->value * TypeInference :: toPrimitive($value));
     }
 
     # Exponential expression.
     public function pow($exp) { # :: (Number, Number) -> Number
-      return new Num(pow($this->value, TypeInference :: to_primitive($exp)));
+      return new Num(pow($this->value, TypeInference :: toPrimitive($exp)));
     }
 
     # Converts the radian number to the equivalent number in degrees.
@@ -230,7 +230,7 @@
     # Generate a random integer.
     public function rand_until($value = RAND_MAX) { # :: (Int, Maybe Int) -> Int
       return new Num\Int(
-        rand($this->value, TypeInference :: to_primitive($value)));
+        rand($this->value, TypeInference :: toPrimitive($value)));
     }
 
     # Rounds a float.
@@ -240,8 +240,8 @@
     public function round($x = 0, $y = PHP_ROUND_HALF_UP) { # :: (Float, Maybe Int, Maybe Int) -> Float
       return new Num\Float(
         round($this->value, 
-          TypeInference :: to_primitive($x),
-          TypeInference :: to_primitive($y)));
+          TypeInference :: toPrimitive($x),
+          TypeInference :: toPrimitive($y)));
     }
 
     # Seed the random number generator.
@@ -262,7 +262,7 @@
 
     # Subtraction
     public function sub($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value - TypeInference :: to_primitive($value));
+      return new Num\Float($this->value - TypeInference :: toPrimitive($value));
     }
 
     # Tangent.

@@ -40,6 +40,16 @@
       }
     }
 
+    public function __invoke() { # :: a -> a
+      if (func_get_args() < $this->reflection->getNumberOfRequiredParameters())
+        throw new Exception; # Required arguments.
+      
+      if (count($args = func_get_args()) > 0)
+        return TypeInference :: infer(call_user_func_array($this->value, $args));
+      else
+        return TypeInference :: infer(call_user_func($this->value()));
+    }
+
     # Function composition.
     public function ⃝($func) { # :: (Func, Func) -> Func
       # Math definition: (f ⃝ g)(x) = f(g(x)) where

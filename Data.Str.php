@@ -142,7 +142,7 @@
 
     # Outputs to screen a string and breaks line.
     function putStrLn() { # :: Str -> Str
-      echo $this->value . "<br />\n";
+      echo $this->value . "\n";
       return $this;
     }
 
