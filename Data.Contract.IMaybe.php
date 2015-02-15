@@ -23,6 +23,10 @@
   namespace Data\Contract;
 
   interface IMaybe {
-    function just(\Data\Func $f);               # :: Func -> Maybe
-    function nothing(\Data\Func $f);            # :: Func -> Maybe
+    function fromJust();                        # :: Maybe -> Maybe a
+    function fromMaybe($d);                     # :: (Maybe, a) -> Maybe a
+    function isJust();                          # :: Maybe -> Bool
+    function isNothing();                       # :: Maybe -> Bool
+    function just(\Data\Func $f);               # :: (Maybe, Func) -> Maybe
+    function nothing(\Data\Func $f);            # :: (Maybe, Func) -> Maybe
   }

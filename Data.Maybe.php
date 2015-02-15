@@ -28,6 +28,18 @@
       $this->value = $t;
     }
 
+    function fromJust() {
+      if (!is_null($this->value))
+        return $this->value;
+      throw new \Exception("TODO: IMPLEMENT EXCEPTION");
+    }
+
+    function fromMaybe($d) {
+      is_null($this->value) ?
+        $d
+      : $this->value;
+    }
+
     function isJust() {
       return new Bool(!is_null($this->value));
     }
