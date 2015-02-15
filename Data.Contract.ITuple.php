@@ -1,5 +1,5 @@
 <?php
-  # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
+  # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
   # obtaining a copy of this software and associated documentation files
@@ -21,18 +21,10 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data\Contract;
-  use \ArrayAccess;
-  use \Countable;
-  use \Iterator;
 
-  # /tests/exe.php => Where is the prototype of this.
-
-  interface ICollection extends ArrayAccess, Countable, Iterator {
-    public function __construct();              # :: [a] -> Collection
-    public function each($lambda);              # :: (Colllection, Func) -> Collection
-    public function filter($lambda);            # :: (Collection, Func<Bool>) -> Collection
-    public function intersperse($item);         # :: (Collection<a>, a) -> Collection
-    public function map($lambda);               # :: (Collection, Func) -> Collection
-    public function of($type);                  # :: Str -> Collection
-    public function reject($lambda);            # :: (Collection, Func<Bool>) -> Collection
+  interface ITuple {
+    function get(\Data\Num $index);      # :: Num -> Maybe a
+    function fst();                      # :: Maybe a
+    function snd();                      # :: Maybe a
+    function showType();                 # :: Str
   }

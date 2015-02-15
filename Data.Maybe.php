@@ -20,19 +20,31 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  namespace Data\Contract;
-  use \ArrayAccess;
-  use \Countable;
-  use \Iterator;
+  namespace Data;
+  require_once 'Data.Contract.IMaybe.php';
 
-  # /tests/exe.php => Where is the prototype of this.
+  class Maybe extends DataTypes implements Contract\IMaybe {
+    function __construct($v) {
+      $this->value = $t;
+    }
 
-  interface ICollection extends ArrayAccess, Countable, Iterator {
-    public function __construct();              # :: [a] -> Collection
-    public function each($lambda);              # :: (Colllection, Func) -> Collection
-    public function filter($lambda);            # :: (Collection, Func<Bool>) -> Collection
-    public function intersperse($item);         # :: (Collection<a>, a) -> Collection
-    public function map($lambda);               # :: (Collection, Func) -> Collection
-    public function of($type);                  # :: Str -> Collection
-    public function reject($lambda);            # :: (Collection, Func<Bool>) -> Collection
+    function isJust() {
+      return new Bool(!is_null($this->value));
+    }
+
+    function isNothing() {
+      return new Bool(is_null($this->value));
+    }
+
+    function just(Func $f) {
+      if (!is_null($this->value))
+        $f($this->value);
+      return $this;
+    }
+
+    function nothing(Func $f) {
+      if (is_null($this->value))
+        $f();
+      return $this;
+    }
   }

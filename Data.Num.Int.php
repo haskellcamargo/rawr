@@ -20,7 +20,10 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  # Side effect functions must return themselves.
+
   namespace Data\Num;
+  use \Data\Str;
 
   require_once "Data.Num.Contract.IInt.php";
   use \Data\Num\Contract\IInt;
@@ -30,19 +33,42 @@
       parent :: __construct((int) $i);
     }
 
-    public function mtSeedRand() {
+    # Generate a better random value.
+    public function mtRandUntil(Int &$n = Null) { # :: (Int, Int) -> Int
+      return new Int(
+        mt_rand($this(), $n === Null ? MT_RAND_MAX : $n()));
+    }
+
+    # Seeds the random number generator.
+    public function mtSeedRand() { # :: Int -> Int
       mt_srand($this());
       return $this;
     }
 
-    public function seedRand() {
+    # Seeds the random number generator.
+    public function seedRand() { # :: Int -> Int
       srand($this());
       return $this;
     }
 
     # Returns a list of integrals
     public function to(Int &$n) { # :: (Int, Int) -> [Int]
-      return (new \Data\Collection(range($this->value, $input())))
+      return (new \Data\Collection(range($this(), $input())))
         -> of ('Data.Num.Int');
+    }
+
+    # Gives a string containing the binary conversion of the number.
+    public function toBin() { # :: Int -> Str
+      return new Str(decbin($this()));
+    }
+
+    # Gives a string containing the hexadecimal value of the number.
+    public function toHex() { # :: Int -> Str
+      return new Str(dechex($this()));
+    }
+
+    # Gives a string containing the octal value of the number.
+    public function toOct() { # :: Int -> Str
+      return new Str(decoct($this()));
     }
   }

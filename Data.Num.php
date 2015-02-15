@@ -24,7 +24,6 @@
 
   require_once 'Data.Contract.INum.php';
   use \Data\Contract\INum as INum;
-  use \TypeClass\Eq       as Eq;
 
   # Parent class for Real and Int.
   # This class knows how to choose between the types according
@@ -67,245 +66,203 @@
     }
 
     # Absolute value.
-    public function abs() { # :: a -> a
-      return new Num(abs($this()));
-    }
-
-    # Arc cosin.
-    public function arc_cos() { # :: Float -> Float
-      return new Num\Float(acos($this->value));
+    public function abs() { # :: Num -> Num
+      $_ = get_class($this);
+      return new $_(abs($this()));
     }
 
     # Adds $value to the number.
-    public function add(Num &$n) { # :: (a, a) -> a
+    public function add(Num &$n) { # :: (Num, Num) -> Num
       $_ = $this->_return($n());
       return new $_($this() + $n());
     }
 
+    # Arc cosin.
+    public function arcCos() { # :: Num -> Float
+      return new Num\Float(acos($this()));
+    }
+
     # Arc sin.
-    public function arc_sin() { # :: Float -> Float
-      return new Num\Float(asin($this->value));
+    public function arcSin() { # :: Num -> Float
+      return new Num\Float(asin($this()));
     }
 
     # Arc tangent of 2 values.
-    public function arc_tan2($input) { # :: (Float -> Float) -> Float
-      return new Num\Float(
-        atan2($this->value, TypeInference :: toPrimitive($input)));
+    public function arcTan2(Num &$n) { # :: (Num, Num) -> Float
+      return new Num\Float(atan2($this(), $n()));
     }
 
     # Arc tangent.
-    public function arc_tan() { # :: Float -> Float
-      return new Num\Float(atan($this->value));
+    public function arcTan() { # :: Num -> Float
+      return new Num\Float(atan($this()));
     }
 
     # Round fractions up.
-    public function ceil() { # :: Float -> Float
-      return new Num\Float(ceil($this->value));
+    public function ceil() { # :: Num -> Float
+      return new Num\Float(ceil($this()));
     }
 
     # Cosin.
-    public function cos() { # :: Float -> Float
-      return new Num\Float(cos($this->value));
+    public function cos() { # :: Num -> Float
+      return new Num\Float(cos($this()));
     }
 
-    # Dregrees to radians.
-    public function deg_to_rad() { # :: Float -> Float
-      return new Num\Float(deg2rad($this->value));
-    }
-
-    public function diff(Num $y) { # :: (Eq a) => (Num, Num) -> Bool
-      return new Bool(Eq :: diff($this->value, $y->value()));
+    # Degrees to radians.
+    public function degToRad() { # :: Num -> Float
+      return new Num\Float(deg2rad($this()));
     }
 
     # Divides by $value.
-    public function div($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value / TypeInference :: toPrimitive($value));
-    }
-
-    public function eq(Num $y) { # :: (Eq a) => (Num, Num) -> Bool
-      return new Bool(Eq :: eq($this->value, $y->value())); 
+    public function div(Num &$n) { # :: (Num, Num) -> Float
+      $_ = $this->_return($n());
+      return new $_($this() + $n());
     }
 
     # Calculates the exponent of e.
-    public function exp() { # :: Float -> Float
-      return new Num\Float(exp($this->value));
+    public function exp() { # :: Num -> Float
+      return new Num\Float(exp($this()));
     }
 
     # Returns exp(Number) - 1, computed in a way that is accurate even
     # when the value of number is close to zero.
-    public function expm1() { # :: Float -> Float
-      return new Num\Float(expm1($this->value));
+    public function expm1() { # :: Num -> Float
+      return new Num\Float(expm1($this()));
     }
 
     # Round fractions down.
-    public function floor() { # :: Float -> Float
-      return new Num\Float(floor($this->value));
-    }
-
-    # Greater than.
-    public function gt($input) { # :: (Float, Float) -> Bool
-      return new Bool($this->value > TypeInference :: toPrimitive($input));
+    public function floor() { # :: Num -> Float
+      return new Num\Float(floor($this()));
     }
 
     # Hyperbolic arc cosin,
-    public function h_arc_cos() { # :: Float -> Float
-      return new Num\Float(acosh($this->value));
+    public function hArcCos() { # :: Num -> Float
+      return new Num\Float(acosh($this()));
     }
 
     # Hyperbolic arc sin.
-    public function h_arc_sin() { # :: Float -> Float
-      return new Num\Float(asinh($this->value));
+    public function hArcSin() { # :: Num -> Float
+      return new Num\Float(asinh($this()));
     }
 
     # Hyperbolic arc tangent.
-    public function h_arc_tan() { # :: Float -> Float
-      return new Num\Float(atanh($this->value));
+    public function hArcTan() { # :: Num -> Float
+      return new Num\Float(atanh($this()));
     }
 
     # Hyperbolic cosin.
-    public function h_cos() { # :: Float -> Float
-      return new Num\Float(cosh($this->value));
+    public function hCos() { # :: Num -> Float
+      return new Num\Float(cosh($this()));
     }
 
     # Hyperbolic sin.
-    public function h_sin() { # :: Float -> Float
-      return new Num\Float(sinh($this->value));
+    public function hSin() { # :: Num -> Float
+      return new Num\Float(sinh($this()));
     }
 
     # Hyperbolic tangent.
-    public function h_tan() { # :: Float -> Float
-      return new Num\Float(tanh($this->value));
+    public function hTan() { # :: Num -> Float
+      return new Num\Float(tanh($this()));
     }
 
     # Returns the hypotenuse of a triangle.
-    public function hypot($value) { # :: (Float, Float) -> Float
-      return new Num\Float(hypot($this->value, TypeInference :: toPrimitive($value)));
+    public function hypot(Num &$n) { # :: (Num, Num) -> Float
+      return new Num\Float(hypot($this(), $n()));
     }
 
     # Returns a boolean saying if the number is finite.
-    public function is_finite() { # :: Float -> Bool
-      return new Bool(is_finite($this->value));
+    public function isFinite() { # :: Num -> Bool
+      return new Bool(is_finite($this()));
     }
     
     # Returns a boolean saying if the number is infinite.
-    public function is_infinite() { # :: Float -> Bool
-      return new Bool(is_infinite($this->value));
+    public function isInfinite() { # :: Num -> Bool
+      return new Bool(is_infinite($this()));
     }
 
     # Returns true if the valus is not a number.
-    public function is_nan() { # :: Float -> Bool
-      return new Bool(is_nan($this->value));
+    public function isNAN() { # :: Num -> Bool
+      return new Bool(is_nan($this()));
     }
 
     # Base 10 logarithm.
-    public function log10() { # :: Float -> Float
-      return new Num\Float(log10($this->value));
+    public function log10() { # :: Num -> Float
+      return new Num\Float(log10($this()));
     }
 
     # Returns log(1 + Number), computed in a way that is accurate even
     # when the value of number is close to zero.
-    public function log1p() { # :: Float -> Float
-      return new Num\Float(log1p($this->value));
+    public function log1p() { # :: Num -> Float
+      return new Num\Float(log1p($this()));
     }
 
     # Natural logarithm.
-    public function log($value = M_E) { # :: (Float, Maybe Float) -> Float
-      return new Num\Float(
-        log($this->value, TypeInference :: toPrimitive($value)));
-    }
-
-    # Less than.
-    public function lt($input) { # :: (Float, Float) -> Bool
-      return new Bool($this->value < TypeInference :: toPrimitive($input));
+    public function log(Num &$n = Null) { # :: (Num, Num) -> Float
+      return new Num\Float(log($this(), $n === Null ? M_E : $n()));
     }
 
     # The module of the division.
-    public function mod($value) { # (Float, Float) -> Float
-      return new Num\Float(fmod($this->value, TypeInference :: toPrimitive($value)));
+    public function mod(Num &$n) { # (Num, Num) -> Num
+      $_ = $this->_return($n());
+      return new $_(fmod($this(), $n()));
     }
 
-    # Generate a better random value.
-    public function mt_rand_until($value = MT_RAND_MAX) { # :: (Int, Maybe Int) -> Int
-      return new Num\Int(
-        mt_rand($this->value, TypeInference :: toPrimitive($value)));
+    # Multiplication.
+    public function mul(Num &$n) { # :: (Num, Num) -> Num
+      $_ = $this->_return($n());
+      return new $_($this() * $n());
     }
 
-    # Seed the better random number generator.
-    public function mt_seed_rand() { # :: Int -> Void
-      mt_srand($this->value);
-      return new Void;
-    }
-
-    # Multiplication by $value.
-    public function mul($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value * TypeInference :: toPrimitive($value));
+    # Returns the negation of the value.
+    public function negate() { # :: Num -> Num
+      return -$this();
     }
 
     # Exponential expression.
-    public function pow($exp) { # :: (Number, Number) -> Number
-      return new Num(pow($this->value, TypeInference :: toPrimitive($exp)));
+    public function pow(Num &$n) { # :: (Num, Num) -> Num
+      $a = $n === Null ? MT_RAND_MAX : $n();
+      $_ = $this->_return($a);
+      return new $_(pow($this(), $a));
     }
 
     # Converts the radian number to the equivalent number in degrees.
-    public function rad_to_deg() { # :: Float -> Float
-      return new Num\Float(rad2deg($this->value));
+    public function radToDeg() { # :: Num -> Float
+      return new Num\Float(rad2deg($this()));
     }
 
     # Generate a random integer.
-    public function rand_until($value = RAND_MAX) { # :: (Int, Maybe Int) -> Int
+    public function randUntil(Num &$n = Null) { # :: (Num, Num) -> Int
+      $a = $n === Null ? RAND_MAX : $n();
       return new Num\Int(
-        rand($this->value, TypeInference :: toPrimitive($value)));
+        rand($this(), $a));
     }
 
     # Rounds a float.
     # Uncle Rasmus doesn't allow returned functions to be applied.
     # Some day I'll throw a pie in Lerdorf's face by this.
-    # That's why round isn't an unary function.
-    public function round($x = 0, $y = PHP_ROUND_HALF_UP) { # :: (Float, Maybe Int, Maybe Int) -> Float
-      return new Num\Float(
-        round($this->value, 
-          TypeInference :: toPrimitive($x),
-          TypeInference :: toPrimitive($y)));
-    }
-
-    # Seed the random number generator.
-    public function seed_rand() { # :: Int -> Void
-      srand($this->value);
-      return new Void;
+    # That's why round isn't an unary function and will not allow currying.
+    public function round(Int &$n = Null, Int &$o = Null) { # :: (Num, Int, Int) -> Float
+      return new Num\Float($this(), $n === Null ? 0                 : $n()
+                                  , $o === Null ? PHP_ROUND_HALF_UP : $o());
     }
 
     # Sin.
-    public function sin() { # :: Float -> Float
-      return new Num\Float(sin($this->value));
+    public function sin() { # :: Num -> Float
+      return new Num\Float(sin($this()));
     }
 
     # Square root of the number.
-    public function sqrt() { # :: Float -> Float
-      return new Num\Float(sqrt($this->value));
+    public function sqrt() { # :: Num -> Float
+      return new Num\Float(sqrt($this()));
     }
 
     # Subtraction
-    public function sub($value) { # :: (Float, Float) -> Float
-      return new Num\Float($this->value - TypeInference :: toPrimitive($value));
+    public function sub(Num &$n) { # :: (Num, Num) -> Num
+      $_ = $this->_return($n());
+      return new $_($this() - $n());
     }
 
     # Tangent.
-    public function tan() { # :: Float -> Float
-      return new Num\Float(tan($this->value));
-    }
-
-    # Gives a string containing the binary conversion of the number.
-    public function to_binary() { # :: Int -> String
-      return new Str(decbin($this->value));
-    }
-
-    # Gives a string containing the hexadecimal value of the number.
-    public function to_hex() { # :: Int -> String
-      return new Str(dechex($this->value));
-    }
-
-    # Gives a string containing the octal value of the number.
-    public function to_oct() { # :: Int -> String
-      return new Str(decoct($this->value));
+    public function tan() { # :: Num -> Float
+      return new Num\Float(tan($this()));
     }
   }

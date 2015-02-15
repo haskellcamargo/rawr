@@ -21,18 +21,8 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data\Contract;
-  use \ArrayAccess;
-  use \Countable;
-  use \Iterator;
 
-  # /tests/exe.php => Where is the prototype of this.
-
-  interface ICollection extends ArrayAccess, Countable, Iterator {
-    public function __construct();              # :: [a] -> Collection
-    public function each($lambda);              # :: (Colllection, Func) -> Collection
-    public function filter($lambda);            # :: (Collection, Func<Bool>) -> Collection
-    public function intersperse($item);         # :: (Collection<a>, a) -> Collection
-    public function map($lambda);               # :: (Collection, Func) -> Collection
-    public function of($type);                  # :: Str -> Collection
-    public function reject($lambda);            # :: (Collection, Func<Bool>) -> Collection
+  interface IMaybe {
+    function just(\Data\Func $f);               # :: Func -> Maybe
+    function nothing(\Data\Func $f);            # :: Func -> Maybe
   }

@@ -30,6 +30,7 @@
   interface IInt {
   #      | METHOD NAME       |  METHOD ARGUMENTS           | TYPE SIGNATURE
     function __construct        ($a);                      # :: a -> Int
+    function mtRandUntil        (Int &$n = Null);          # :: (Int, Int) -> Int
     function mtSeedRand         ();                        # :: Int -> Int
     function seedRand           ();                        # :: Int -> Int
     function to                 (Int &$n);                 # :: (Int, Int)

@@ -27,20 +27,22 @@
 
   # Collections of all types.
   class Collection extends DataTypes implements Contract\ICollection {
-    private $type = "[]";
+    private $type     = "[]"
+          , $position =   0;
 
     public function __construct() { # :: [a] -> Collection
       # Ensure type of all the elements in the list.
       # Collections are unityped.
 
       # Bindings to useful variables
-      $let['args']    = func_get_args();
-      $let['numArgs'] = func_num_args();
 
-      if (gettype($let['args']) === "array" && $let['numArgs'] === 1) {
+      # Who said pattern matching doesn't exist in PHP?
+      list ($args, $numArgs) = [func_get_args(), func_num_args()];
+
+      if (gettype($args) === "array" && $numArgs === 1) {
         # Received a single list in format [n, n + 1, n + 2 ...]
-        if (($list = $let['args'][0]) === []) # Avoid use of `empty` function here
-          return;                             # I prefer pattern matching :/
+        if (($list = $args[0]) === []) # Avoid use of `empty` function here
+          return;
 
         $let['typeConstraint'] = function ($predicate) use ($list) { # :: Closure -> (Throws TypeException)
           $this->type = $predicate($list[0]);
@@ -62,18 +64,18 @@
         $this->value = $list;
       } else {
         # String parsing for list generation.
-        if ($let['numArgs'] === 3 && $let['args'][1] === '...') {
-          $let['startAt'] = TypeInference :: to_primitive($let['args'][0]);
-          $let['endAt']   = TypeInference :: to_primitive($let['args'][2]);
+        if ($numArgs === 3 && $args[1] === '...') {
+          $let['startAt'] = TypeInference :: to_primitive($args[0]);
+          $let['endAt']   = TypeInference :: to_primitive($args[2]);
           if (gettype($let['startAt']) !== gettype($let['endAt']))
             throw new Exception("List range requires start value and end value to be of the same type.");
 
           $this->type  = gettype($let['startAt']);
           $this->value = range($let['startAt'], $let['endAt']);
-        } else if ($let['numArgs'] === 4 && $let['args'][2] === '...') {
-          $let['startAt'] = TypeInference :: to_primitive($let['args'][0]);
-          $let['jmpVal']  = TypeInference :: to_primitive($let['args'][1]);
-          $let['endAt']   = TypeInference :: to_primitive($let['args'][3]);
+        } else if ($numArgs === 4 && $args[2] === '...') {
+          $let['startAt'] = TypeInference :: to_primitive($args[0]);
+          $let['jmpVal']  = TypeInference :: to_primitive($args[1]);
+          $let['endAt']   = TypeInference :: to_primitive($args[3]);
 
           # Type constraint
           if (gettype($let['startAt']) !== gettype($let['endAt'])
@@ -182,5 +184,14 @@
       endforeach;
 
       return new Collection($let['acc']);
+    }
+
+    # This automagically implements operator overloading of [] and makes this
+    # object iterable and countable. It acts really like an Array, but it is
+    # an object.
+
+    # (Countable a) => a -> Int
+    public function count() {
+      return new \Data\Num\Int(sizeof($this->value));
     }
   }

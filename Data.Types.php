@@ -21,7 +21,7 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
-  header("X-Powered-By: RAWR/1.0.0.2");
+  header("X-Powered-By: RAWR/1.0.0.3");
   # Typeclasses
 
   require_once "typeclasses/Eq.interface.php";
@@ -37,12 +37,14 @@
   
   # Parent class for numeric types
   require_once 'Data.Num.php';
-  require_once 'Data.Collection.php';
+  //require_once 'Data.Collection.php';
   require_once 'Data.Func.php';
+  require_once 'Data.Maybe.php';
   require_once 'Data.Num.Int.php';
   require_once 'Data.Object.php';
   require_once 'Data.Num.Float.php';
   require_once 'Data.Str.php';
+  require_once 'Data.Tuple.php';
   require_once 'Data.Undefined.php';
   require_once 'Data.Void.php';
   

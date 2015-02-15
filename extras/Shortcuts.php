@@ -72,6 +72,10 @@
     return new \Data\Func($v);
   }
 
+  function maybe($v) {
+    return new \Data\Maybe($v);
+  }
+
   function num($v) {
     return new \Data\Num($v);
   }
@@ -102,6 +106,10 @@
 
   function true() {
     return new \Data\Bool\TrueClass;
+  }
+
+  function tuple() {
+    return new \Data\Tuple(func_get_args());
   }
 
   function undefined() {

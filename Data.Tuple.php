@@ -20,19 +20,35 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  namespace Data\Contract;
-  use \ArrayAccess;
-  use \Countable;
-  use \Iterator;
+  namespace Data;
 
-  # /tests/exe.php => Where is the prototype of this.
+  require_once 'Data.Contract.ITuple.php';
 
-  interface ICollection extends ArrayAccess, Countable, Iterator {
-    public function __construct();              # :: [a] -> Collection
-    public function each($lambda);              # :: (Colllection, Func) -> Collection
-    public function filter($lambda);            # :: (Collection, Func<Bool>) -> Collection
-    public function intersperse($item);         # :: (Collection<a>, a) -> Collection
-    public function map($lambda);               # :: (Collection, Func) -> Collection
-    public function of($type);                  # :: Str -> Collection
-    public function reject($lambda);            # :: (Collection, Func<Bool>) -> Collection
+  class Tuple extends DataTypes implements Contract\ITuple {
+    private $size =  0
+          , $type = [];
+
+    function __construct(Array $arr) {
+      $this->size = count($arr);
+      foreach ($arr as $node)
+        $this->type[] = parent :: typeName(get_class($node));
+      $this->value = $arr;
+    }
+
+    function get(Num $index) {
+      return $this->value[$index - 1];
+    }
+
+    function fst() {
+      return $this->value[0];
+    }
+
+    function snd() {
+      return $this->value[1];
+    }
+
+    function showType() {
+      return new \Data\Str(
+        "Tuple<" . implode(", ", $this->type) . ">({$this->size})");
+    }
   }
