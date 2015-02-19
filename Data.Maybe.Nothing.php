@@ -23,25 +23,34 @@
   namespace Data\Maybe;
   use \Data\Func;
   use \Exception;
+  use \Data\Contract\Maybe\IMaybe;
   
-  class Nothing {
-    function bind(Func $_) {
+  class Nothing implements IMaybe {
+    function bind($_) {
       return $this;
     }
     
-    function isNothing() {
-      return Bool(True);
+    function fromJust() {
+      throw new Exception("Cannot cal val() nothing");
+    }
+    
+    function fromMaybe($def) {
+      return $def;
     }
     
     function isJust() {
       return Bool(False); 
     }
     
-    function val() {
-      throw new Exception("Cannot cal val() nothing");
+    function isNothing() {
+      return Bool(True);
     }
     
     function maybe($def, $_) {
       return $def;
+    }
+    
+    function toList() {
+      return Collection([]);
     }
   }

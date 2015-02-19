@@ -22,9 +22,9 @@
   
   namespace Data\Maybe;
   use \Data\Func;
-  use \Exception;
+  use \Data\Contract\Maybe\IMaybe;
   
-  class Just {
+  class Just implements IMaybe {
     function __construct($value) {
       $this->value = $value;
     }
@@ -33,19 +33,27 @@
       return $fn($this->value);
     }
     
-    function isNothing() {
-      return Bool(False);
+    function fromJust() {
+      return $this->value;
+    }
+    
+    function fromMaybe($_) {
+      return $this->value;
     }
     
     function isJust() {
       return Bool(True); 
     }
     
-    function val() {
-      return $this->value;
+    function isNothing() {
+      return Bool(False);
     }
     
     function maybe($_, $fn) {
       return $fn($this->value);
+    }
+    
+    function toList() {
+      return Collection([$this->value]);
     }
   }
