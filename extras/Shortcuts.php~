@@ -67,21 +67,13 @@
   function integer($v) {
     return new \Data\Num\Int($v);
   }
-  
-  function just($v) {
-    return new \Data\Maybe\Just($v); 
-  }
 
   function lambda($v) {
     return new \Data\Func($v);
   }
 
   function maybe($v) {
-    return \Data\Maybe($v);
-  }
-  
-  function nothing() {
-    return new \Data\Maybe\Nothing; 
+    return new \Data\Maybe($v);
   }
 
   function num($v) {

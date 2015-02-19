@@ -38,14 +38,7 @@
     # uppercase and the remainder to lowercase. Note: case 
     # conversion is effective only in ASCII region
     function capitalize() { # :: Str -> Str
-      $let['acc'] = strtolower($this->value);
-      for ($i = 0, $len = strlen($let['acc']); $i < $len; $i++)
-        if (preg_match('/[a-zA-Z]/', $let['acc'][$i])) {
-          $let['acc'][$i] = strtoupper($let['acc'][$i]);
-          return new Str($let['acc']);
-        }
-
-      return new Str($let['acc']);
+      return new Str(ucwords($this->value));
     }
 
     # Returns an array of characters in string.
@@ -60,30 +53,30 @@
 
     # Makes string empty
     function clear() { # :: Str -> Str
-      return new Str('');
+      return new Str("");
     }
 
     # Returns an array of the Integer ordinals of the characters in
     function codePoints() { # :: Str -> Collection
-      $let['acc'] = [];
+      $acc = [];
       for ($i = 0, $len = strlen($this->value); $i < $len; $i++)
-        array_push($let['acc'], (int) ord($this->value[$i]));
-      return new Collection($let['acc']);
+        $acc[] = (int) ord($this->value[$i]);
+      return new Collection($acc);
     }
 
     # Append the given object to string. If object is an Integer,
     # it is considered as a codepoint, and is converted to a character
     # before concatenation.
     function concat() { # :: (Str ...) -> Str
-      $let['acc']  = $this->value;
-      $let['args'] = func_get_args();
+      list ($let['acc']
+          , $let['args']) = [$this->value, func_get_args()];
+
       for ($i = 0, $len = func_num_args(); $i < $len; $i++)
         if (is_integer($let['args'][$i]) || $let['args'][$i] instanceof \Data\Num\Int) {
           $let['acc'] .= gettype($let['args'][$i]) === "object" ? 
             chr((string) $let['args'][$i])
           : chr($let['args'][$i]);
         } else $let['acc'] .= $let['args'][$i];
-
       return new Str($let['acc']);
     }
 
@@ -92,34 +85,89 @@
       return new Str(strtolower($this->value));
     }
 
-    function diff(Str $y) { # :: (Eq a) => (a, a) -> Bool
-      return new Data\Bool(Eq :: diff($this->value, $y->value()));
+    # Different of.
+    function diff(Str $s) { # :: (Str, Str) -> Bool
+      return new Bool((string) $this !== (string) $s);
     }
 
-    function eq(Str $y) { # :: (Eq a) => (a, a) -> Bool
-      return new Data\Bool(Eq :: eq($this->value, $y->value())); 
-    }
-    
     # Applies a function to each char in the string
-    function eachChar($func) { # :: (Str, Func) -> Str
-      $this->chars()->each($func);
+    function eachChar(Func $func) { # :: (Str, Func) -> Str
+      $this
+        -> chars ()
+        -> each ($func);
       return $this;
     }
     
     # Applies a function to each codepoint in the string
-    function eachCodePoint($func) { # :: (Str, Func) -> Str
-      $this->codePoints()->each($func);
+    function eachCodePoint(Func $func) { # :: (Str, Func) -> Str
+      $this
+        -> codePoints ()
+        -> each ($func);
       return $this;
     }
     
     # Applies a function to each line
-    function eachLine($func) { # :: (Str, Func) -> Str
-      $this->lines()->each($func);
+    function eachLine(Func $func) { # :: (Str, Func) -> Str
+      $this
+        -> lines ()
+        -> each ($func);
+    }
+
+    # Equals to.
+    function eq(Str $s) { # :: (Str, Str) -> Bool
+      return new Bool((string) $this === (string) $s);
+    }
+
+    # Returns if the current string value is prefix of the parameter
+    function isPrefixOf(Str $of) { # :: (Str, Str) -> Bool
+      # Re-implementation of comparasion basis
+      # Non-deterministic parsing. Faster than using preg_match
+      # [pass] => [pass] => [pass] => [pass] ...
+      #        => [fail] => [break]
+      #
+      # Haskell-equivalent:
+      # isPrefixOf :: [Char] -> [Char] -> Bool
+      # isPrefixOf [] _ = True
+      # isPrefixOf (x:xs) (y:ys)
+      #   | x == y    = isPrefixOf xs ys
+      #   | otherwise = False
+      #
+      # Apply this function by use of recursion:
+      $isPrefixOf = function ($prefix, $string) use (&$isPrefixOf) {
+        # Edge condition:
+        if ($prefix == "")
+          return new Bool(True);
+
+        # Compare head.
+        if ($prefix[0] === $string[0])
+          return $isPrefixOf(substr($prefix, 1), substr($string, 1));
+
+        return new Bool(False);
+      };
+
+      return $isPrefixOf($this->value, $of->value);
+    }
+
+    # Returns if the current string value is suffix of the parameter
+    function isSuffixOf(Str $of) { # :: (Str, Str) -> Bool
+      $isPrefixOf = function ($prefix, $string) use (&$isPrefixOf) {
+        # Edge condition:
+        if ($prefix == "")
+          return new Bool(True);
+
+        # Compare head.
+        if ($prefix[0] === $string[0])
+          return $isPrefixOf(substr($prefix, 1), substr($string, 1));
+
+        return new Bool(False);
+      };
+
+      return $isPrefixOf(strrev($this->value), strrev((string) $of));
     }
 
     # Joins a list with the specified separator
-    function join($arr) { # :: (Str, Collection) -> Str
-      return new Str(join($this->value, TypeInference :: to_primitive($arr)));
+    function join(Collection $arr) { # :: (Str, Collection) -> Str
+      return new Str(join($this->value, TypeInference :: toPrimitive($arr)));
     }
     
     # Returns the length of a string
@@ -148,8 +196,8 @@
 
     # Returns a collection of the string separated by the
     # given pattern.
-    function split($pattern) { # :: (Str, Str) -> Collection
-      return new Collection(split($pattern, $this->value));
+    function split(Str $pattern) { # :: (Str, Str) -> Collection
+      return new Collection(split((string) $pattern, $this->value));
     }
 
     # Takes its second argument, and repeats it n times to create a new,
@@ -165,10 +213,7 @@
     function reverse() { # :: Str -> Str
       $memoize = $this->memoize;
       $reverse = $memoize (function() {
-        $str = '';
-        for ($i = strlen($this->value) - 1; $i >= 0; $i--)
-          $str .= $this->value[$i];
-        return $str;
+        return strrev($this->value);
       });
       return new Str($reverse());
     }
@@ -194,49 +239,5 @@
     function words() { # :: Str -> Collection
       return (new Collection (explode(' ', $this->value)))
       -> of ('Data.Str');
-    }
-
-    # Returns if the current string value is prefix of the parameter
-    function isPrefixOf($of) { # :: (Str, Str) -> Bool
-      # Re-implementation of comparasion basis
-      # Non-deterministic parsing. Faster than using preg_match
-      # [pass] => [pass] => [pass] => [pass] ...
-      #        => [fail] => [break]
-      # Apply this function by use of recursion:
-      $isPrefixOf = function ($prefix, $string) use (&$isPrefixOf) {
-        # Edge condition:
-        if ($prefix == "")
-          return new Bool(True);
-
-        # Compare head.
-        if ($prefix[0] === $string[0])
-          return $isPrefixOf(substr($prefix, 1), substr($string, 1));
-
-        return new Bool(False);
-      };
-
-      return $isPrefixOf($this->value, $of);
-    }
-
-    # Returns if the current string value is suffix of the parameter
-    function isSuffixOf($of) { # :: (Str, Str) -> Bool
-      # Same application to isSuffixOf
-      # HOLY SHIT!
-      # WHY SUBSTR DON'T EAT THE LAST ELEMENT OF THE STR!?
-      $isSuffixOf = function ($suffix, $string) use (&$isSuffixOf) {
-        echo $suffix . " <+> " . $string . "<br />";
-        # Edge condition:
-        if ($suffix == "")
-          return new Bool(True);
-
-        # Compare last.
-        if (($t = $suffix[strlen($suffix) - 1]) === ($t1 = $string[strlen($string) - 1])) {
-          return $isSuffixOf(substr($suffix, -(strlen($suffix) - 1)), substr($string, -(strlen($string) - 1)));
-        }
-
-        return new Bool(False);
-      };
-
-      return $isSuffixOf($this->value, $of);
     }
   }

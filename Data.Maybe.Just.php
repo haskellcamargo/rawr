@@ -19,18 +19,33 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-  namespace Data;
   
-  require_once 'Data.Maybe.Just.php';
-  require_once 'Data.Maybe.Nothing.php';
+  namespace Data\Maybe;
+  use \Data\Func;
+  use \Exception;
   
-  # Maybe is an exception for handling types as classes.
-  # This happens because a constructor can't return data that applies to
-  # an object.
-  
-  function Maybe($value) {
-    if (is_null($value) || is_object($value) and get_class($value) === "Data\\Null")
-      return new \Data\Maybe\Nothing;
-    return new \Data\Maybe\Just($value);
+  class Just {
+    function __construct($value) {
+      $this->value = $value;
+    }
+    
+    function bind($fn) {
+      return $fn($this->value);
+    }
+    
+    function isNothing() {
+      return Bool(False);
+    }
+    
+    function isJust() {
+      return Bool(True); 
+    }
+    
+    function val() {
+      return $this->value;
+    }
+    
+    function maybe($_, $fn) {
+      return $fn($this->value);
+    }
   }
