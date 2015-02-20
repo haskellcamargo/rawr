@@ -52,16 +52,29 @@
       return $patternDivision;
     }
     
+    private function verifyArguments($sizeThatShouldBe, $patternDivision, $do) {
+      if ($sizeThatShouldBe == 1) return;
+      
+      if (($x = $patternDivision[1]) == ($y = (new \ReflectionFunction($do))
+        -> getParameters()[0] -> name))
+        return;
+      
+      throw new \Exception("Unmatching arguments: {{$x}} with {{$y}}");
+    }
+    
     private function _withConstr($patternList) {
       $objectClass = DataTypes :: typeName(get_class($this->value));
 
       foreach ($patternList as $pattern => $do) {
         $patternDivision = $this->validateConstrPattern($pattern);
-        $sizeThatShouldBe = (isset($this->value->value) || $this->value->value === null ) ? 2 : 1;
+        $sizeThatShouldBe = (isset($this->value->value) 
+          || $this->value->value === null ) ? 2 : 1;
         
         if (sizeof($patternDivision) == $sizeThatShouldBe
-         && $objectClass             == $patternDivision[0])
+         && $objectClass             == $patternDivision[0]) {
+          $this->verifyArguments($sizeThatShouldBe, $patternDivision, $do);
           return $do($this->value);
+        }
       }
       
       if (isset($patternList[otherwise]))
