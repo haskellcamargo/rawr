@@ -35,7 +35,6 @@
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
   require_once 'typing/TypeInference.class.php';
   
-  require_once 'Data.Match.php';
   # Parent class for numeric types
   require_once 'Data.Num.php';
   //require_once 'Data.Collection.php';

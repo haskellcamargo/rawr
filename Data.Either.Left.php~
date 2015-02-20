@@ -19,17 +19,23 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-  namespace Data;
   
-  require_once 'Data.Contract.IEither.php';
-  require_once 'Data.Either.Left.php';
-  require_once 'Data.Either.Right.php';
+  namespace Data\Either;
   
-  abstract class Either {}
-  
-  function Either($value) {
-    if (is_null($value) || (is_object($value) && get_class($value) === "Data\\Null"))
-      return new \Data\Either\Left($value);
-    return new \Data\Either\Right($value);
+  class Left {
+    function __construct($value) {
+      $this->value = $value;
+    }
+    
+    function either($f, $_) {
+      return $f($this->value);
+    }
+    
+    function isLeft() {
+      return Bool(True); 
+    }
+    
+    function isRight() {
+      return Bool(False); 
+    }
   }

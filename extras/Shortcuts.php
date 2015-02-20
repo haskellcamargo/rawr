@@ -51,6 +51,10 @@
   function false() {
     return new \Data\Bool\FalseClass;
   }
+  
+  function either($v) {
+    return \Data\Either($v); 
+  }
 
   function float($v) {
     return new \Data\Num\Float($v);
@@ -74,6 +78,14 @@
 
   function lambda($v) {
     return new \Data\Func($v);
+  }
+  
+  function left($v) {
+    return new \Data\Either\Left($v); 
+  }
+  
+  function match($v) {
+    return new \Data\Match($v); 
   }
 
   function maybe($v) {
@@ -102,6 +114,10 @@
 
   function real($v) {
     return new \Data\Num\Float($v);
+  }
+  
+  function right($v) {
+    return new \Data\Either\Right($v); 
   }
 
   function str($v) {

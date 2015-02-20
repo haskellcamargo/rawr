@@ -22,7 +22,7 @@
   
   namespace Data\Either;
   
-  class Left {
+  class Left extends \Data\Either {
     function __construct($value) {
       $this->value = $value;
     }
