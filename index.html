@@ -37,11 +37,158 @@
 <h3>
 <a id="what-is-rawr" class="anchor" href="#what-is-rawr" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is Rawr?</h3>
 
-<p>Rawr is a word that means "I love you in dinosaur, but it also is this small library build to implement a lot of features to the PHP language.
+<p>Rawr is a word that means "I love you" in dinosaur, but it also is this small library build to implement a lot of features to the PHP language.
 Rawr is an open-source project meant to make the PHP language a few better, as much as it has a lot of little failures that sometimes let me angry. The project started after a big criticism to PHP and its inconsistence with function names and the design of the language. To solve a big part of these problems, we got Rawr. It implements and simulates static-typing (via contracts by wrappers), functional programming (piping, method-chaining, monads, typeclasses, algebraic-data-types, pattern-matching), a more pure object-orientation (with the concept of Self and Smalltalk OO, where everything is an object that can receive and pass messages) and the concept of modules, in a way similar as Python or Haskell do, aiming a more pure way to program and taking into account that so many developers do several mistakes and workarouns with PHP. Rawr is build to be type-safe and for applications that require to not crash.</p>
 
 <h3>
 <a id="static-typing" class="anchor" href="#static-typing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Static typing</h3>
+
+<p>Different from Java, where primitives aren't objects, here each type is literally a class and each value of a rawr-defined variable is a pure object. As much as Alan Kays definition of object-orientation, the objects have behaviors and Rawr also allows method-chaining in order to make the things and calls easier. You can also restrict function parameters to specified types or derived types to assert type-safety:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$age</span> <span class="pl-k">=</span> <span class="pl-st">Int</span> (<span class="pl-c1">18</span>);</span>
+<span class="pl-s2"><span class="pl-vo">$ableToDrive</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-c">/** :: Int -&gt; Bool */</span></span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$age</span>) {</span>
+<span class="pl-s2">    <span class="pl-k">return</span> <span class="pl-vo">$age</span> <span class="pl-k">-&gt;</span> greaterOrEq (<span class="pl-c1">18</span>);</span>
+<span class="pl-s2">  }</span>
+<span class="pl-s2">);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">$<span class="pl-vo">ableToDrive</span>(<span class="pl-vo">$age</span>) <span class="pl-k">-&gt;</span> inspect (); <span class="pl-c">// Object (bool);</span></span></pre></div>
+
+<p>Some types are derived, this is, as example, <code>Int</code> and <code>Float</code> are derived from <code>Num</code> type, therefore we can make a function that accepts any of them as a parameter:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$sqrtOf</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-c">/** :: Num -&gt; Float */</span></span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-s3">Num</span> <span class="pl-vo">$n</span>) { <span class="pl-k">return</span> <span class="pl-vo">$n</span> <span class="pl-k">-&gt;</span> <span class="pl-s3">sqrt</span> (); }</span>
+<span class="pl-s2">);</span></pre></div>
+
+<p>Rawr uses a Haskell-like type-system, you can use almost of Haskell type definitions here, with PHP.</p>
+
+<h3>
+<a id="functional-programming" class="anchor" href="#functional-programming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functional programming</h3>
+
+<p>Rawr implements several functional concepts, such as function-composition, pattern-matching, monads or algebraic-data-types.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$multiplyTwo</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-c">/** :: Int -&gt; Int */</span></span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$n</span>) {</span>
+<span class="pl-s2">    <span class="pl-k">return</span> <span class="pl-vo">$n</span> <span class="pl-k">-&gt;</span> times (<span class="pl-c1">2</span>);</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$multiplyThree</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-c">/** :: Int -&gt; Int */</span></span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$n</span>) {</span>
+<span class="pl-s2">    <span class="pl-k">return</span> <span class="pl-vo">$n</span> <span class="pl-k">-&gt;</span> times (<span class="pl-c1">3</span>);</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$multiplySix</span> <span class="pl-k">=</span> <span class="pl-vo">$multiplyTwo</span> <span class="pl-k">-&gt;</span> o (<span class="pl-vo">$multiplyThree</span>);</span>
+<span class="pl-s2">$<span class="pl-vo">multiplySix</span>(<span class="pl-st">Int</span> (<span class="pl-c1">7</span>)) <span class="pl-k">-&gt;</span> toString () <span class="pl-k">-&gt;</span> putStrLn (); <span class="pl-c">// =&gt; 42</span></span></pre></div>
+
+<p>You can easily handle lists by chaining methods:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$myList</span> <span class="pl-k">=</span> <span class="pl-c1">§</span> (<span class="pl-c1">1</span>, <span class="pl-s1"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>, <span class="pl-c1">10</span>) <span class="pl-k">-&gt;</span> of (<span class="pl-s1"><span class="pl-pds">"</span>Data.Num.Int<span class="pl-pds">"</span></span>)</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> map (Lambda (<span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$n</span>) { <span class="pl-k">return</span> <span class="pl-vo">$n</span> <span class="pl-k">-&gt;</span> times (<span class="pl-st">Int</span> (<span class="pl-c1">2</span>)); }))</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> filter (Lambda (<span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$n</span>) { <span class="pl-k">return</span> <span class="pl-vo">$n</span> <span class="pl-k">-&gt;</span> isEven (); })</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> reduce (<span class="pl-s1"><span class="pl-pds">"</span>+<span class="pl-pds">"</span></span>);</span></pre></div>
+
+<h3>
+<a id="smalltalk-based-object-orientation" class="anchor" href="#smalltalk-based-object-orientation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Smalltalk-based object orientation</h3>
+
+<p>In Rawr, almost everything is an object. The behaviors of these objects are determined according to their types, e.g.: objects of <code>Str</code> class can have a side-effect behavior called <code>putStrLn</code> that outputs its content to screen, as much as objects of bool atoms, <code>true</code> and <code>false</code> can have behaviors like <code>ifTrue</code> and <code>ifFalse</code>. You don't use conditionals, loops or other imperative structures. You enjoy the pureness of well-designed languages to work with your computations:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$oddNumTil100</span> <span class="pl-k">=</span> (<span class="pl-k">new</span> <span class="pl-s3">Collection</span> (<span class="pl-c1">1</span>, <span class="pl-c1">3</span> <span class="pl-s1"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>, <span class="pl-c1">100</span>)) <span class="pl-k">-&gt;</span> of (<span class="pl-s1"><span class="pl-pds">"</span>Data.Num.Int<span class="pl-pds">"</span></span>)</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> filter (Lambda (<span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$n</span>) { <span class="pl-k">return</span> <span class="pl-vo">$n</span> <span class="pl-k">-&gt;</span> greaterOrEq (<span class="pl-c1">50</span>); }))</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> <span class="pl-s3">each</span>   (Lambda (<span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$n</span>) { Show (<span class="pl-vo">$n</span>) <span class="pl-k">-&gt;</span> putStrLn (); }));</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$magicHappens</span> <span class="pl-k">=</span> <span class="pl-vo">$oddNumTil100</span> <span class="pl-k">-&gt;</span> contains (<span class="pl-st">Int</span> (<span class="pl-c1">7</span>))</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> ifTrue (Lambda (<span class="pl-st">function</span> () { Str (<span class="pl-s1"><span class="pl-pds">"</span>Yes, it containts 7.<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> putStrLn (); }))</span>
+<span class="pl-s2"><span class="pl-k">-&gt;</span> ifFalse (Lambda (<span class="pl-st">function</span> () { Str (<span class="pl-s1"><span class="pl-pds">"</span>No, there is no 7.<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> putStrLn (); }));</span></pre></div>
+
+<h3>
+<a id="monads-for-work-with-computations-that-may-fail" class="anchor" href="#monads-for-work-with-computations-that-may-fail" aria-hidden="true"><span class="octicon octicon-link"></span></a>Monads for work with computations that may fail</h3>
+
+<p>Rawr implements also most of Haskell built-in monads, such as <code>Maybe</code> and <code>Either</code>. You can chain operations and work with computations that may fail, you can also apply pattern-matching to check for your results. In Rawr, you use no exceptions, there is no errors. You can have a data-type for errors in <code>Data.Error</code> that is returned when something goes wrong. You can match its pattern.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$numberOne</span>  <span class="pl-k">=</span> <span class="pl-st">Int</span> (<span class="pl-c1">1</span>);</span>
+<span class="pl-s2"><span class="pl-vo">$numberZero</span> <span class="pl-k">=</span> <span class="pl-st">Int</span> (<span class="pl-c1">0</span>);</span>
+<span class="pl-s2"><span class="pl-c"># Here operation can be Just _ or Nothing.</span></span>
+<span class="pl-s2"><span class="pl-vo">$operation</span>  <span class="pl-k">=</span> Maybe (<span class="pl-vo">$numberOne</span> <span class="pl-k">-&gt;</span> div (<span class="pl-vo">$numberZero</span>));</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-c"># Applying identity and chaining computations as much as "programmable semicolons".</span></span>
+<span class="pl-s2"><span class="pl-vo">$operation</span> <span class="pl-k">-&gt;</span> bind (<span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$res</span>) { <span class="pl-k">return</span> <span class="pl-vo">$res</span> });</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-c"># enum Maybe&lt;T&gt; { Just&lt;T&gt;, Nothing }</span></span>
+<span class="pl-s2">Match (<span class="pl-vo">$operation</span>) <span class="pl-k">-&gt;</span> withConstr ([</span>
+<span class="pl-s2">  <span class="pl-s1"><span class="pl-pds">"</span>Data.Maybe.Just x<span class="pl-pds">"</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-st">function</span> (<span class="pl-vo">$x</span>) { Str (<span class="pl-s1"><span class="pl-pds">"</span>We got a result: \(0).<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> format (<span class="pl-vo">$res</span> <span class="pl-k">-&gt;</span> fromJust ()) <span class="pl-k">-&gt;</span> putStrLn (); }</span>
+<span class="pl-s2">, <span class="pl-s1"><span class="pl-pds">"</span>Data.Maybe.Nothing<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-st">function</span> () { Str (<span class="pl-s1"><span class="pl-pds">"</span>Operation failure.<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> putStrLn (); }</span>
+<span class="pl-s2">]);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$eitherOperation</span> <span class="pl-k">=</span> Either (<span class="pl-vo">$numberOne</span> <span class="pl-k">-&gt;</span> div (<span class="pl-vo">$numberZero</span>));</span>
+<span class="pl-s2"><span class="pl-vo">$eitherOperation</span> <span class="pl-k">-&gt;</span> either (</span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-vo">$_</span>) { Str (<span class="pl-s1"><span class="pl-pds">"</span>Error. Division by 0.<span class="pl-pds">"</span></span>); }</span>
+<span class="pl-s2">, <span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$x</span>) { Str (<span class="pl-s1"><span class="pl-pds">"</span>Value: \(0)<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> format (<span class="pl-vo">$x</span>) <span class="pl-k">-&gt;</span> putStrLn (); }</span>
+<span class="pl-s2">);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-c"># enum Either&lt;T&gt; { Left&lt;T&gt;, Right&lt;T&gt; }</span></span>
+<span class="pl-s2">Match (<span class="pl-vo">$eitherOperation</span>) <span class="pl-k">-&gt;</span> withConstr ([</span>
+<span class="pl-s2">  <span class="pl-s1"><span class="pl-pds">"</span>Data.Either.Right x<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-st">function</span> (<span class="pl-vo">$x</span>) { Str (<span class="pl-s1"><span class="pl-pds">"</span>Value: \(0)<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> format (<span class="pl-vo">$x</span> <span class="pl-k">-&gt;</span> val ()) <span class="pl-k">-&gt;</span> putStrLn (); }</span>
+<span class="pl-s2">, <span class="pl-c1">otherwise</span>             <span class="pl-k">=&gt;</span> <span class="pl-st">function</span> () { Str (<span class="pl-s1"><span class="pl-pds">"</span>Error. Division by 0.<span class="pl-pds">"</span></span>); }</span>
+<span class="pl-s2">]);</span>
+<span class="pl-s2"></span></pre></div>
+
+<h3>
+<a id="prototype-based-programming" class="anchor" href="#prototype-based-programming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prototype-based-programming</h3>
+
+<p>Rawr also supports a Self/Javascript based prototype programming, in a much more expressive way than class-based-programming does, and also provides first class data-types for better data-abstraction:</p>
+
+<p>Type ("Employee") -&gt; where (function ($type) {
+  $type -&gt; derives (String);
+  $type -&gt; with    (["Programmer"
+                   , "Boss"
+                   , "DBA"        =&gt; "Database administrator"]);
+});</p>
+
+<h1>
+<a id="type-dollars-that-derives-maybe-and-float-and-is-nothing-by-default" class="anchor" href="#type-dollars-that-derives-maybe-and-float-and-is-nothing-by-default" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Dollars that derives Maybe and Float and is Nothing() by default</h1>
+
+<p>Type ("Dollars") -&gt; derives ([Maybe, Float]) -&gt; def (Nothing ());</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$worker</span> <span class="pl-k">=</span> <span class="pl-st">Object</span> ([</span>
+<span class="pl-s2">  <span class="pl-vo">$name</span> <span class="pl-k">=&gt;</span> <span class="pl-st">String</span></span>
+<span class="pl-s2">, <span class="pl-vo">$age</span>  <span class="pl-k">=&gt;</span> <span class="pl-st">Int</span></span>
+<span class="pl-s2">, <span class="pl-vo">$salary</span> <span class="pl-k">=&gt;</span> <span class="pl-c1">Dollars</span></span>
+<span class="pl-s2">, <span class="pl-vo">$position</span> <span class="pl-k">=&gt;</span> <span class="pl-c1">Employee</span></span>
+<span class="pl-s2">]);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$worker</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">prototype</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">greet</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-vo">$self</span>) {</span>
+<span class="pl-s2">    Str (<span class="pl-s1"><span class="pl-pds">"</span>Hello, I'm \(name) and I'm \(age) years old!<span class="pl-pds">"</span></span>)</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span> format ([<span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-vo">$self</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">name</span></span>
+<span class="pl-s2">              , <span class="pl-s1"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-vo">$self</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">age</span>])</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span> putStrLn ();</span>
+<span class="pl-s2">  }</span>
+<span class="pl-s2">);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$worker</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">prototype</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">sayPosition</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-vo">$self</span>) {</span>
+<span class="pl-s2">    Str (<span class="pl-s1"><span class="pl-pds">"</span>I'm a \(0) here.<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> format (<span class="pl-vo">$self</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">position</span>)</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span> putStrLn ();</span>
+<span class="pl-s2">  }</span>
+<span class="pl-s2">);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$sophia</span> <span class="pl-k">=</span> <span class="pl-vo">$worker</span> <span class="pl-k">-&gt;</span> instance ();</span>
+<span class="pl-s2"><span class="pl-c"># or:</span></span>
+<span class="pl-s2"><span class="pl-c"># $sophia = clone $worker;</span></span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$sophia</span> <span class="pl-k">-&gt;</span> with ([</span>
+<span class="pl-s2">  <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>     <span class="pl-k">=&gt;</span> <span class="pl-s1"><span class="pl-pds">"</span>Sophia J.<span class="pl-pds">"</span></span></span>
+<span class="pl-s2">, <span class="pl-s1"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>      <span class="pl-k">=&gt;</span> <span class="pl-c1">19</span></span>
+<span class="pl-s2">, <span class="pl-s1"><span class="pl-pds">"</span>salary<span class="pl-pds">"</span></span>   <span class="pl-k">=&gt;</span> Just (<span class="pl-c1">3500</span>)</span>
+<span class="pl-s2">, <span class="pl-s1"><span class="pl-pds">"</span>position<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> Type (<span class="pl-c1">Employee</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Programmer</span>;</span>
+<span class="pl-s2">]);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$sophia</span> <span class="pl-k">-&gt;</span> greet ();</span>
+<span class="pl-s2"><span class="pl-vo">$sophia</span> <span class="pl-k">-&gt;</span> sayPosition ();</span></pre></div>
       </section>
     </div>
 
