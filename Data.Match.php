@@ -79,7 +79,6 @@
           throw new \Exception("No patterns have been specified.");
         default:
           return $this->_withConstr($patternList);
-          return;
       }
     }
   }
