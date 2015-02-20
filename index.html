@@ -141,19 +141,17 @@ Rawr is an open-source project meant to make the PHP language a few better, as m
 
 <p>Rawr also supports a Self/Javascript based prototype programming, in a much more expressive way than class-based-programming does, and also provides first class data-types for better data-abstraction:</p>
 
-<p>Type ("Employee") -&gt; where (function ($type) {
-  $type -&gt; derives (String);
-  $type -&gt; with    (["Programmer"
-                   , "Boss"
-                   , "DBA"        =&gt; "Database administrator"]);
-});</p>
-
-<h1>
-<a id="type-dollars-that-derives-maybe-and-float-and-is-nothing-by-default" class="anchor" href="#type-dollars-that-derives-maybe-and-float-and-is-nothing-by-default" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Dollars that derives Maybe and Float and is Nothing() by default</h1>
-
-<p>Type ("Dollars") -&gt; derives ([Maybe, Float]) -&gt; def (Nothing ());</p>
-
-<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$worker</span> <span class="pl-k">=</span> <span class="pl-st">Object</span> ([</span>
+<div class="highlight highlight-php"><pre><span class="pl-s2">Type (<span class="pl-s1"><span class="pl-pds">"</span>Employee<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> where (<span class="pl-st">function</span> (<span class="pl-vo">$type</span>) {</span>
+<span class="pl-s2">  <span class="pl-vo">$type</span> <span class="pl-k">-&gt;</span> derives (<span class="pl-st">String</span>);</span>
+<span class="pl-s2">  <span class="pl-vo">$type</span> <span class="pl-k">-&gt;</span> with    ([<span class="pl-s1"><span class="pl-pds">"</span>Programmer<span class="pl-pds">"</span></span></span>
+<span class="pl-s2">                   , <span class="pl-s1"><span class="pl-pds">"</span>Boss<span class="pl-pds">"</span></span></span>
+<span class="pl-s2">                   , <span class="pl-s1"><span class="pl-pds">"</span>DBA<span class="pl-pds">"</span></span>        <span class="pl-k">=&gt;</span> <span class="pl-s1"><span class="pl-pds">"</span>Database administrator<span class="pl-pds">"</span></span>]);</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-c"># Type Dollars that derives Maybe and Float and is Nothing() by default</span></span>
+<span class="pl-s2">Type (<span class="pl-s1"><span class="pl-pds">"</span>Dollars<span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> derives ([<span class="pl-c1">Maybe</span>, <span class="pl-st">Float</span>]) <span class="pl-k">-&gt;</span> def (Nothing ());</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$worker</span> <span class="pl-k">=</span> <span class="pl-st">Object</span> ([</span>
 <span class="pl-s2">  <span class="pl-vo">$name</span> <span class="pl-k">=&gt;</span> <span class="pl-st">String</span></span>
 <span class="pl-s2">, <span class="pl-vo">$age</span>  <span class="pl-k">=&gt;</span> <span class="pl-st">Int</span></span>
 <span class="pl-s2">, <span class="pl-vo">$salary</span> <span class="pl-k">=&gt;</span> <span class="pl-c1">Dollars</span></span>
@@ -167,7 +165,7 @@ Rawr is an open-source project meant to make the PHP language a few better, as m
 <span class="pl-s2">              , <span class="pl-s1"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>  <span class="pl-k">=&gt;</span> <span class="pl-vo">$self</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">age</span>])</span>
 <span class="pl-s2">    <span class="pl-k">-&gt;</span> putStrLn ();</span>
 <span class="pl-s2">  }</span>
-<span class="pl-s2">);</span>
+<span class="pl-s2">);<span class="pl-c1">T</span></span>
 <span class="pl-s2"></span>
 <span class="pl-s2"><span class="pl-vo">$worker</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">prototype</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">sayPosition</span> <span class="pl-k">=</span> Lambda (</span>
 <span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-vo">$self</span>) {</span>
