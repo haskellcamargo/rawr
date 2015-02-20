@@ -25,7 +25,7 @@
   use \Exception;
   use \Data\Contract\Maybe\IMaybe;
   
-  class Nothing implements IMaybe {
+  class Nothing extends \Data\Maybe implements IMaybe {
     function bind($_) {
       return $this;
     }

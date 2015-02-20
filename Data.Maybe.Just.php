@@ -24,7 +24,7 @@
   use \Data\Func;
   use \Data\Contract\Maybe\IMaybe;
   
-  class Just implements IMaybe {
+  class Just extends \Data\Maybe implements IMaybe {
     function __construct($value) {
       $this->value = $value;
     }

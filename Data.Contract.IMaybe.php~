@@ -19,14 +19,15 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-  namespace Data\Contract;
-
+  
+  namespace Data\Contract\Maybe;
+  
   interface IMaybe {
-    function fromJust();                        # :: Maybe -> Maybe a
-    function fromMaybe($d);                     # :: (Maybe, a) -> Maybe a
-    function isJust();                          # :: Maybe -> Bool
-    function isNothing();                       # :: Maybe -> Bool
-    function just(\Data\Func $f);               # :: (Maybe, Func) -> Maybe
-    function nothing(\Data\Func $f);            # :: (Maybe, Func) -> Maybe
+    function bind($fn);                   # :: (Maybe a, (a -> b)) -> b
+    function fromJust();                  # :: Maybe a -> a
+    function fromMaybe($def);             # :: (Maybe a, a) -> a
+    function isJust();                    # :: Maybe a -> Bool
+    function isNothing();                 # :: Maybe a -> Bool
+    function maybe($def, $fn);            # :: (Maybe a, b, (a -> b)) -> b
+    function toList();                    # :: Maybe a -> [a]
   }

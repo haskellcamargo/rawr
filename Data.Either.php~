@@ -26,6 +26,8 @@
   require_once 'Data.Either.Left.php';
   require_once 'Data.Either.Right.php';
   
+  abstract class Either {}
+  
   function Either($value) {
     if (is_null($value) || (is_object($value) && get_class($value) === "Data\\Null"))
       return new \Data\Either\Left($value);

@@ -21,8 +21,9 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
   namespace Data\Either;
+  use \Data\Contract\Either\IEither;
   
-  class Right extends \Data\Either {
+  class Right extends \Data\Either implements IEither {
     function __construct($value) {
       $this->value = $value;
     }
