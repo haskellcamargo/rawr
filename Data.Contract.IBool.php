@@ -40,3 +40,4 @@
     function otherwise     (Func &$f);             # :: (Bool, Func) -> Bool
     function thenElse      (Func &$t, Func &$e);   # :: (Bool, Func, Func) -> Bool
   }
+  
