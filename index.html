@@ -45,16 +45,15 @@ Rawr is an open-source project meant to make the PHP language a few better, as m
 
 <p>Different from Java, where primitives aren't objects, here each type is literally a class and each value of a rawr-defined variable is a pure object. As much as Alan Kays definition of object-orientation, the objects have behaviors and Rawr also allows method-chaining in order to make the things and calls easier. You can also restrict function parameters to specified types or derived types to assert type-safety:</p>
 
-<pre><code>$age = Int (18);
-$ableToDrive = Lambda (
-  /** :: Int -&gt; Bool */
-  function (Int $age) {
-    return $age -&gt; greaterOrEq (18);
-  }
-);
-
-$ableToDrive($age) -&gt; inspect (); // Object (bool);
-</code></pre>
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$age</span> <span class="pl-k">=</span> <span class="pl-st">Int</span> (<span class="pl-c1">18</span>);</span>
+<span class="pl-s2"><span class="pl-vo">$ableToDrive</span> <span class="pl-k">=</span> Lambda (</span>
+<span class="pl-s2">  <span class="pl-c">/** :: Int -&gt; Bool */</span></span>
+<span class="pl-s2">  <span class="pl-st">function</span> (<span class="pl-s3">Int</span> <span class="pl-vo">$age</span>) {</span>
+<span class="pl-s2">    <span class="pl-k">return</span> <span class="pl-vo">$age</span> <span class="pl-k">-&gt;</span> greaterOrEq (<span class="pl-c1">18</span>);</span>
+<span class="pl-s2">  }</span>
+<span class="pl-s2">);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">$<span class="pl-vo">ableToDrive</span>(<span class="pl-vo">$age</span>) <span class="pl-k">-&gt;</span> inspect (); <span class="pl-c">// Object (bool);</span></span></pre></div>
 
 <p>Some types are derived, this is, as example, <code>Int</code> and <code>Float</code> are derived from <code>Num</code> type, therefore we can make a function that accepts any of them as a parameter:</p>
 
