@@ -3,7 +3,7 @@
   # @contributors  => []
   # @creation_date => Unkown
   # @last_changed  => 2015-02-23
-  # @package       => Data.Tuple
+  # @package       => Data.Maybe
 
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
