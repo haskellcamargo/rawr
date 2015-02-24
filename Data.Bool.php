@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-25
+  # @package       => Data.Bool
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -25,91 +31,93 @@
   require_once 'Data.Contract.IBool.php';
   use \Data\Contract\IBool as IBool;
 
-  # This can receive primitive true and false.
+  # A `Bool` type can hold two primitive values: `True` and `False`. When
+  # starting designing Rawr, we decided to use `True` and `False` as
+  # constructors, in a Haskell-like way, but we would have great troubles with performance and capabilities, as much as simple logic-values would be an object, an instance of a class.
   class Bool extends DataTypes implements IBool {
     function __construct($val) { # :: a -> Bool
       unset($this->memoize);
       $this->value = (bool) $val;
     }
 
-    # Returns true if both the value of the object and of the received
-    # expression are true. Otherwise false.
+    # Returns `Bool (True)` if both the value of the object and the value of the
+    # received expression are true. Otherwise, false.
     function _and(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() && $b());
+      return new Bool($this->value && $b());
     }
 
-    # Returns true if any of the values, of the object, or of the received
-    # expression are true. Otherwise false.
+    # Returns `Bool (True)` if any of the values, of the object, or of the
+    # received expression, are true. Otherwise, false.
     function _or(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() || $b());
+      return new Bool($this->value || $b());
     }
 
-    # Different of.
+    # Comparison of the difference of two objects or values of *same* type.
     function diff(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() !== $b());
+      return new Bool($this->value !== $b());
     }
 
-    # Equals to.
+    # Comparison of the equality of two objects or values of *same* type.
     function eq(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() === $b());
+      return new Bool($this->value === $b());
     }
 
-    # Returns if the value of this object is greater or equal to
-    # the value of received value.
+    # Returns if the value of this object is greater or equal to the received
+    # value.
     function greaterOrEq(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() >= $b());
+      return new Bool($this->value >= $b());
     }
 
-    # Returns if the value of this object is greater than the received
-    # object.
+    # Returns if the value of this object is greater than the received value.
     function greaterThan(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() > $b());
+      return new Bool($this->value > $b());
     }
 
-    # The closure passed as parameter is performed if the value of
-    # this object is true.
+    # The closure passed as parameter is called if the value of this object is
+    # `Bool (True)`. After, it returns the value by itself to allow
+    # method-chaining.
     function ifTrue(Func &$f) { # :: (Bool, Func) -> Bool
-      if ($this() === true) # Strict-comparison.
+      if ($this->value === true) # Strict-comparison.
         $f();
-      return new Bool($this());
+      return new Bool($this->value);
     }
 
-    # The closure passed as parameter is performed if the value of
-    # this object is false.
+    # The closure passed as parameter is called if the value of this object is
+    # `Bool (False)`. After, it returns the value by itself to allow
+    # method-chaining.
     function ifFalse(Func &$f) { # :: (Bool, Func) -> Bool
       if ($this->value === false)
         $clos();
-      return new Bool($this());
+      return new Bool($this->value);
     }
 
-    # Returns if the value of this object is lesser or equal
-    # to the value of the received object. Deriving Ord, Eq.
+    # Returns if the value of this object is lesser or equal to the received
+    # value.
     function lesserOrEq(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() <= $b());
+      return new Bool($this->value <= $b());
     }
 
-    # Returns if the value of this object is lesser than
-    # the value of the received object.
+    # Returns if the value of this object is lesser than the received value.
     function lesserThan(Bool &$b) { # :: (Bool, Bool) -> Bool
-      return new Bool($this() < $b());
+      return new Bool($this->value < $b());
     }
 
-    # Negates the value of the object.
+    # Reverses the value of a boolean object.
     function not() { # :: Bool -> Bool
-      return new Bool(!$this());
+      return new Bool(!$this->value);
     }
 
-    # Alias to ifFalse.
+    # Alias to `ifFalse`.
     function otherwise(Func &$clos) { # :: (Bool, Func) -> Bool
       return $this->ifFalse($clos);
     }
 
-    # The same as -> ifTrue () -> iFalse ().
+    # Equivalent to `ifTrue` and `ifFalse`.
     function thenElse(Func &$t, Func &$e) { # :: (Bool, Func, Func) -> Bool
-      if ($this() === true)
+      if ($this->value === true)
         $t();
       else
         $e();
-      return new Bool($this());
+      return new Bool($this->value);
     }
   }

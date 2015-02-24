@@ -24,7 +24,7 @@
   use \Data\Num\Int;
 
   interface ITuple {
-    function get(Int $index);        # :: Num -> Maybe a
+    function get(Int $index);            # :: Num -> Maybe a
     function fst();                      # :: Maybe a
     function snd();                      # :: Maybe a
     function showType();                 # :: Str
