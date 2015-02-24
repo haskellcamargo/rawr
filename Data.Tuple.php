@@ -30,7 +30,7 @@
 
   require_once 'Data.Contract.ITuple.php';
 
-  # The ``Tuple`` type is a different way of storing multiple values in a single
+  # The `Tuple` type is a different way of storing multiple values in a single
   # value. The main differences between tuples and lists are that tuples have a
   # fixed number of elements (immutable); therefore, it makes sense to use
   # tuples when you known in advance how many values are to be stored. For
@@ -40,7 +40,7 @@
   # to be all of the same type. For instance, in a phonebook application we
   # might want to handle the entries by crunching three values into one: the
   # name, phone number, and the address of each person. In such a case, the
-  # three values won't havve the same type, so lists wouldn't help, but tuples
+  # three values won't have the same type, so lists wouldn't help, but tuples
   # would.
   class Tuple extends DataTypes implements Contract\ITuple {
     # $size determines the size that a tuple have, statically. This value is
@@ -65,7 +65,7 @@
     }
 
     # Works like a 1-indexed array, where you get `Just` the element in the
-    # received index or ``Nothing``.
+    # received index or `Nothing`.
     function get(Num $index) { # :: (Tuple, Int) -> Maybe a
       return isset($this->value[$index - 1])? Just($this->value[$index - 1])
       /* otherwise */                       : Nothing();
