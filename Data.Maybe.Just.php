@@ -30,7 +30,7 @@
   use \Data\Func;
   use \Data\Contract\Maybe\IMaybe;
 
-  # `Just` is a construct of the `Maybe` type/monad. It must carry a value.
+  # `Just` is a constructor of the `Maybe` type/monad. It must carry a value.
   class Just extends \Data\Maybe implements IMaybe {
     function __construct($value) {
       $this->value = $value;
