@@ -53,12 +53,12 @@
     # that the programmer can do.
     function __construct() {
       list ($this->size
-          , $arguments) = [func_num_args(), func_get_args()];
+          , $arguments) = [count($a = func_get_args()[0]), $a];
 
-      foreach ($arguments[0] as $item) {
+      foreach ($arguments as $item)
         $this->type[] = parent :: typeName(get_class($item));
-      }
-      $this->value = $arguments[0];
+
+      $this->value = $arguments;
     }
 
     # Returns `Just` the first element of a tuple (if it exists), or `Nothing`.
@@ -69,9 +69,10 @@
 
     # Works like a 1-indexed array, where you get `Just` the element in the
     # received index or `Nothing`.
-    function get(Num $index) { # :: (Tuple, Int) -> Maybe a
-      return isset($this->value[$index - 1])? Just($this->value[$index - 1])
-      /* otherwise */                       : Nothing();
+    function get(Num\Int $index) { # :: (Tuple, Int) -> Maybe a
+      $index = $index->value - 1;
+      return isset($this->value[$index])? Just($this->value[$index])
+      /* otherwise */                   : Nothing();
     }
 
     # Returns `Just` the second element of a tuple (if it exists), or `Nothing`.

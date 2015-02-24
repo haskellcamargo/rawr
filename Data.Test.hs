@@ -5,9 +5,11 @@
   use \Data\Num\Int;
   use \Data\Num\Float;
 
-  $tuple = Tuple (Str ("Marcelo"), Int (10));
+  $tuple = Tuple (Str ("Marcelo Camargo"), Int (10));
 
 
-  $tuple -> fst () -> inspect ();
+  $tuple
+  -> showType ()
+  -> putStrLn ();
 
 

@@ -21,9 +21,10 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data\Contract;
+  use \Data\Num\Int;
 
   interface ITuple {
-    function get(\Data\Num $index);      # :: Num -> Maybe a
+    function get(Int $index);        # :: Num -> Maybe a
     function fst();                      # :: Maybe a
     function snd();                      # :: Maybe a
     function showType();                 # :: Str
