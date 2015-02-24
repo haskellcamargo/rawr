@@ -34,7 +34,7 @@
 
   # If you don't want the entire world to burn down in flames, DON'T REMOVE THIS INCLUSION:
   require_once 'typing/TypeInference.class.php';
-  
+
   require_once 'Data.Match.php';
   # Parent class for numeric types
   require_once 'Data.Num.php';
@@ -49,9 +49,9 @@
   require_once 'Data.Tuple.php';
   require_once 'Data.Undefined.php';
   require_once 'Data.Void.php';
-  
-  require_once 'Extras/Shortcuts.php';
-  require_once 'Modules/Memoize.class.php';
+
+  require_once 'extras/Shortcuts.php';
+  require_once 'modules/Memoize.class.php';
 
   require_once 'extras/Constants.php';
 
@@ -125,7 +125,7 @@
     }
 
     # Casting to Bool.
-    public function toBool() { # :: a -> String 
+    public function toBool() { # :: a -> String
       return new Bool($this->value);
     }
 

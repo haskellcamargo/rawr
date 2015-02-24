@@ -52,10 +52,13 @@
     # ONLY objects can be put inside tuples. This is made to avoid workarounds
     # that the programmer can do.
     function __construct() {
-      $this->size = func_num_args();
-      foreach ($args = func_get_args() as $item)
-        $this->type[] = parent :: typeName(get_class($node));
-      $this->value = $args;
+      list ($this->size
+          , $arguments) = [func_num_args(), func_get_args()];
+
+      foreach ($arguments[0] as $item) {
+        $this->type[] = parent :: typeName(get_class($item));
+      }
+      $this->value = $arguments[0];
     }
 
     # Returns `Just` the first element of a tuple (if it exists), or `Nothing`.

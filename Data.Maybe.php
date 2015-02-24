@@ -21,17 +21,17 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
-  
+
   require_once 'Data.Contract.IMaybe.php';
   require_once 'Data.Maybe.Just.php';
   require_once 'Data.Maybe.Nothing.php';
-  
+
   # Maybe is an exception for handling types as classes.
   # This happens because a constructor can't return data that applies to
   # an object.
-  
-  abstract class Maybe {
-    abstract function bind();            # :: (Maybe a, Func) -> Maybe b
+
+  abstract class Maybe extends DataTypes {
+    abstract function bind($fn);         # :: (Maybe a, Func) -> Maybe b
     abstract function fromJust();        # :: Maybe a -> a
     abstract function fromMaybe($def);   # :: (Maybe a, a) -> a
     abstract function isJust();          # :: Maybe a -> Bool
@@ -39,7 +39,7 @@
     abstract function maybe($def, $fn);  # :: (Maybe a, a, Func) -> a
     abstract function toList();          # :: Maybe a -> Collection
   }
-  
+
   function Maybe($value) {
     if (is_null($value) || is_object($value) and get_class($value) === "Data\\Null")
       return new \Data\Maybe\Nothing;

@@ -19,40 +19,40 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
+
   namespace Data\Maybe;
   use \Data\Func;
   use \Data\Contract\Maybe\IMaybe;
-  
+
   class Just extends \Data\Maybe implements IMaybe {
     function __construct($value) {
       $this->value = $value;
     }
-    
+
     function bind($fn) {
       return $fn($this->value);
     }
-    
+
     function fromJust() {
       return $this->value;
     }
-    
+
     function fromMaybe($_) {
       return $this->value;
     }
-    
+
     function isJust() {
-      return Bool(True); 
+      return Bool(True);
     }
-    
+
     function isNothing() {
       return Bool(False);
     }
-    
+
     function maybe($_, $fn) {
       return $fn($this->value);
     }
-    
+
     function toList() {
       return Collection([$this->value]);
     }
