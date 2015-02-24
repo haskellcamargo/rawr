@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-24
+  # @package       => Data.Either
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -21,15 +27,35 @@
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   namespace Data;
-  
+
   require_once 'Data.Contract.IEither.php';
   require_once 'Data.Either.Left.php';
   require_once 'Data.Either.Right.php';
-  
-  abstract class Either {}
-  
-  function Either($value) {
-    if (is_null($value) || (is_object($value) && get_class($value) === "Data\\Null"))
-      return new \Data\Either\Left($value);
-    return new \Data\Either\Right($value);
+
+  # The `Either` type represents values with two possibilities: a value of type
+  # `Either a b` is either `Left a` or `Right b`.
+  # The `Either` type is sometimes used to represent a value which is either
+  # correct or an error; by convention, the `Left` constructor is used to hold
+  # an error value and the `Right` constructor is used to hold a correct value
+  # (mnemonic: "right" also means "correct").
+  abstract class Either extends DataTypes {
+    # Case analysis for the `Either` type. If the value is `Left a`, apply the
+    # first function to a; if it is `Right b`, apply the second function to b.
+    abstract function either($f, $g); # :: (Either a b, Func, Func) -> c
+
+    # Return `Bool (True)` if the given value is a `Left`-value, `Bool (False)`
+    # otherwise.
+    abstract function isLeft(); # :: Either a b -> Bool
+
+    # Return `Bool (True)` if the given value is a `Right`-value, `Bool (False)`
+    # otherwise.
+    abstract function isRight(); # :: Either a b -> Bool
+  }
+
+  # This function works like a constructor for the `Either` monad. It checks
+  # the received value and return `Data.Either.Left x` or `Data.Either.Right x`.
+  function Either($v) {
+    if (is_null($v) || (is_object($v) && get_class($v) === "Data\\Null"))
+      return new \Data\Either\Left($v);
+    return new \Data\Either\Right($v);
   }

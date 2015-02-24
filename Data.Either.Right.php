@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-24
+  # @package       => Data.Either.Right
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -19,24 +25,32 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
+
   namespace Data\Either;
   use \Data\Contract\Either\IEither;
-  
+
+  # This carries the value if it passes in the tests and can't generate an
+  # error.
   class Right extends \Data\Either implements IEither {
     function __construct($value) {
       $this->value = $value;
     }
-    
-    function either($_, $g) {
+
+    # Case analysis for the `Either` type. If the value is `Left a`, apply the
+    # first function to a; if it is `Right b`, apply the second function to b.
+    function either($_, $g) { # :: (Either a b, Func, Func) -> c
       return $g($this->value);
     }
-    
-    function isLeft() {
-      return Bool(False); 
+
+    # Return `Bool (True)` if the given value is a `Left`-value, `Bool (False)`
+    # otherwise.
+    function isLeft() { # :: Either a b -> Bool
+      return Bool(False);
     }
-    
-    function isRight() {
-      return Bool(True); 
+
+    # Return `Bool (True)` if the given value is a `Right`-value, `Bool (False)`
+    # otherwise.
+    function isRight() { # :: Either a b -> Bool
+      return Bool(True);
     }
   }

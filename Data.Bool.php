@@ -2,7 +2,7 @@
   # @author        => Marcelo Camargo
   # @contributors  => []
   # @creation_date => Unkown
-  # @last_changed  => 2015-02-25
+  # @last_changed  => 2015-02-24
   # @package       => Data.Bool
 
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
