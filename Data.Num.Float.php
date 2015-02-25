@@ -27,8 +27,12 @@
   use \TypeClass\Eq             as Eq;
 
   class Float extends \Data\Num implements IFloat {
-    public function __construct($i) { # :: a -> a
-      parent :: __construct((float) $i);
+    public function __construct($v) {
+      if (is_numeric($v))
+        $this->value = (float) $v;
+      else
+        throw new Exception("Expecting `{$v}` to be a numeric value. Instead"
+          . " got " . gettype($v));
     }
 
     public function diff(Float $y) { # :: (Eq a) => (Float, Float) -> Bool
@@ -36,6 +40,6 @@
     }
 
     public function eq(Float $y) { # :: (Eq a) => (Float, Float) -> Bool
-      return new \Data\Bool(Eq :: eq($this->value, $y->value())); 
+      return new \Data\Bool(Eq :: eq($this->value, $y->value()));
     }
   }

@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-24
+  # @package       => Data.Num
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -24,22 +30,30 @@
 
   require_once 'Data.Contract.INum.php';
   use \Data\Contract\INum as INum;
+  use \Exception;
 
-  # Parent class for Real and Int.
-  # This class knows how to choose between the types according
-  # to the correct occasion.
-  # Numeric types might extend it.
-
-  class Num extends DataTypes {
-
-    public function __construct($val) { # :: a -> Num
-      # We expect $val to be a numeric value.
-      if (is_numeric($val))
-        $this->value = $val;
-      else 
-        throw new Exception("Expecting `{$val}` to be a valid number. Received " . gettype($val));
+  # This function is responsible by inference in numeric values. It is able to
+  # return the value wrapped in the best type that it can determine for it.
+  # Only numeric values are accepted.
+  function Num($v) {
+    switch (gettype($v)) {
+      case "int":
+      case "integer":
+        return Int($v);
+      case "float":
+      case "double":
+      case "real":
+        return Float($v);
+      default:
+        throw new Exception("Expecting `{$val}` to be a valid number. Received "
+          . gettype($val));
     }
+  }
 
+  # The `Num` type holds numeric values. By default, `Int` and `Float` types
+  # inherit from it. All basic operations that can be applied for both numeric
+  # types are defined in this type.
+  abstract class Num extends DataTypes {
     # Type rules are here specified.
     # PHP has variable variables, therefore, we just
     # return a primitive string saying the type we want
@@ -47,7 +61,7 @@
     # is defined with the same name of the string and we make
     # a new instance of them to return.
     private function _return($operand) {
-      if (($type = gettype($this())) === gettype($operand)) {
+      if (($type = gettype($this->value)) === gettype($operand)) {
         switch ($type) {
           case "float":
           case "double":
@@ -59,7 +73,7 @@
         }
       } else {
         $source = is_double($operand) ? "Data.Num.Float" : "Data.Num.Int";
-        $target = str_replace("\\", ".", get_class($this));
+        $target = str_replace('\\', '.', get_class($this));
         throw new \Exception(
           "Cannot implicity convert \"{$target}\" to \"{$source}\".");
       }
@@ -67,14 +81,16 @@
 
     # Absolute value.
     public function abs() { # :: Num -> Num
+      # This function always returns a number of the same type of the object
+      # that has this behavior.
       $_ = get_class($this);
-      return new $_(abs($this()));
+      return new $_(abs($this->value));
     }
 
-    # Adds $value to the number.
-    public function add(Num &$n) { # :: (Num, Num) -> Num
-      $_ = $this->_return($n());
-      return new $_($this() + $n());
+    # Adds a value to a number
+    public function add(Num &$n) { # :: (Num a) => (a, a) -> a
+      $_ = $this->_return($n->value);
+      return new $_($this->value + $n->value);
     }
 
     # Arc cosin.
@@ -173,7 +189,7 @@
     public function isFinite() { # :: Num -> Bool
       return new Bool(is_finite($this()));
     }
-    
+
     # Returns a boolean saying if the number is infinite.
     public function isInfinite() { # :: Num -> Bool
       return new Bool(is_infinite($this()));

@@ -20,17 +20,19 @@
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  # Side effect functions must return themselves.
-
   namespace Data\Num;
   use \Data\Str;
-
-  require_once "Data.Num.Contract.IInt.php";
   use \Data\Num\Contract\IInt;
 
+  require_once "Data.Num.Contract.IInt.php";
+
   class Int extends \Data\Num implements IInt {
-    public function __construct($i) { # :: a -> a
-      parent :: __construct((int) $i);
+    public function __construct($v) {
+      if (is_numeric($v))
+        $this->value = (int) $v;
+      else
+        throw new Exception("Expecting `{$v}` to be a numeric value. Instead"
+          . " got " . gettype($v));
     }
 
     # Generate a better random value.
