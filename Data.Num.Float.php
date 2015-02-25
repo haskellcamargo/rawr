@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-24
+  # @package       => Data.Num.Float
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -24,7 +30,6 @@
 
   require_once 'Data.Num.Contract.IFloat.php';
   use \Data\Num\Contract\IFloat as IFloat;
-  use \TypeClass\Eq             as Eq;
 
   class Float extends \Data\Num implements IFloat {
     public function __construct($v) {
@@ -35,11 +40,11 @@
           . " got " . gettype($v));
     }
 
-    public function diff(Float $y) { # :: (Eq a) => (Float, Float) -> Bool
-      return new \Data\Bool(Eq :: diff($this->value, $y->value()));
+    public function diff(Float &$y) { # :: (Float, Float) -> Bool
+      return Bool($this->value !== $y->value);
     }
 
-    public function eq(Float $y) { # :: (Eq a) => (Float, Float) -> Bool
-      return new \Data\Bool(Eq :: eq($this->value, $y->value()));
+    public function eq(Float &$y) { # :: (Float, Float) -> Bool
+      return Bool($this->value === $y->value);
     }
   }

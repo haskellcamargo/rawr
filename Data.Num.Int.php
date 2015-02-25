@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-24
+  # @package       => Data.Num.Int
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -38,39 +44,39 @@
     # Generate a better random value.
     public function mtRandUntil(Int &$n = Null) { # :: (Int, Int) -> Int
       return new Int(
-        mt_rand($this(), $n === Null ? MT_RAND_MAX : $n()));
+        mt_rand($this->value, $n === Null ? MT_RAND_MAX : $n->value));
     }
 
     # Seeds the random number generator.
     public function mtSeedRand() { # :: Int -> Int
-      mt_srand($this());
+      mt_srand($this->value);
       return $this;
     }
 
     # Seeds the random number generator.
     public function seedRand() { # :: Int -> Int
-      srand($this());
+      srand($this->value);
       return $this;
     }
 
     # Returns a list of integrals
     public function to(Int &$n) { # :: (Int, Int) -> [Int]
-      return (new \Data\Collection(range($this(), $input())))
+      return (new \Data\Collection(range($this->value, $input->value)))
         -> of ('Data.Num.Int');
     }
 
     # Gives a string containing the binary conversion of the number.
     public function toBin() { # :: Int -> Str
-      return new Str(decbin($this()));
+      return new Str(decbin($this->value));
     }
 
     # Gives a string containing the hexadecimal value of the number.
     public function toHex() { # :: Int -> Str
-      return new Str(dechex($this()));
+      return new Str(dechex($this->value));
     }
 
     # Gives a string containing the octal value of the number.
     public function toOct() { # :: Int -> Str
-      return new Str(decoct($this()));
+      return new Str(decoct($this->value));
     }
   }
