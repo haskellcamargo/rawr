@@ -95,190 +95,190 @@
 
     # Arc cosin.
     public function arcCos() { # :: Num -> Float
-      return new Num\Float(acos($this()));
+      return new Num\Float(acos($this->value));
     }
 
     # Arc sin.
     public function arcSin() { # :: Num -> Float
-      return new Num\Float(asin($this()));
+      return new Num\Float(asin($this->value));
     }
 
     # Arc tangent of 2 values.
     public function arcTan2(Num &$n) { # :: (Num, Num) -> Float
-      return new Num\Float(atan2($this(), $n()));
+      return new Num\Float(atan2($this->value, $n->value));
     }
 
     # Arc tangent.
     public function arcTan() { # :: Num -> Float
-      return new Num\Float(atan($this()));
+      return new Num\Float(atan($this->value));
     }
 
     # Round fractions up.
     public function ceil() { # :: Num -> Float
-      return new Num\Float(ceil($this()));
+      return new Num\Float(ceil($this->value));
     }
 
     # Cosin.
     public function cos() { # :: Num -> Float
-      return new Num\Float(cos($this()));
+      return new Num\Float(cos($this->value));
     }
 
     # Degrees to radians.
     public function degToRad() { # :: Num -> Float
-      return new Num\Float(deg2rad($this()));
+      return new Num\Float(deg2rad($this->value));
     }
 
-    # Divides by $value.
+    # Divides by the parameter.
     public function div(Num &$n) { # :: (Num, Num) -> Float
       $_ = $this->_return($n());
-      return new $_($this() + $n());
+      return new $_($this->value / $n->value);
     }
 
     # Calculates the exponent of e.
     public function exp() { # :: Num -> Float
-      return new Num\Float(exp($this()));
+      return new Num\Float(exp($this->value));
     }
 
     # Returns exp(Number) - 1, computed in a way that is accurate even
     # when the value of number is close to zero.
     public function expm1() { # :: Num -> Float
-      return new Num\Float(expm1($this()));
+      return new Num\Float(expm1($this->value));
     }
 
     # Round fractions down.
     public function floor() { # :: Num -> Float
-      return new Num\Float(floor($this()));
+      return new Num\Float(floor($this->value));
     }
 
     # Hyperbolic arc cosin,
     public function hArcCos() { # :: Num -> Float
-      return new Num\Float(acosh($this()));
+      return new Num\Float(acosh($this->value));
     }
 
     # Hyperbolic arc sin.
     public function hArcSin() { # :: Num -> Float
-      return new Num\Float(asinh($this()));
+      return new Num\Float(asinh($this->value));
     }
 
     # Hyperbolic arc tangent.
     public function hArcTan() { # :: Num -> Float
-      return new Num\Float(atanh($this()));
+      return new Num\Float(atanh($this->value));
     }
 
     # Hyperbolic cosin.
     public function hCos() { # :: Num -> Float
-      return new Num\Float(cosh($this()));
+      return new Num\Float(cosh($this->value));
     }
 
     # Hyperbolic sin.
     public function hSin() { # :: Num -> Float
-      return new Num\Float(sinh($this()));
+      return new Num\Float(sinh($this->value));
     }
 
     # Hyperbolic tangent.
     public function hTan() { # :: Num -> Float
-      return new Num\Float(tanh($this()));
+      return new Num\Float(tanh($this->value));
     }
 
     # Returns the hypotenuse of a triangle.
     public function hypot(Num &$n) { # :: (Num, Num) -> Float
-      return new Num\Float(hypot($this(), $n()));
+      return new Num\Float(hypot($this->value, $n->value));
     }
 
     # Returns a boolean saying if the number is finite.
     public function isFinite() { # :: Num -> Bool
-      return new Bool(is_finite($this()));
+      return new Bool(is_finite($this->value));
     }
 
     # Returns a boolean saying if the number is infinite.
     public function isInfinite() { # :: Num -> Bool
-      return new Bool(is_infinite($this()));
+      return new Bool(is_infinite($this->value));
     }
 
     # Returns true if the valus is not a number.
     public function isNAN() { # :: Num -> Bool
-      return new Bool(is_nan($this()));
+      return new Bool(is_nan($this->value));
     }
 
     # Base 10 logarithm.
     public function log10() { # :: Num -> Float
-      return new Num\Float(log10($this()));
+      return new Num\Float(log10($this->value));
     }
 
     # Returns log(1 + Number), computed in a way that is accurate even
     # when the value of number is close to zero.
     public function log1p() { # :: Num -> Float
-      return new Num\Float(log1p($this()));
+      return new Num\Float(log1p($this->value));
     }
 
     # Natural logarithm.
     public function log(Num &$n = Null) { # :: (Num, Num) -> Float
-      return new Num\Float(log($this(), $n === Null ? M_E : $n()));
+      return new Num\Float(log($this->value, $n === Null ? M_E : $n()));
     }
 
     # The module of the division.
     public function mod(Num &$n) { # (Num, Num) -> Num
       $_ = $this->_return($n());
-      return new $_(fmod($this(), $n()));
+      return new $_(fmod($this->value, $n()));
     }
 
     # Multiplication.
     public function mul(Num &$n) { # :: (Num, Num) -> Num
       $_ = $this->_return($n());
-      return new $_($this() * $n());
+      return new $_($this->value * $n->value);
     }
 
     # Returns the negation of the value.
     public function negate() { # :: Num -> Num
-      return -$this();
+      return -$this->value;
     }
 
     # Exponential expression.
     public function pow(Num &$n) { # :: (Num, Num) -> Num
-      $a = $n === Null ? MT_RAND_MAX : $n();
-      $_ = $this->_return($a);
-      return new $_(pow($this(), $a));
+      $_ = $this->_return($n->value);
+      return new $_(pow($this->value, $a));
     }
 
     # Converts the radian number to the equivalent number in degrees.
     public function radToDeg() { # :: Num -> Float
-      return new Num\Float(rad2deg($this()));
+      return new Num\Float(rad2deg($this->value));
     }
 
     # Generate a random integer.
-    public function randUntil(Num &$n = Null) { # :: (Num, Num) -> Int
-      $a = $n === Null ? RAND_MAX : $n();
-      return new Num\Int(
-        rand($this(), $a));
+    public function randUntil(Num &$n) { # :: (Num, Num) -> Int
+      return new Num\Int(rand($this->value, $$n->value));
     }
 
     # Rounds a float.
     # Uncle Rasmus doesn't allow returned functions to be applied.
     # Some day I'll throw a pie in Lerdorf's face by this.
     # That's why round isn't an unary function and will not allow currying.
-    public function round(Int &$n = Null, Int &$o = Null) { # :: (Num, Int, Int) -> Float
-      return new Num\Float($this(), $n === Null ? 0                 : $n()
-                                  , $o === Null ? PHP_ROUND_HALF_UP : $o());
+    public function round(Int &$n = Null, Int &$o = Null) {
+    # :: (Num, Int, Int) -> Float
+      return new Num\Float(
+        round($this->value
+            , $n === Null ? 0 /* otherwise */ : $n->value
+            , $o === Null ? PHP_ROUND_HALF_UP : $o->value));
     }
 
     # Sin.
     public function sin() { # :: Num -> Float
-      return new Num\Float(sin($this()));
+      return new Num\Float(sin($this->value));
     }
 
     # Square root of the number.
     public function sqrt() { # :: Num -> Float
-      return new Num\Float(sqrt($this()));
+      return new Num\Float(sqrt($this->value));
     }
 
     # Subtraction
     public function sub(Num &$n) { # :: (Num, Num) -> Num
       $_ = $this->_return($n());
-      return new $_($this() - $n());
+      return new $_($this->value - $n->value);
     }
 
     # Tangent.
     public function tan() { # :: Num -> Float
-      return new Num\Float(tan($this()));
+      return new Num\Float(tan($this->value));
     }
   }
