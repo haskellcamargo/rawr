@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-25
+  # @package       => Data.Error
+
   # Copyright (c) 2014 Haskell Camargo <haskell@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -23,6 +29,21 @@
   namespace Data;
   use \Exception;
 
-  class Error extends Exception {
-    
+  class Error extends DataTypes {
+    function __construct(Str $message, Num\Int $code) {
+      # It receives the data as primitive PHP types, as much as we'll not work
+      # with their behaviors.
+      $this->value = ["message" => $message
+                    , "code"    => isset($code) ? $code : 0 ];
+    }
+
+    function send() {
+      echo "*** Runtime error:\n"
+         . "    code    => {$this->value["code"]}\n"
+         . "    message => {$this->value["message"]}\n";
+    }
+
+    function after(Func $fn) {
+      $fn(Tuple($this->value["code"], $this->value["message"]));
+    }
   }

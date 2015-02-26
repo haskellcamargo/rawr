@@ -1,4 +1,10 @@
 <?php
+  # @author        => Marcelo Camargo
+  # @contributors  => []
+  # @creation_date => Unkown
+  # @last_changed  => 2015-02-25
+  # @package       => Data.Match
+
   # Copyright (c) 2014 Marcelo Camargo <marcelocamargo@linuxmail.org>
   #
   # Permission is hereby granted, free of charge, to any person
@@ -19,79 +25,78 @@
   # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
   # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  
+
   namespace Data;
-  
+
   class Match {
     private $value;
-    
+
     function __construct($value) {
-      $this->value = $value; 
+      $this->value = $value;
     }
-    
-    private function isIdent($item) {
-      if (!ctype_alpha($item[0]))
-        return false;   
 
-      for ($i = 1; $i < strlen($item); $i++)
-        if (!ctype_alnum($item[$i]) && !ctype_punct($item[$i]))
-          return false;
-      
-      return true;
-    }
-    
-    private function validateConstrPattern($pattern) {
-      $patternDivision = explode(" ", $pattern);
-      if (($sizeArg = sizeof($patternDivision)) != 1 && $sizeArg != 2)
-        throw new \Exception("Error on parsing arguments");
-      
-      foreach ($patternDivision as $item)
-        if (!$this->isIdent($item) && $item !== otherwise)
-          throw new \Exception("Invalid pattern");
+    # Private methods
 
-      return $patternDivision;
-    }
-    
-    private function verifyArguments($sizeThatShouldBe, $patternDivision, $do) {
-      if ($sizeThatShouldBe == 1) return;
-      
-      if (($x = $patternDivision[1]) == ($y = (new \ReflectionFunction($do))
-        -> getParameters()[0] -> name))
-        return;
-      
-      throw new \Exception("Unmatching arguments: {{$x}} with {{$y}}");
-    }
-    
-    private function _withConstr($patternList) {
-      $objectClass = DataTypes :: typeName(get_class($this->value));
+    private function matchLiteral($patternList) {
+    # :: (Match a, Array<b, c>) -> Either Error c
+      foreach ($patternList as $pattern => $whenMatch) {
+        if ($this->value == $pattern)
+          return Right($whenMatch);
 
-      foreach ($patternList as $pattern => $do) {
-        $patternDivision = $this->validateConstrPattern($pattern);
-        $sizeThatShouldBe = (isset($this->value->value) 
-          || $this->value->value === null ) ? 2 : 1;
-        
-        if (sizeof($patternDivision) == $sizeThatShouldBe
-         && $objectClass             == $patternDivision[0]) {
-          $this->verifyArguments($sizeThatShouldBe, $patternDivision, $do);
-          return $do($this->value);
-        }
-      }
-      
       if (isset($patternList[otherwise]))
-        return $patternList[otherwise]($this->value);
-      
-      throw new \Exception("No matching pattern found for given value");
-    }
-    
-    function withConstr($patternList = []) {
-      if (!is_object($this->value))
-        throw new \Exception("Pattern-matching with constructors just can be "
-          . "applied for objects");
-      switch ($patternList) {
-        case []:
-          throw new \Exception("No patterns have been specified.");
-        default:
-          return $this->_withConstr($patternList);
+        return Right($patternList[otherwise]);
+
+      return Left(Error(Str("No pattern found for the given value"), Int(0)));
       }
+    }
+
+    private function matchObject($patternList) {
+    # :: (Match a, Array<b, c>) -> Either Error c
+      $storedPatterns = [/* pattern => [ value :: [Str]
+                                       , type  :: Int
+                                       , func  :: Func
+                                       ]*/];
+      foreach ($patternList as $pattern => $whenMatch) {
+        $words = explode(' ', $pattern);
+
+        $patternType = HoldsValue;
+
+        /**
+         * How is the type definition for patterns.
+         * Tokenization of the elements
+         * TODO: Write a small predictive top-down recursive-descent parse
+         * for matching patterns.
+         *
+         * +----------------------------+-------------------------------------+
+         * |           Exemplo          |    Abstract syntax tree             |
+         * |----------------------------+-------------------------------------+
+         * | Just x                     | Obj<Just> Var <x>                   |
+         * | Nothing                    | Obj<Nothing>                        |
+         * | Int x                      | Obj<Int> Var <x>                    |
+         * | Either a b                 | Obj<Either> Var <a> Var<b>          |
+         * | Just Int x                 | Obj<Just> Obj<Int> Var<x>           |
+         * | Just Int _                 | Obj<Just> Obj<Int> Wildcard         |
+         * | Either (Err e) (Str x)     | Obj<Either>                         |
+         * |                            |   Obj<Err> Var<e>                   |
+         * |                            |   Obj<Str> Var<x>                   |
+         * +----------------------------+-------------------------------------+
+         *
+         */
+
+        $storedPatterns[] = [$pattern => [ /* value */ $words
+                                         , /* type  */ $patternType
+                                         , /* func  */ $whenMatch
+                                         ]];
+      }
+
+      var_dump($let);
+    }
+
+    function with(array $patternList) {
+    # :: (Match a, Array<b, c>) -> Either Error c
+      # First, we verify if we want match an object (that can have constructor)
+      # or a primitive scalar PHP value.
+      return is_object($this->value) ? $this->matchObject($patternList)
+      /* otherwise */                : $this->matchLiteral($patternList);
     }
   }

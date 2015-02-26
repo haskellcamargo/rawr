@@ -4,14 +4,14 @@
   use \Data\Num;
   use \Data\Num\Int;
   use \Data\Num\Float;
+  use \Data\Either\Right;
+  use \Data\Either\Left;
+  use \Data\Error;
 
-  # Testing all methods of Data.Num, Data.Num.Int and Data.Num.Float
+  $name = Maybe (Str ("marcelo"));
 
-  $aGeneric = Num (-10);
-  $bGeneric = Num (3.1415);
-  $aInteger = Int (1);
-  $bInteger = Int (2);
-  $aFloat   = Float (3);
-  $bFloat   = Float (4);
+  function dispatchError(Error $err) { $err -> send (); }
 
-  $aFloat->add($bFloat)->inspect();
+  $t = Match ($name) -> with ([
+    "Str x" => function($x) { return Str ("Eu te amo, ") -> concat ($x); }
+  ]);

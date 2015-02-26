@@ -47,8 +47,6 @@
   require_once 'Data.Num.Float.php';
   require_once 'Data.Str.php';
   require_once 'Data.Tuple.php';
-  require_once 'Data.Undefined.php';
-  require_once 'Data.Void.php';
 
   require_once 'extras/Shortcuts.php';
   require_once 'modules/Memoize.class.php';
@@ -65,10 +63,10 @@
       return $this;
     }
 
-    public function __call($name, $arguments) { # :: (a, string, array) -> mixed
-      array_unshift($arguments, $this);
-      return call_user_func_array($this->prototype->{$name}, $arguments);
-    }
+    // public function __call($name, $arguments) { # :: (a, string, array) -> mixed
+    //   array_unshift($arguments, $this);
+    //   return call_user_func_array($this->prototype->{$name}, $arguments);
+    // }
 
     public function __clone() { # :: a -> void
       $this->prototype = clone $this->prototype;

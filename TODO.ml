@@ -1,5 +1,16 @@
 progress: {
-  ready: {
+  todo: {
+    types: [
+      "Data.Collection"
+    , "Data.Error"
+    , "Data.File"
+    , "Data.Func"
+    , "Data.Object"
+    , "Data.Str"
+    , "Data.Type"
+    ]
+  }
+, ready: {
     types: [
       "Data.Bool"
     , "Data.Either"
@@ -15,7 +26,7 @@ progress: {
     ]
   , contracts: []
   }
-  documented: {
+, documented: {
     types: [
       "Data.Bool"
     , "Data.Either"

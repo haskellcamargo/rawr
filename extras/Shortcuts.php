@@ -56,6 +56,10 @@
     return \Data\Either($v);
   }
 
+  function error($msg, $code) {
+    return new \Data\Error($msg, $code);
+  }
+
   function float($v) {
     return new \Data\Num\Float($v);
   }
