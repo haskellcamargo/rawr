@@ -34,7 +34,17 @@
           case ")":
             $this->consume();
             return new Token(self :: T_RPAREN, ")");
+          case "_":
+            $this->consume();
+            return new Token(self :: T_WILDCARD, "_");
           default:
+            if (Assertion :: isUpper($this->char)) {
+              return $this->T_OBJ();
+            }
+            else if (Assertion :: isLower($this->char)) {
+              return $this->T_VAR();
+            }
+
             throw new Exception("Invalid character: "
               . $this->char);
         }
@@ -45,5 +55,25 @@
     function whitespace() {
       while (ctype_space($this->char))
         $this->consume();
+    }
+
+    function T_OBJ() {
+      $acc = $this->char;
+      $this->consume();
+      while (Assertion :: isLetter($this->char)) {
+        $acc .= $this->char;
+        $this->consume();
+      }
+      return new Token(self :: T_OBJ, $acc);
+    }
+
+    function T_VAR() {
+      $acc = $this->char;
+      $this->consume();
+      while (Assertion :: isLetter($this->char)) {
+        $acc .= $this->char;
+        $this->consume();
+      }
+      return new Token(self :: T_VAR, $acc);
     }
   }

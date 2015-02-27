@@ -15,4 +15,4 @@
     }
   }
 
-  new TestLexer(")  ()");
+  new TestLexer("Either (Error _) (Str name)");
