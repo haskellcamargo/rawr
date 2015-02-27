@@ -1,3 +1,11 @@
+-- TODO SOON:
+  - Refactorate the lexer, in ./patternMatching/.
+  - Comment the lexer source.
+  - Write the parser to generate the AST.
+  - Create an interface for calling the lexer + parser and returning the ast.
+  - Create a PHP-object to pattern-matching AST translator.
+
+
 progress: {
   todo: {
     types: [
@@ -5,6 +13,7 @@ progress: {
     , "Data.Error"
     , "Data.File"
     , "Data.Func"
+    , "Data.Match"
     , "Data.Object"
     , "Data.Str"
     , "Data.Type"
