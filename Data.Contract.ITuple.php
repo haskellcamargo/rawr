@@ -24,8 +24,9 @@
   use \Data\Num\Int;
 
   interface ITuple {
-    function get(Int $index);            # :: Num -> Maybe a
-    function fst();                      # :: Maybe a
-    function snd();                      # :: Maybe a
-    function showType();                 # :: Str
+    function get(Int $index);            # :: (Tuple, Num) -> Maybe a
+    function fst();                      # :: Tuple<a,b> -> Maybe a
+    function snd();                      # :: Tuple<a,b> -> Maybe b
+    function showType();                 # :: Tuple -> Str
+    function swap();                     # :: Tuple<a,b> -> Tuple<b,a>
   }
