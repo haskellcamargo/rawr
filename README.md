@@ -6,6 +6,8 @@ A word that means "I Love You" in dinosaur.
 ```
 rawr/
 ├── src/
+|   ├── Core/ 
+|   └── DataType/
 ├── tests/
 ├── LICENSE
 └── composer.json
