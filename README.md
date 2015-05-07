@@ -1,4 +1,4 @@
-# rawr
+# Rawr
 A word that means "I Love You" in dinosaur.
 
 ### What is included?
