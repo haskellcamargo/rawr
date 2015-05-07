@@ -16,6 +16,7 @@ rawr/
 |       ├── Either.php
 |       ├── File.php
 |       ├── Fun.php
+|       ├── IO.php
 |       ├── Match.php
 |       ├── Maybe.Just.php
 |       ├── Maybe.Nothing.php
