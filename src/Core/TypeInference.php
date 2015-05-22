@@ -2,6 +2,7 @@
 
 namespace Rawr\Core
 {
+  use \Exception;
   use \Rawr\DataType\Decimal;
   use \Rawr\DataType\Int;
   use \Rawr\DataType\String;
@@ -10,6 +11,12 @@ namespace Rawr\Core
 
   final class TypeInference
   {
+    public static function assertCallable($value)
+    {
+      if (!is_callable($value))
+        throw new Exception;
+    }
+
     public static final function determine($value)
     {
       switch (false) {
@@ -26,6 +33,17 @@ namespace Rawr\Core
         default:
           return $value;
       }
+    }
+
+    public static function toPrimitive(&$var)
+    {
+      if (is_object($var)) {
+        if (method_exists(get_class($var), "value")) {
+          return $var->value();
+        }
+        return null;
+      }
+      return $var;
     }
   }
 }
