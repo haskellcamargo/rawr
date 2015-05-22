@@ -4,7 +4,7 @@ namespace Rawr\DataType
 {
   class Type
   {
-    private $value;
+    protected $value;
 
     final public function value()
     {

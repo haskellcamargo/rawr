@@ -5,6 +5,7 @@ namespace Rawr\DataType
   use \Exception;
   use \Rawr\Collection;
   use \Rawr\Core\TypeInference;
+  use \Rawr\Dictionary;
   use \Rawr\Num\Int;
   use \Rawr\String;
   use \ReflectionFunction;
@@ -32,6 +33,19 @@ namespace Rawr\DataType
 
       $this->value = $f;
       $this->reflObj = new ReflectionFunction($f);
+    }
+
+    /**
+     * Exhibition when string.
+     * @author Marcelo Camargo
+     * @return String
+     */
+    public function __toString()
+    {
+      $name = $this->reflObj->getName();
+      return "#" . ($name === "{closure}"
+        ? "<Anonymous Function>"
+        : "<$name>");
     }
 
     /**
@@ -131,13 +145,83 @@ namespace Rawr\DataType
     }
 
     /**
-     * Direct call of __invoke()
+     * Checks if function in namespace.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function inNs()
+    {
+      return new Bool($this->reflObj->inNamespace());
+    }
+
+    /**
+     * Direct call of __invoke().
      * @author Marcelo Camargo
      * @return Type
      */
     public function invoke()
     {
       return $this();
+    }
+
+    /**
+     * Checks if closure.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function isClosure()
+    {
+      return new Bool($this->reflObj->isClosure());
+    }
+
+    /**
+     * Checks if deprecated.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function isDeprecated()
+    {
+      return new Bool($this->reflObj->isDeprecated());
+    }
+
+    /**
+     * Returns whether this function is a generator.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function isGenerator()
+    {
+      return new Bool($this->reflObj->isGenerator());
+    }
+
+    /**
+     * Checks if internal.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function isInternal()
+    {
+      return new Bool($this->reflObj->isInternal());
+    }
+
+    /**
+     * Checks if user defined.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function isUserDef()
+    {
+      return new Bool($this->reflObj->isUserDefined());
+    }
+
+    /**
+     * Checks if the function is variadic.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function isVariadic()
+    {
+      return new Bool($this->reflObj->isVariadic());
     }
 
     /**
@@ -188,6 +272,45 @@ namespace Rawr\DataType
     public function reqParamNum()
     {
       return new Int($this->reflObj->getNumberOfRequiredParamters());
+    }
+
+    /**
+     * Checks whether the function returns a reference.
+     * @author Marcelo Camargo
+     * @return Bool
+     */
+    public function returnsRef()
+    {
+      return new Bool($this->reflObj->returnsReference());
+    }
+
+    /**
+     * Gets function short name.
+     * @author Marcelo Camargo
+     * @return String
+     */
+    public function shortName()
+    {
+      return new String($this->reflObj->getShortName());
+    }
+
+    /**
+     * Gets starting line number.
+     * @author Marcelo Camargo
+     * @return Int
+     */
+    public function startLine()
+    {
+      return new Int($this->reflObj->getStartLine());
+    }
+
+    /**
+     * @author Marcelo Camargo
+     * @return Dictionary<String, Int>
+     */
+    public function staticVariables()
+    {
+      return new Dictionary($this->reflObj->getStaticVariables());
     }
 
     /**
