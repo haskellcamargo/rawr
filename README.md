@@ -7,7 +7,7 @@ A word that means "I Love You" in dinosaur.
 rawr/
 ├── src/
 |   ├── Core/
-|   |   └── TypeInference.php
+|   |   └── ~~TypeInference.php~~
 |   └── DataType/
 |       ├── Bool.php
 |       ├── Collection.php
