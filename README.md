@@ -7,15 +7,15 @@ A word that means "I Love You" in dinosaur.
 rawr/
 ├── src/
 |   ├── Core/
-|   |   └── TypeInference.php
+|   |   └── TypeInference.php [100%]
 |   └── DataType/
-|       ├── Bool.php
+|       ├── Bool.php [100%]
 |       ├── Collection.php
 |       ├── Either.Left.php
 |       ├── Either.Right.php
 |       ├── Either.php
 |       ├── File.php
-|       ├── Fun.php
+|       ├── Fun.php [100%]
 |       ├── IO.php
 |       ├── Match.php
 |       ├── Maybe.Just.php
